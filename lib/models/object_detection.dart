@@ -44,7 +44,7 @@ class ObjectDetection {
 }
 
 abstract final class DetectionTargetSelector {
-  static const target = Rect.fromLTWH(0.12, 0.11, 0.76, 0.78);
+  static const target = Rect.fromLTWH(0.07, 0.08, 0.86, 0.84);
 
   static ObjectDetection? select(
     Iterable<ObjectDetection> detections, {

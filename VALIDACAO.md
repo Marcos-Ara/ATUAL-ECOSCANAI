@@ -1,48 +1,39 @@
-# Validação da base EcoScan 3.4.1
+# Validação da base EcoScan 3.4.2
 
-## Correções aplicadas
+## Alterações desta base
 
-- Deep link único para autenticação móvel: `ecoscan://login-callback/`.
-- `AuthSession` usa `BackendConfig.mobileAuthRedirect` como fonte única.
-- `config/mobile.json` e `config/mobile.json.example` alinhados ao mesmo redirect.
-- AndroidManifest configurado para `ecoscan://login-callback/`.
-- iOS `CFBundleURLSchemes` configurado para `ecoscan`.
-- Handler padrão de deep link do Flutter desativado no Android/iOS, pois `supabase_flutter` usa `app_links` internamente.
-- Build `release` mantém `isMinifyEnabled = false` e `isShrinkResources = false` para evitar o crash observado envolvendo WorkManager/ML Kit/R8.
-- `android/local.properties` aponta para `C:\Users\ANHANGUERA\develop\flutter`.
-- Versão atualizada para `3.4.1+20`.
-- Logs de crash e metadados gerados antigos foram removidos da entrega.
+- Cadastro detecta resposta de conta já existente e volta para **Entrar**, sem abrir a tela de confirmação como se fosse uma conta nova.
+- Tela de verificação não mostra mais **sessão expirada** apenas porque a confirmação ainda não criou uma sessão.
+- Redirect móvel preservado em `ecoscan://login-callback/`.
+- `profiles` passa a manter nome e e-mail automaticamente via trigger no Supabase.
+- Nova tabela `public.fato_scan` registra as análises salvas por usuários autenticados com RLS por usuário.
+- O app tenta enviar a análise ao banco no momento do salvamento e tenta reenviar o histórico local na próxima entrada da conta se houver falha de rede.
+- EcoPontos centralizam automaticamente na localização encontrada com zoom 16.
+- Criadores: Marcos Vinicius recebeu RGM `33712816` e link clicável para `https://github.com/Marcos-Ara`.
+- Scanner: preview maior, preenchimento da câmera no quadro, moldura útil maior e entrada ao vivo aumentada de 640 para 768 px.
+- Modelo local permanece `assets/models/ecoscan_yoloe26n_w8a32.tflite`.
+- Release continua com minificação/shrink desativados conforme correção do crash anterior.
 
-## Checagens estáticas executadas nesta entrega
+## Banco de dados
 
-- `pubspec.yaml` parseado com sucesso.
-- Todos os JSONs da base parseados com sucesso.
-- AndroidManifest e Info.plist parseados como XML.
-- Assets declarados no pubspec existem.
-- Imports Dart relativos de `lib/` apontam para arquivos existentes.
-- Nenhuma referência restante a `io.supabase.ecoscan`.
-- Nenhuma referência restante ao caminho antigo `Flutter SKP`.
-- Redirect consistente entre Dart, config, Android e iOS.
+Para uma base Supabase que já recebeu o SQL anterior, execute apenas:
 
-## Configuração externa obrigatória no Supabase
+`supabase/migrations/202610020001_fato_scan.sql`
 
-Em **Authentication → URL Configuration → Redirect URLs**, mantenha:
+No projeto novo/do zero, `supabase/ECOSCAN_SUPABASE_NOVO.sql` já contém tudo.
 
-`ecoscan://login-callback/`
+O Flutter usa apenas a chave pública. Não coloque `service_role` no aplicativo.
 
-Para Google, o provider precisa estar habilitado no Supabase com Client ID/Secret do Google Cloud, e o callback do Google Cloud deve apontar para:
+## Validação final no Windows
 
-`https://kekcfxoiyufskltnzlie.supabase.co/auth/v1/callback`
-
-## Validação final no seu Windows
-
-O ambiente usado para preparar este ZIP não possui o Flutter SDK, então a compilação Flutter não foi executada aqui. No seu PC, rode:
+Este ambiente não possui Flutter SDK para executar a compilação. No PC do projeto rode:
 
 ```powershell
-cd "C:\Users\ANHANGUERA\Desktop\ATUAL ECOSCANAI"
-.\tool\verify_base.ps1 -BuildReleaseApk
+flutter clean
+flutter pub get
+flutter analyze
+flutter test
+flutter build apk --release --dart-define-from-file=config/mobile.json
 ```
 
-Esse script executa `flutter clean`, `flutter pub get`, `flutter analyze`, `flutter test` e o build APK release.
-
-Depois teste uma confirmação de e-mail **nova ou reenviada**. Links antigos gerados antes da troca do redirect podem continuar apontando para o endereço antigo.
+O APK final fica em `build/app/outputs/flutter-apk/app-release.apk`.

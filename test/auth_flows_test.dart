@@ -6,6 +6,7 @@ void main() {
   test('mensagens de autenticação continuam amigáveis', () {
     expect(const AuthFailure('INVALID_CREDENTIALS').toString(), 'E-mail ou senha incorretos.');
     expect(const AuthFailure('EMAIL_NOT_CONFIRMED').toString(), 'Confirme seu e-mail antes de entrar.');
+    expect(const AuthFailure('EMAIL_EXISTS').toString(), 'Este e-mail já possui uma conta. Entre com sua senha.');
     expect(const AuthFailure('GOOGLE_CONFIG').toString(), contains('Supabase'));
     expect(const AuthFailure('GOOGLE_EXCHANGE').toString(), contains('Client ID'));
   });

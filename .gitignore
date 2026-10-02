@@ -47,7 +47,6 @@ app.*.map.json
 # Widget Preview related
 .widget_preview/
 
-config/mobile.json
 android/key.properties
 *.jks
 *.keystore

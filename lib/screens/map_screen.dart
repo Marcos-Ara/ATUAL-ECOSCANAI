@@ -32,6 +32,7 @@ class _EcoPointsScreenState extends State<EcoPointsScreen> {
   final TextEditingController _searchController = TextEditingController();
   bool _mapReady = false;
   bool _initialSearchApplied = false;
+  bool _didAutoCenterUser = false;
 
   @override
   void dispose() {
@@ -55,7 +56,14 @@ class _EcoPointsScreenState extends State<EcoPointsScreen> {
         materialId: widget.initialMaterialId,
       );
     }
-    if (mounted) _showAllPoints();
+    if (!mounted) return;
+    final location = controller.userLocation;
+    if (location != null) {
+      _didAutoCenterUser = true;
+      _mapController.move(location, 16);
+    } else {
+      _showAllPoints();
+    }
   }
 
   void _showAllPoints() {
@@ -80,7 +88,10 @@ class _EcoPointsScreenState extends State<EcoPointsScreen> {
     await controller.locateAndSearch();
     if (!mounted) return;
     final location = controller.userLocation;
-    if (location != null) _mapController.move(location, 15);
+    if (location != null) {
+      _didAutoCenterUser = true;
+      _mapController.move(location, 16);
+    }
   }
 
   Future<void> _openDirections(EcoPoint point) async {
@@ -223,6 +234,13 @@ class _EcoPointsScreenState extends State<EcoPointsScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<EcoPointController>();
+    final location = controller.userLocation;
+    if (_mapReady && location != null && !_didAutoCenterUser) {
+      _didAutoCenterUser = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mapController.move(location, 16);
+      });
+    }
     final points = controller.allPoints;
     final nearbyPoints = controller.nearbyPoints;
     final initialCenter =

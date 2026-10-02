@@ -1,4 +1,4 @@
-# EcoScan AI — Flutter + Supabase 3.4.1
+# EcoScan AI — Flutter + Supabase 3.4.2
 
 Base completa do projeto enviado, com YOLOE-26n LiteRT incluído para Android, 57 prompts de objetos, scanner ao vivo ajustado, catálogo offline atualizado e os 128 EcoPontos oficiais GeoSampa.
 
@@ -24,7 +24,7 @@ Para testar o mapa antes de configurar login, clique em **Continuar sem conta**,
 
 ## Comportamento dos EcoPontos
 
-- **Mapa:** todos os 128 pontos oficiais de São Paulo estão carregados, independentemente da posição do usuário, raio ou filtros da barra. É preciso mover/ampliar o mapa para ver regiões fora da tela.
+- **Mapa:** todos os 128 pontos oficiais de São Paulo continuam carregados. Quando a localização do usuário é encontrada, o mapa centraliza automaticamente nela com zoom 16; o botão **Ver todos** continua disponível para mostrar o catálogo completo.
 - O botão **Ver todos** ajusta o enquadramento ao catálogo completo.
 - **Barra inferior:** até 10 pontos mais próximos, ordenados por distância, dentro de 5, 10 ou 25 km. O raio inicial é 5 km.
 - Com localização autorizada, a distância é relativa ao usuário, mesmo se ele mover o mapa.
@@ -51,7 +51,8 @@ O app já aponta para o projeto novo, mas os arquivos SQL não foram executados 
 
 Esse arquivo cria:
 
-- `profiles`, sincronizado com usuários/metadados do Supabase Auth;
+- `profiles`, sincronizado automaticamente com nome e e-mail do Supabase Auth;
+- `fato_scan`, que registra no banco cada análise salva por um usuário autenticado, com objeto, material, lixeira, confiança, detector, data e localização quando disponível;
 - `ecopoints`, com coordenadas, metadados e índice PostGIS;
 - `objects`, `object_variants`, `object_aliases` e RPC `find_ecoscan_object(p_alias)`;
 - os objetos, variantes e aliases do catálogo fornecido, mais 57 entradas específicas de YOLOE;
@@ -88,13 +89,13 @@ Não coloque Client Secret ou service-role no Flutter. Contas do projeto antigo 
 
 **Web:** mantém COCO-SSD/MobileNet. O arquivo LiteRT incluído não é executado pelo navegador nesta versão. **iOS:** exige o equivalente Core ML publicado ou configurado; o arquivo Android não é um modelo iOS.
 
-No Android, o scan ao vivo usa confiança 0,35, IoU 0,50, intervalo mínimo de 500 ms entre análises concluídas e nova captura, imagem com até 640 px e estabilizador de 4 leituras com pelo menos 2 confirmações. Inferências não se sobrepõem. O tempo real depende do aparelho e da duração da inferência; não significa 2 FPS garantidos.
+No Android, o scan ao vivo usa confiança 0,35, IoU 0,50, intervalo mínimo de 650 ms entre capturas, imagem de análise com até 768 px e estabilizador de 4 leituras com pelo menos 2 confirmações. A área visível da câmera foi ampliada e usa preenchimento do quadro para facilitar o enquadramento. Inferências não se sobrepõem.
 
 A seleção ao vivo exige objeto dentro da moldura. YOLO confirmado determina os candidatos; ML Kit não substitui o label por um objeto do fundo durante estabilização. Quando o objeto desaparece, o resultado deixa de ser confirmado. Fotos usam o quadro inteiro e não aguardam duas leituras.
 
 Os 57 prompts têm nomes e orientação no catálogo local. Papelão usa a categoria Papel. Pilhas, lâmpadas e óleo exigem orientação específica; recipiente genérico de alimento fica inconclusivo em vez de inventar um material. A foto não determina contaminação, conteúdo ou todas as características do resíduo. Longe de garantir acerto para qualquer objeto, esta base permite medir e melhorar o reconhecimento no celular.
 
-Ao vivo: apenas catálogo local, sem RPC por frame. Foto inconclusiva: pode consultar `find_ecoscan_object`. Não há confirmação manual obrigatória. O histórico, perfil, preferências e conquistas continuam locais. Amostras de treinamento dependem de login e consentimento explícito.
+Ao vivo: catálogo local, sem RPC por frame. Foto inconclusiva: pode consultar `find_ecoscan_object`. Não há confirmação manual obrigatória. O histórico visual continua no aparelho; quando um usuário autenticado salva uma análise, os metadados também são enviados para `public.fato_scan`. Se o envio falhar por falta de rede, os registros locais são tentados novamente na próxima entrada da conta. Amostras de treinamento continuam dependendo de consentimento explícito.
 
 O botão Voltar do Android continua retornando das abas ao Início.
 
@@ -114,7 +115,7 @@ Para executar o roteiro completo com Flutter:
 
 ```powershell
 .\tool\verify_base.ps1
-.\tool\verify_base.ps1 -BuildDebugApk
+.\tool\verify_base.ps1 -BuildReleaseApk
 ```
 
 ## Atualizar a exportação GeoSampa no futuro

@@ -46,7 +46,7 @@ class AuthFailure implements Exception {
   @override
   String toString() => switch (code) {
         'INVALID_CREDENTIALS' => 'E-mail ou senha incorretos.',
-        'EMAIL_EXISTS' => 'Este e-mail já possui uma conta.',
+        'EMAIL_EXISTS' => 'Este e-mail já possui uma conta. Entre com sua senha.',
         'INVALID_EMAIL' => 'Digite um e-mail válido.',
         'WEAK_PASSWORD' => 'Use uma senha com pelo menos 6 caracteres.',
         'TOO_MANY_REQUESTS' =>
@@ -150,7 +150,14 @@ class AuthSession extends ChangeNotifier {
 
   bool guestMode = false;
 
+  String? _pendingVerificationEmail;
+
   bool get isGuest => guestMode && account == null;
+
+  String? get verificationEmail {
+    final email = account?.email;
+    return email != null && email.isNotEmpty ? email : _pendingVerificationEmail;
+  }
 
   bool get googleReady =>
       BackendConfig.supabaseUrl.isNotEmpty &&
@@ -178,6 +185,9 @@ class AuthSession extends ChangeNotifier {
     guestMode = false;
 
     account = Account.fromSupabase(user);
+    if (account!.verified) {
+      _pendingVerificationEmail = null;
+    }
   }
 
   void continueAsGuest() {
@@ -188,6 +198,8 @@ class AuthSession extends ChangeNotifier {
     passwordRecovery = false;
 
     account = null;
+
+    _pendingVerificationEmail = null;
 
     guestMode = true;
 
@@ -271,6 +283,16 @@ class AuthSession extends ChangeNotifier {
   }
 
   Future<void> reload() async {
+    // Cadastro com confirmação de e-mail normalmente não cria uma sessão até
+    // o usuário abrir o link. Nesse estado, consultar getUser() gera
+    // "session missing" e acabava mostrando "sessão expirada" na tela de
+    // verificação. Apenas aguardamos o deep link do Supabase.
+    if (_client.auth.currentSession == null &&
+        (verificationEmail?.isNotEmpty == true || account?.verified == false)) {
+      notifyListeners();
+      return;
+    }
+
     try {
       final response = await _client.auth.getUser();
 
@@ -322,22 +344,42 @@ class AuthSession extends ChangeNotifier {
 
     authNotice = null;
 
+    final normalizedEmail = email.trim();
+
     try {
       final response = await _client.auth.signUp(
-        email: email.trim(),
+        email: normalizedEmail,
         password: password,
-
-        // IMPORTANTE:
-        // Depois que o usuário clicar no e-mail de confirmação,
-        // o Android abrirá novamente o EcoScan.
         emailRedirectTo: _redirectUrl,
-
         data: {
           'full_name': name.trim(),
         },
       );
 
-      _applyUser(response.user);
+      final user = response.user;
+
+      // Com "Confirm email" ativo, o Supabase evita revelar contas existentes
+      // por erro HTTP. Para um e-mail já cadastrado, a resposta de signUp pode
+      // vir sem sessão e com a lista de identities vazia. Não devemos tratar
+      // isso como novo cadastro nem abrir a tela "Verifique seu e-mail".
+      if (response.session == null &&
+          user != null &&
+          user.identities?.isEmpty == true) {
+        account = null;
+        _pendingVerificationEmail = null;
+        notifyListeners();
+        throw const AuthFailure('EMAIL_EXISTS');
+      }
+
+      if (user == null) {
+        throw const AuthFailure(
+          'AUTH',
+          'Não foi possível criar a conta. Tente novamente.',
+        );
+      }
+
+      _pendingVerificationEmail = normalizedEmail;
+      _applyUser(user);
 
       notifyListeners();
     } catch (error) {
@@ -350,7 +392,7 @@ class AuthSession extends ChangeNotifier {
   // ============================================================
 
   Future<void> sendVerification() async {
-    final email = account?.email;
+    final email = verificationEmail;
 
     if (email == null || email.isEmpty) {
       throw const AuthFailure(
@@ -598,6 +640,7 @@ class AuthSession extends ChangeNotifier {
       throw _failureFor(error);
     } finally {
       account = null;
+      _pendingVerificationEmail = null;
 
       notifyListeners();
     }

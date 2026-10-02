@@ -15,7 +15,9 @@ import '../core/app_theme.dart';
 import '../models/detection_record.dart';
 import '../models/learning_sample.dart';
 import '../models/object_detection.dart';
+import '../services/auth_session.dart';
 import '../services/scan_service.dart';
+import '../services/scan_sync_service.dart';
 import '../services/waste_classifier.dart';
 import '../services/web_image_labeler.dart';
 import '../state/eco_point_controller.dart';
@@ -231,7 +233,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         _saving) {
       return;
     }
-    _liveTimer = Timer(const Duration(milliseconds: 500), () {
+    _liveTimer = Timer(const Duration(milliseconds: 650), () {
       if (!_busy && !_preparingAi && _camera?.value.isInitialized == true) {
         unawaited(_capture(automatic: true));
       } else {
@@ -509,29 +511,48 @@ class _ScannerScreenState extends State<ScannerScreen>
       }
       if (!mounted || store.userId != uid) return;
       final persistedImage = savedPath;
-      await store.addDetection(
-        DetectionRecord(
-          id: now.microsecondsSinceEpoch.toString(),
-          name: result.category,
-          category: result.category,
-          bin: result.bin,
-          destination: result.destination,
-          confidence: result.confidence,
-          imagePath: persistedImage,
-          detectedAt: now,
-          source: _source,
-          confirmedByUser: result.isManual,
-          latitude: location?.latitude,
-          longitude: location?.longitude,
-          detectedObject:
-              _selectedDetection?.label ?? result.detectedObject,
-          detector: _detector,
-        ),
+      final record = DetectionRecord(
+        id: now.microsecondsSinceEpoch.toString(),
+        name: result.name,
+        category: result.category,
+        bin: result.bin,
+        destination: result.destination,
+        confidence: result.confidence,
+        imagePath: persistedImage,
+        detectedAt: now,
+        source: _source,
+        confirmedByUser: result.isManual,
+        latitude: location?.latitude,
+        longitude: location?.longitude,
+        detectedObject: _selectedDetection?.label ?? result.detectedObject,
+        detector: _detector,
       );
+
+      await store.addDetection(record);
+
+      var synced = false;
+      if (uid != AuthSession.guestUserId) {
+        try {
+          await ScanSyncService().upsert(record);
+          synced = true;
+        } catch (_) {
+          // O histórico local continua salvo. A próxima abertura da conta
+          // tenta sincronizar novamente os registros pendentes.
+        }
+      }
+
       if (mounted) {
         setState(() => _saved = true);
         if (store.sounds) unawaited(SystemSound.play(SystemSoundType.click));
-        if (store.notifications) _notice('Análise salva no histórico.');
+        if (store.notifications) {
+          _notice(
+            uid == AuthSession.guestUserId
+                ? 'Análise salva neste aparelho.'
+                : synced
+                ? 'Análise salva no histórico e no banco de dados.'
+                : 'Análise salva. O banco será sincronizado quando possível.',
+          );
+        }
       }
     } catch (_) {
       if (!kIsWeb && savedPath != null && savedPath.isNotEmpty) {
@@ -639,7 +660,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                 ),
               ),
               SizedBox(
-                height: (constraints.maxHeight * 0.48).clamp(230.0, 460.0),
+                height: (constraints.maxHeight * 0.62).clamp(330.0, 560.0),
                 child: ColoredBox(
                   color: Colors.black,
                   child: Stack(
@@ -656,38 +677,11 @@ class _ScannerScreenState extends State<ScannerScreen>
                           ),
                         )
                       else if (camera?.value.isInitialized == true)
-                        Center(
-                          child: AspectRatio(
-                            aspectRatio:
-                                MediaQuery.orientationOf(context) ==
-                                    Orientation.portrait
-                                ? 1 / camera!.value.aspectRatio
-                                : camera!.value.aspectRatio,
-                            child: CameraPreview(
-                              camera,
-                              child: LayoutBuilder(
-                                builder: (context, box) => Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTapDown: (details) =>
-                                          _focus(details, box.biggest),
-                                    ),
-                                    if (_detections.isNotEmpty)
-                                      IgnorePointer(
-                                        child: CustomPaint(
-                                          painter: _DetectionOverlayPainter(
-                                            detections: _detections,
-                                            selected: _selectedDetection,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                        _CameraPreviewCover(
+                          camera: camera!,
+                          detections: _detections,
+                          selected: _selectedDetection,
+                          onFocus: _focus,
                         ),
                       if (_loading && _photoBytes == null)
                         const Center(
@@ -733,8 +727,8 @@ class _ScannerScreenState extends State<ScannerScreen>
                         IgnorePointer(
                           child: Center(
                             child: FractionallySizedBox(
-                              widthFactor: 0.76,
-                              heightFactor: 0.78,
+                              widthFactor: 0.86,
+                              heightFactor: 0.84,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -851,6 +845,11 @@ class _ScannerScreenState extends State<ScannerScreen>
                               avatar: const Icon(Icons.memory, size: 16),
                               label: Text(_detector),
                             ),
+                            if (result.source == 'supabase')
+                              const Chip(
+                                avatar: Icon(Icons.cloud_done_outlined, size: 16),
+                                label: Text('Base EcoScan'),
+                              ),
                           ],
                         ),
                       ],
@@ -919,6 +918,65 @@ class _ScannerScreenState extends State<ScannerScreen>
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _CameraPreviewCover extends StatelessWidget {
+  const _CameraPreviewCover({
+    required this.camera,
+    required this.detections,
+    required this.selected,
+    required this.onFocus,
+  });
+
+  final CameraController camera;
+  final List<ObjectDetection> detections;
+  final ObjectDetection? selected;
+  final Future<void> Function(TapDownDetails details, Size size) onFocus;
+
+  @override
+  Widget build(BuildContext context) {
+    final portrait =
+        MediaQuery.orientationOf(context) == Orientation.portrait;
+    final previewAspect = portrait
+        ? 1 / camera.value.aspectRatio
+        : camera.value.aspectRatio;
+    const logicalHeight = 1000.0;
+    final logicalWidth = logicalHeight * previewAspect;
+
+    return ClipRect(
+      child: FittedBox(
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+        child: SizedBox(
+          width: logicalWidth,
+          height: logicalHeight,
+          child: CameraPreview(
+            camera,
+            child: LayoutBuilder(
+              builder: (context, box) => Stack(
+                fit: StackFit.expand,
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTapDown: (details) => onFocus(details, box.biggest),
+                  ),
+                  if (detections.isNotEmpty)
+                    IgnorePointer(
+                      child: CustomPaint(
+                        painter: _DetectionOverlayPainter(
+                          detections: detections,
+                          selected: selected,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

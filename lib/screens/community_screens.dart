@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/material_guide.dart';
 import '../state/ecoscan_store.dart';
@@ -279,10 +280,33 @@ class CreatorsScreen extends StatelessWidget {
       children: [
         const Center(child: EcoBrand(size: 100)),
         const SizedBox(height: 24),
-        const ListTile(
-          leading: CircleAvatar(child: Text('MV')),
-          title: Text('Marcos Vinicius'),
-          subtitle: Text('Desenvolvimento / Projeto'),
+        ListTile(
+          leading: const CircleAvatar(child: Text('MV')),
+          title: const Row(
+            children: [
+              Expanded(child: Text('Marcos Vinicius')),
+              SizedBox(width: 8),
+              Text(
+                'RGM 33712816',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+          subtitle: Wrap(
+            spacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              const Text('Desenvolvimento / Projeto'),
+              TextButton.icon(
+                onPressed: () => launchUrl(
+                  Uri.parse('https://github.com/Marcos-Ara'),
+                  mode: LaunchMode.externalApplication,
+                ),
+                icon: const Icon(Icons.code_rounded, size: 17),
+                label: const Text('GitHub'),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 20),
         const Text(

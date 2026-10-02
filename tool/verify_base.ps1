@@ -51,7 +51,7 @@ try {
         Invoke-Flutter build apk --release --dart-define-from-file=config/mobile.json
     }
 
-    Write-Host 'EcoScan 3.4.1: verificações concluídas.'
+    Write-Host 'EcoScan 3.4.2: verificações concluídas.'
 }
 finally {
     Pop-Location

@@ -40,11 +40,21 @@ class _AuthScreenState extends State<AuthScreen> {
       }
     } catch (error) {
       if (mounted) {
-        setState(
-          () => _message = error is AuthFailure
-              ? error.toString()
-              : 'Não foi possível concluir. Tente novamente.',
-        );
+        if (error is AuthFailure && error.code == 'EMAIL_EXISTS') {
+          setState(() {
+            _register = false;
+            _message =
+                'Este e-mail já possui uma conta. Entre com sua senha abaixo.';
+            _success = false;
+            _confirmation.clear();
+          });
+        } else {
+          setState(
+            () => _message = error is AuthFailure
+                ? error.toString()
+                : 'Não foi possível concluir. Tente novamente.',
+          );
+        }
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -322,7 +332,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
       }
       if (mounted) {
         setState(
-          () => _message = resend ? 'Novo e-mail de confirmação enviado.' : 'Ainda não identificamos a confirmação. Confira sua caixa de entrada.',
+          () => _message = resend
+              ? 'Novo e-mail de confirmação enviado.'
+              : 'Ainda não identificamos a confirmação. Confira sua caixa de entrada.',
         );
       }
     } catch (error) {
@@ -350,7 +362,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ),
               const SizedBox(height: 14),
               Text(
-                'Confirme o link enviado para ${context.watch<AuthSession>().account?.email ?? ''}.',
+                'Confirme o link enviado para ${context.watch<AuthSession>().verificationEmail ?? ''}.',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 22),

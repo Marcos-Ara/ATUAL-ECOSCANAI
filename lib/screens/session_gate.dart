@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth_session.dart';
+import '../services/scan_sync_service.dart';
 import '../state/ecoscan_store.dart';
 import '../widgets/eco_brand.dart';
 import 'auth_screen.dart';
@@ -126,7 +127,11 @@ class _SessionGateState extends State<SessionGate>
     final store = context.watch<EcoScanStore>();
     if (store.userId != sessionUserId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) store.switchUser(sessionUserId);
+        if (!mounted) return;
+        store.switchUser(sessionUserId);
+        if (!auth.isGuest) {
+          unawaited(ScanSyncService().syncAll(store.detections));
+        }
       });
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }

@@ -115,7 +115,7 @@ void main() {
       expect(second.classification.material?.id, 'plastic');
       expect(second.classification.detectedObject, 'Garrafa plástica');
       expect(second.detector, 'yoloe-26n');
-      expect(img.decodeJpg(second.imageBytes)!.width, 640);
+      expect(img.decodeJpg(second.imageBytes)!.width, 768);
       expect(mlKitCalls, 0);
       expect(resolver.calls, 0);
       backend.objects = [];

@@ -119,7 +119,7 @@ class ScanService {
     final prepared = kIsWeb
         ? await prepareWebImage(
             bytes,
-            maxSize: live ? 640 : 1280,
+            maxSize: live ? 768 : 1280,
             brightness: brightness,
           )
         : await compute(live ? _prepareLivePhoto : _preparePhoto, bytes);
@@ -380,7 +380,7 @@ Uint8List? _cropDetectedObject(
   return Uint8List.fromList(img.encodeJpg(cropped, quality: 92));
 }
 
-Uint8List _prepareLivePhoto(Uint8List bytes) => _prepareSizedPhoto(bytes, 640);
+Uint8List _prepareLivePhoto(Uint8List bytes) => _prepareSizedPhoto(bytes, 768);
 
 Uint8List _preparePhoto(Uint8List bytes) => _prepareSizedPhoto(bytes, 1440);
 
