@@ -1,0 +1,7 @@
+{
+  "SUPABASE_URL": "https://kekcfxoiyufskltnzlie.supabase.co",
+  "SUPABASE_PUBLIC_KEY": "sb_publishable_dj-ppXJKqhWAU7YkeV3BbQ_Fz1ORIKV",
+  "SUPABASE_MOBILE_REDIRECT": "ecoscan://login-callback/",
+  "ECOSCAN_USE_SUPABASE_MODEL": true,
+  "ECOSCAN_YOLO_MODEL": "yolo26n"
+}

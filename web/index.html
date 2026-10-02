@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="description" content="EcoScan AI — escaneie, descubra e descarte melhor.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="EcoScan AI">
+  <meta name="theme-color" content="#071008">
+  <link rel="manifest" href="manifest.json">
+  <title>EcoScan AI</title>
+  <style>
+    html,body { margin:0; background:#071008; color:#ecf8ee; }
+    #boot { font:16px system-ui; padding:48px 24px; text-align:center; }
+  </style>
+</head>
+<body>
+  <div id="boot" role="status">Abrindo EcoScan AI…</div>
+  <!-- Models load only when the scanner opens, never before the login/intro. -->
+  <script src="scanner.js" defer></script>
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', () => document.getElementById('boot')?.remove());
+  </script>
+</body>
+</html>

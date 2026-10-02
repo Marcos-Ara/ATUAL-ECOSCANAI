@@ -1,0 +1,10 @@
+{
+  "name": "EcoScan AI",
+  "short_name": "EcoScan",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#071008",
+  "theme_color": "#071008",
+  "description": "Escaneie, descubra e descarte melhor.",
+  "orientation": "portrait-primary"
+}

@@ -1,0 +1,406 @@
+{
+  "schema_version": 1,
+  "model": "yoloe-26n",
+  "task": "detect",
+  "classes": [
+    {
+      "label": "plastic bottle",
+      "object_name": "Garrafa plástica",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "glass bottle",
+      "object_name": "Garrafa de vidro",
+      "material_id": "glass",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro."
+    },
+    {
+      "label": "aluminum can",
+      "object_name": "Lata de alumínio",
+      "material_id": "metal",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente."
+    },
+    {
+      "label": "steel can",
+      "object_name": "Lata de aço",
+      "material_id": "metal",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente."
+    },
+    {
+      "label": "cardboard box",
+      "object_name": "Caixa de papelão",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "cardboard",
+      "object_name": "Papelão",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "paper",
+      "object_name": "Papel",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "newspaper",
+      "object_name": "Jornal",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "magazine",
+      "object_name": "Revista",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "book",
+      "object_name": "Livro",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "envelope",
+      "object_name": "Envelope",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "plastic bag",
+      "object_name": "Sacola plástica",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "paper bag",
+      "object_name": "Sacola de papel",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "plastic cup",
+      "object_name": "Copo plástico",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "paper cup",
+      "object_name": "Copo de papel",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "glass jar",
+      "object_name": "Pote de vidro",
+      "material_id": "glass",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro."
+    },
+    {
+      "label": "plastic container",
+      "object_name": "Recipiente plástico",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "food container",
+      "object_name": "Recipiente de alimentos",
+      "material_id": null,
+      "minimum_confidence": 0.35,
+      "instruction": "O recipiente pode ser de plástico, vidro ou metal. Aproxime apenas o objeto e tire outra foto para identificar o material."
+    },
+    {
+      "label": "beverage carton",
+      "object_name": "Embalagem longa vida",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Embalagem multicamadas. Esvazie e encaminhe à coleta seletiva que aceite embalagens longa vida na sua cidade."
+    },
+    {
+      "label": "aerosol can",
+      "object_name": "Lata de aerossol",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Não perfure nem queime. Confirme a coleta de aerossóis e embalagens pressurizadas no ponto de recebimento."
+    },
+    {
+      "label": "battery",
+      "object_name": "Pilha ou bateria",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum."
+    },
+    {
+      "label": "car battery",
+      "object_name": "Bateria automotiva",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum."
+    },
+    {
+      "label": "light bulb",
+      "object_name": "Lâmpada",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro."
+    },
+    {
+      "label": "fluorescent lamp",
+      "object_name": "Lâmpada fluorescente",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro."
+    },
+    {
+      "label": "smartphone",
+      "object_name": "Celular",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "tablet",
+      "object_name": "Tablet",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "laptop",
+      "object_name": "Notebook",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "computer monitor",
+      "object_name": "Monitor",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "computer keyboard",
+      "object_name": "Teclado",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "computer mouse",
+      "object_name": "Mouse",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "printer",
+      "object_name": "Impressora",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "television",
+      "object_name": "Televisão",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "phone charger",
+      "object_name": "Carregador",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "power cable",
+      "object_name": "Cabo elétrico",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "headphones",
+      "object_name": "Fone de ouvido",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "earphones",
+      "object_name": "Fone de ouvido",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "circuit board",
+      "object_name": "Placa eletrônica",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "router",
+      "object_name": "Roteador",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "power bank",
+      "object_name": "Bateria portátil",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum."
+    },
+    {
+      "label": "electronic device",
+      "object_name": "Aparelho eletrônico",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "camera",
+      "object_name": "Câmera",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "speaker",
+      "object_name": "Caixa de som",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "game controller",
+      "object_name": "Controle de videogame",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "remote control",
+      "object_name": "Controle remoto",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "microwave oven",
+      "object_name": "Micro-ondas",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "refrigerator",
+      "object_name": "Geladeira",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "washing machine",
+      "object_name": "Máquina de lavar",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "tire",
+      "object_name": "Pneu",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Entregue em ponto de recebimento de pneus ou revendedor participante da logística reversa."
+    },
+    {
+      "label": "clothing",
+      "object_name": "Roupa",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade."
+    },
+    {
+      "label": "shoe",
+      "object_name": "Calçado",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade."
+    },
+    {
+      "label": "medicine blister pack",
+      "object_name": "Cartela de medicamento",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Se ainda houver medicamento, entregue em ponto de logística reversa de medicamentos. Embalagem vazia: confirme o destino aceito localmente."
+    },
+    {
+      "label": "cooking oil bottle",
+      "object_name": "Garrafa de óleo de cozinha",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Se houver óleo usado, entregue o óleo em recipiente fechado em coleta específica. Embalagem vazia segue a coleta do seu material; a imagem não confirma o conteúdo."
+    },
+    {
+      "label": "food waste",
+      "object_name": "Restos de alimentos",
+      "material_id": "organic",
+      "minimum_confidence": 0.35,
+      "instruction": "Separe das embalagens para compostagem ou coleta orgânica."
+    },
+    {
+      "label": "metal container",
+      "object_name": "Recipiente de metal",
+      "material_id": "metal",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente."
+    },
+    {
+      "label": "plastic wrapper",
+      "object_name": "Embalagem plástica",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "detergent bottle",
+      "object_name": "Frasco de detergente",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "shampoo bottle",
+      "object_name": "Frasco de shampoo",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    }
+  ]
+}

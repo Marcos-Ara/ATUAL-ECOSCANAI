@@ -1,0 +1,4841 @@
+{
+  "source": "Supabase EcoScan — catálogo público",
+  "objects": [
+    {
+      "object_id": 1,
+      "object_name": "Banana",
+      "detection_class": "banana",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 2,
+      "object_name": "Maçã",
+      "detection_class": "apple",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 3,
+      "object_name": "Laranja",
+      "detection_class": "orange",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 4,
+      "object_name": "Brócolis",
+      "detection_class": "broccoli",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 5,
+      "object_name": "Cenoura",
+      "detection_class": "carrot",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 6,
+      "object_name": "Sanduíche",
+      "detection_class": "sandwich",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 7,
+      "object_name": "Pizza",
+      "detection_class": "pizza",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 8,
+      "object_name": "Rosquinha",
+      "detection_class": "donut",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 9,
+      "object_name": "Bolo",
+      "detection_class": "cake",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Resíduos alimentares",
+      "category_name": "Resíduos Orgânicos",
+      "bin_name": "Marrom",
+      "recommendation": "Separe dos materiais recicláveis secos.",
+      "preparation_instructions": "Separe restos de alimentos dos materiais recicláveis secos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 11,
+      "object_name": "Garfo",
+      "detection_class": "fork",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Aço",
+      "category_name": "Metais",
+      "bin_name": "Amarela",
+      "recommendation": "Retire o excesso de resíduos e encaminhe para a coleta seletiva.",
+      "preparation_instructions": "Retire o excesso de conteúdo e mantenha o material separado.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 12,
+      "object_name": "Faca",
+      "detection_class": "knife",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Aço",
+      "category_name": "Metais",
+      "bin_name": "Amarela",
+      "recommendation": "Retire o excesso de resíduos e encaminhe para a coleta seletiva.",
+      "preparation_instructions": "Retire o excesso de conteúdo e mantenha o material separado.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 13,
+      "object_name": "Colher",
+      "detection_class": "spoon",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Aço",
+      "category_name": "Metais",
+      "bin_name": "Amarela",
+      "recommendation": "Retire o excesso de resíduos e encaminhe para a coleta seletiva.",
+      "preparation_instructions": "Retire o excesso de conteúdo e mantenha o material separado.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 14,
+      "object_name": "Tesoura",
+      "detection_class": "scissors",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Aço",
+      "category_name": "Metais",
+      "bin_name": "Amarela",
+      "recommendation": "Retire o excesso de resíduos e encaminhe para a coleta seletiva.",
+      "preparation_instructions": "Retire o excesso de conteúdo e mantenha o material separado.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 16,
+      "object_name": "Garrafa",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 3
+    },
+    {
+      "object_id": 17,
+      "object_name": "Copo",
+      "detection_class": "cup",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 2
+    },
+    {
+      "object_id": 18,
+      "object_name": "Tigela",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 2
+    },
+    {
+      "object_id": 19,
+      "object_name": "Vaso",
+      "detection_class": "vase",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 2
+    },
+    {
+      "object_id": 20,
+      "object_name": "Notebook",
+      "detection_class": "laptop",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 21,
+      "object_name": "Mouse",
+      "detection_class": "mouse",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [
+        {
+          "id": 1,
+          "name": "Eletrônicos",
+          "warning": "Não descarte equipamentos eletrônicos em lixeiras comuns.",
+          "risk_level": "medium",
+          "destination": "Logística reversa",
+          "instruction": "Procure pontos de coleta de eletroeletrônicos ou sistemas de logística reversa.",
+          "requires_special_handling": true,
+          "requires_special_collection": true
+        }
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 22,
+      "object_name": "Teclado",
+      "detection_class": "keyboard",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [
+        {
+          "id": 1,
+          "name": "Eletrônicos",
+          "warning": "Não descarte equipamentos eletrônicos em lixeiras comuns.",
+          "risk_level": "medium",
+          "destination": "Logística reversa",
+          "instruction": "Procure pontos de coleta de eletroeletrônicos ou sistemas de logística reversa.",
+          "requires_special_handling": true,
+          "requires_special_collection": true
+        }
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 23,
+      "object_name": "Celular",
+      "detection_class": "cell_phone",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [
+        {
+          "id": 1,
+          "name": "Eletrônicos",
+          "warning": "Não descarte equipamentos eletrônicos em lixeiras comuns.",
+          "risk_level": "medium",
+          "destination": "Logística reversa",
+          "instruction": "Procure pontos de coleta de eletroeletrônicos ou sistemas de logística reversa.",
+          "requires_special_handling": true,
+          "requires_special_collection": true
+        }
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 24,
+      "object_name": "Televisão",
+      "detection_class": "tv",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [
+        {
+          "id": 1,
+          "name": "Eletrônicos",
+          "warning": "Não descarte equipamentos eletrônicos em lixeiras comuns.",
+          "risk_level": "medium",
+          "destination": "Logística reversa",
+          "instruction": "Procure pontos de coleta de eletroeletrônicos ou sistemas de logística reversa.",
+          "requires_special_handling": true,
+          "requires_special_collection": true
+        }
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 25,
+      "object_name": "Controle remoto",
+      "detection_class": "remote",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [
+        {
+          "id": 1,
+          "name": "Eletrônicos",
+          "warning": "Não descarte equipamentos eletrônicos em lixeiras comuns.",
+          "risk_level": "medium",
+          "destination": "Logística reversa",
+          "instruction": "Procure pontos de coleta de eletroeletrônicos ou sistemas de logística reversa.",
+          "requires_special_handling": true,
+          "requires_special_collection": true
+        }
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 26,
+      "object_name": "Micro-ondas",
+      "detection_class": "microwave",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 27,
+      "object_name": "Forno",
+      "detection_class": "oven",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 28,
+      "object_name": "Torradeira",
+      "detection_class": "toaster",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 29,
+      "object_name": "Geladeira",
+      "detection_class": "refrigerator",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 30,
+      "object_name": "Pessoa",
+      "detection_class": "person",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 31,
+      "object_name": "Cachorro",
+      "detection_class": "dog",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 32,
+      "object_name": "Gato",
+      "detection_class": "cat",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 33,
+      "object_name": "Carro",
+      "detection_class": "car",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 34,
+      "object_name": "Bicicleta",
+      "detection_class": "bicycle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": null,
+      "preparation_instructions": null,
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 35,
+      "object_name": "Garrafa PET",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico PET",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie a garrafa e descarte-a na coleta seletiva.",
+      "preparation_instructions": "Esvazie a embalagem e, quando possível, mantenha-a livre de restos de alimentos ou líquidos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10,
+      "object_name": "Livro",
+      "detection_class": "book",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 15,
+      "object_name": "Taça",
+      "detection_class": "wine_glass",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 36,
+      "object_name": "Sacola plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 37,
+      "object_name": "Embalagem plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 38,
+      "object_name": "Embalagem de shampoo",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "PEAD (HDPE)",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Separe e mantenha o material limpo.",
+      "preparation_instructions": "Esvazie e mantenha a embalagem o mais limpa possível.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 39,
+      "object_name": "Frasco de detergente",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "PEAD (HDPE)",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Separe e mantenha o material limpo.",
+      "preparation_instructions": "Esvazie e mantenha a embalagem o mais limpa possível.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 40,
+      "object_name": "Pote plástico",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 41,
+      "object_name": "Pote de margarina",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 42,
+      "object_name": "Pote de sorvete",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 43,
+      "object_name": "Copo descartável plástico",
+      "detection_class": "cup",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 44,
+      "object_name": "Tampa plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 45,
+      "object_name": "Canudo plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 46,
+      "object_name": "Talher plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 47,
+      "object_name": "Filme plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 48,
+      "object_name": "Galão plástico",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 49,
+      "object_name": "Frasco plástico",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 50,
+      "object_name": "Balde plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 51,
+      "object_name": "Bacia plástica",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 52,
+      "object_name": "Escova de dentes",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 53,
+      "object_name": "Pente plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 54,
+      "object_name": "Brinquedo plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 55,
+      "object_name": "Mangueira plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 56,
+      "object_name": "Tubulação plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 57,
+      "object_name": "Caixa organizadora plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 58,
+      "object_name": "Pote de cozinha plástico",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 59,
+      "object_name": "Embalagem de alimento",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 60,
+      "object_name": "Embalagem de biscoito",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 61,
+      "object_name": "Embalagem de salgadinho",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 62,
+      "object_name": "Embalagem de arroz",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 63,
+      "object_name": "Embalagem de feijão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 64,
+      "object_name": "Saco plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 65,
+      "object_name": "Lacre plástico",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 66,
+      "object_name": "Pote de cosmético",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 67,
+      "object_name": "Frasco de cosmético",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 68,
+      "object_name": "Embalagem de creme",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 69,
+      "object_name": "Seringa plástica",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 70,
+      "object_name": "Folha de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 71,
+      "object_name": "Jornal",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 72,
+      "object_name": "Revista",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 73,
+      "object_name": "Caderno",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 75,
+      "object_name": "Cartolina",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 76,
+      "object_name": "Papelão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 77,
+      "object_name": "Caixa de papelão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 78,
+      "object_name": "Caixa de cereal",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 79,
+      "object_name": "Caixa de sapato",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 80,
+      "object_name": "Caixa de mudança",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 81,
+      "object_name": "Envelope de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 82,
+      "object_name": "Saco de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 83,
+      "object_name": "Papel de presente",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 84,
+      "object_name": "Papel de embrulho",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 85,
+      "object_name": "Papel impresso",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 86,
+      "object_name": "Panfleto",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 87,
+      "object_name": "Folder",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 88,
+      "object_name": "Cartão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 89,
+      "object_name": "Cartão de visita",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 90,
+      "object_name": "Cartaz",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 91,
+      "object_name": "Apostila",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 92,
+      "object_name": "Bilhete de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 93,
+      "object_name": "Guardanapo de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 94,
+      "object_name": "Papel toalha",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 99,
+      "object_name": "Tubo de papelão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 95,
+      "object_name": "Filtro de café de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 96,
+      "object_name": "Papel para impressora",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 97,
+      "object_name": "Folha de caderno",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 98,
+      "object_name": "Papelão ondulado",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 100,
+      "object_name": "Rolo de papelão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 101,
+      "object_name": "Bandeja de papelão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 102,
+      "object_name": "Embalagem de papel",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Papel",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha o material seco e separado de resíduos orgânicos.",
+      "preparation_instructions": "Mantenha o papel seco, limpo e separado de resíduos orgânicos.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 103,
+      "object_name": "Embalagem de papelão",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papelão",
+      "category_name": "Papel e Papelão",
+      "bin_name": "Azul",
+      "recommendation": "Desmonte ou dobre as caixas antes do descarte.",
+      "preparation_instructions": "Achate ou desmonte as caixas quando possível e mantenha o papelão seco.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 104,
+      "object_name": "Garrafa de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 105,
+      "object_name": "Pote de vidro",
+      "detection_class": "bowl",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 106,
+      "object_name": "Pote de conserva de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 107,
+      "object_name": "Frasco de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 108,
+      "object_name": "Frasco de perfume de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 109,
+      "object_name": "Copo de vidro",
+      "detection_class": "cup",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 110,
+      "object_name": "Taça de vidro",
+      "detection_class": "wine_glass",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 111,
+      "object_name": "Jarra de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 112,
+      "object_name": "Travessa de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 113,
+      "object_name": "Assadeira de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 114,
+      "object_name": "Pote hermético de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 115,
+      "object_name": "Recipiente de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 116,
+      "object_name": "Vidro de conserva",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 117,
+      "object_name": "Garrafa de vinho de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 118,
+      "object_name": "Garrafa de cerveja de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 119,
+      "object_name": "Garrafa de suco de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 120,
+      "object_name": "Garrafa de refrigerante de vidro",
+      "detection_class": "bottle",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 121,
+      "object_name": "Pote de molho de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 122,
+      "object_name": "Pote de geleia de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 123,
+      "object_name": "Pote de palmito de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 124,
+      "object_name": "Pote de azeitona de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 125,
+      "object_name": "Pote de café de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 126,
+      "object_name": "Pote de tempero de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 127,
+      "object_name": "Pote de cozinha de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 128,
+      "object_name": "Garrafa decorativa de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 129,
+      "object_name": "Vaso de vidro",
+      "detection_class": "vase",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 130,
+      "object_name": "Objeto decorativo de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 131,
+      "object_name": "Placa de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 132,
+      "object_name": "Tubo de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 133,
+      "object_name": "Vidro de embalagem",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 134,
+      "object_name": "Embalagem de vidro",
+      "detection_class": null,
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10000,
+      "object_name": "Garrafa plástica",
+      "detection_class": "plastic bottle",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10001,
+      "object_name": "Garrafa de vidro",
+      "detection_class": "glass bottle",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Vidro",
+      "category_name": "Vidro",
+      "bin_name": "Verde",
+      "recommendation": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro.",
+      "preparation_instructions": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10002,
+      "object_name": "Lata de alumínio",
+      "detection_class": "aluminum can",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Metal",
+      "category_name": "Metal",
+      "bin_name": "Amarela",
+      "recommendation": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10003,
+      "object_name": "Lata de aço",
+      "detection_class": "steel can",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Metal",
+      "category_name": "Metal",
+      "bin_name": "Amarela",
+      "recommendation": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10004,
+      "object_name": "Caixa de papelão",
+      "detection_class": "cardboard box",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10005,
+      "object_name": "Papelão",
+      "detection_class": "cardboard",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10006,
+      "object_name": "Papel",
+      "detection_class": "paper",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10007,
+      "object_name": "Jornal",
+      "detection_class": "newspaper",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10008,
+      "object_name": "Revista",
+      "detection_class": "magazine",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10009,
+      "object_name": "Livro",
+      "detection_class": "book",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10010,
+      "object_name": "Envelope",
+      "detection_class": "envelope",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10011,
+      "object_name": "Sacola plástica",
+      "detection_class": "plastic bag",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10012,
+      "object_name": "Sacola de papel",
+      "detection_class": "paper bag",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10013,
+      "object_name": "Copo plástico",
+      "detection_class": "plastic cup",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10014,
+      "object_name": "Copo de papel",
+      "detection_class": "paper cup",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Papel",
+      "category_name": "Papel",
+      "bin_name": "Azul",
+      "recommendation": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "preparation_instructions": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10015,
+      "object_name": "Pote de vidro",
+      "detection_class": "glass jar",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Vidro",
+      "category_name": "Vidro",
+      "bin_name": "Verde",
+      "recommendation": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro.",
+      "preparation_instructions": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10016,
+      "object_name": "Recipiente plástico",
+      "detection_class": "plastic container",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10017,
+      "object_name": "Recipiente de alimentos",
+      "detection_class": "food container",
+      "is_active": true,
+      "is_ambiguous": true,
+      "material_name": null,
+      "category_name": null,
+      "bin_name": null,
+      "recommendation": "O recipiente pode ser de plástico, vidro ou metal. Aproxime apenas o objeto e tire outra foto para identificar o material.",
+      "preparation_instructions": "O recipiente pode ser de plástico, vidro ou metal. Aproxime apenas o objeto e tire outra foto para identificar o material.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10018,
+      "object_name": "Embalagem longa vida",
+      "detection_class": "beverage carton",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Embalagem multicamadas. Esvazie e encaminhe à coleta seletiva que aceite embalagens longa vida na sua cidade.",
+      "preparation_instructions": "Embalagem multicamadas. Esvazie e encaminhe à coleta seletiva que aceite embalagens longa vida na sua cidade.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10019,
+      "object_name": "Lata de aerossol",
+      "detection_class": "aerosol can",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Não perfure nem queime. Confirme a coleta de aerossóis e embalagens pressurizadas no ponto de recebimento.",
+      "preparation_instructions": "Não perfure nem queime. Confirme a coleta de aerossóis e embalagens pressurizadas no ponto de recebimento.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10020,
+      "object_name": "Pilha ou bateria",
+      "detection_class": "battery",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum.",
+      "preparation_instructions": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10021,
+      "object_name": "Bateria automotiva",
+      "detection_class": "car battery",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum.",
+      "preparation_instructions": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10022,
+      "object_name": "Lâmpada",
+      "detection_class": "light bulb",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro.",
+      "preparation_instructions": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10023,
+      "object_name": "Lâmpada fluorescente",
+      "detection_class": "fluorescent lamp",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro.",
+      "preparation_instructions": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10024,
+      "object_name": "Celular",
+      "detection_class": "smartphone",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10025,
+      "object_name": "Tablet",
+      "detection_class": "tablet",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10026,
+      "object_name": "Notebook",
+      "detection_class": "laptop",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10027,
+      "object_name": "Monitor",
+      "detection_class": "computer monitor",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10028,
+      "object_name": "Teclado",
+      "detection_class": "computer keyboard",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10029,
+      "object_name": "Mouse",
+      "detection_class": "computer mouse",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10030,
+      "object_name": "Impressora",
+      "detection_class": "printer",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10031,
+      "object_name": "Televisão",
+      "detection_class": "television",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10032,
+      "object_name": "Carregador",
+      "detection_class": "phone charger",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10033,
+      "object_name": "Cabo elétrico",
+      "detection_class": "power cable",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10034,
+      "object_name": "Fone de ouvido",
+      "detection_class": "headphones",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10035,
+      "object_name": "Fone de ouvido",
+      "detection_class": "earphones",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10036,
+      "object_name": "Placa eletrônica",
+      "detection_class": "circuit board",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10037,
+      "object_name": "Roteador",
+      "detection_class": "router",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10038,
+      "object_name": "Bateria portátil",
+      "detection_class": "power bank",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum.",
+      "preparation_instructions": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10039,
+      "object_name": "Aparelho eletrônico",
+      "detection_class": "electronic device",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10040,
+      "object_name": "Câmera",
+      "detection_class": "camera",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10041,
+      "object_name": "Caixa de som",
+      "detection_class": "speaker",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10042,
+      "object_name": "Controle de videogame",
+      "detection_class": "game controller",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10043,
+      "object_name": "Controle remoto",
+      "detection_class": "remote control",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10044,
+      "object_name": "Micro-ondas",
+      "detection_class": "microwave oven",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10045,
+      "object_name": "Geladeira",
+      "detection_class": "refrigerator",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10046,
+      "object_name": "Máquina de lavar",
+      "detection_class": "washing machine",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Eletrônico",
+      "category_name": "Eletrônico",
+      "bin_name": "Coleta especial",
+      "recommendation": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "preparation_instructions": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns.",
+      "special_waste": [
+        "Eletrônico"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10047,
+      "object_name": "Pneu",
+      "detection_class": "tire",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Entregue em ponto de recebimento de pneus ou revendedor participante da logística reversa.",
+      "preparation_instructions": "Entregue em ponto de recebimento de pneus ou revendedor participante da logística reversa.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10048,
+      "object_name": "Roupa",
+      "detection_class": "clothing",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade.",
+      "preparation_instructions": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10049,
+      "object_name": "Calçado",
+      "detection_class": "shoe",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade.",
+      "preparation_instructions": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10050,
+      "object_name": "Cartela de medicamento",
+      "detection_class": "medicine blister pack",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Se ainda houver medicamento, entregue em ponto de logística reversa de medicamentos. Embalagem vazia: confirme o destino aceito localmente.",
+      "preparation_instructions": "Se ainda houver medicamento, entregue em ponto de logística reversa de medicamentos. Embalagem vazia: confirme o destino aceito localmente.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10051,
+      "object_name": "Garrafa de óleo de cozinha",
+      "detection_class": "cooking oil bottle",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Descarte especial",
+      "category_name": "Descarte especial",
+      "bin_name": "Coleta especial",
+      "recommendation": "Se houver óleo usado, entregue o óleo em recipiente fechado em coleta específica. Embalagem vazia segue a coleta do seu material; a imagem não confirma o conteúdo.",
+      "preparation_instructions": "Se houver óleo usado, entregue o óleo em recipiente fechado em coleta específica. Embalagem vazia segue a coleta do seu material; a imagem não confirma o conteúdo.",
+      "special_waste": [
+        "Descarte especial"
+      ],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10052,
+      "object_name": "Restos de alimentos",
+      "detection_class": "food waste",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Orgânico",
+      "category_name": "Orgânico",
+      "bin_name": "Marrom",
+      "recommendation": "Separe das embalagens para compostagem ou coleta orgânica.",
+      "preparation_instructions": "Separe das embalagens para compostagem ou coleta orgânica.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10053,
+      "object_name": "Recipiente de metal",
+      "detection_class": "metal container",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Metal",
+      "category_name": "Metal",
+      "bin_name": "Amarela",
+      "recommendation": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10054,
+      "object_name": "Embalagem plástica",
+      "detection_class": "plastic wrapper",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10055,
+      "object_name": "Frasco de detergente",
+      "detection_class": "detergent bottle",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    },
+    {
+      "object_id": 10056,
+      "object_name": "Frasco de shampoo",
+      "detection_class": "shampoo bottle",
+      "is_active": true,
+      "is_ambiguous": false,
+      "material_name": "Plástico",
+      "category_name": "Plástico",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "preparation_instructions": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local.",
+      "special_waste": [],
+      "variant_count": 0
+    }
+  ],
+  "aliases": [
+    {
+      "object_id": 16,
+      "variant_id": 1,
+      "normalized_alias": "garrafa pet",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 1,
+      "normalized_alias": "garrafa de pet",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 1,
+      "normalized_alias": "pet",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 1,
+      "normalized_alias": "garrafa plastica",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 1,
+      "normalized_alias": "garrafa plástica",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 1,
+      "normalized_alias": "garrafa de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 2,
+      "normalized_alias": "garrafa de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 2,
+      "normalized_alias": "garrafa vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 2,
+      "normalized_alias": "frasco de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 2,
+      "normalized_alias": "vidro garrafa",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 3,
+      "normalized_alias": "garrafa metal",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 3,
+      "normalized_alias": "garrafa metálica",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 3,
+      "normalized_alias": "garrafa de metal",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 3,
+      "normalized_alias": "garrafa de aço",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 3,
+      "normalized_alias": "garrafa termica",
+      "is_active": true
+    },
+    {
+      "object_id": 16,
+      "variant_id": 3,
+      "normalized_alias": "garrafa térmica",
+      "is_active": true
+    },
+    {
+      "object_id": 35,
+      "variant_id": null,
+      "normalized_alias": "garrafa pet",
+      "is_active": true
+    },
+    {
+      "object_id": 35,
+      "variant_id": null,
+      "normalized_alias": "garrafa de pet",
+      "is_active": true
+    },
+    {
+      "object_id": 35,
+      "variant_id": null,
+      "normalized_alias": "garrafa plástica pet",
+      "is_active": true
+    },
+    {
+      "object_id": 36,
+      "variant_id": null,
+      "normalized_alias": "sacola plástica",
+      "is_active": true
+    },
+    {
+      "object_id": 36,
+      "variant_id": null,
+      "normalized_alias": "sacola de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 36,
+      "variant_id": null,
+      "normalized_alias": "sacola",
+      "is_active": true
+    },
+    {
+      "object_id": 37,
+      "variant_id": null,
+      "normalized_alias": "embalagem de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 37,
+      "variant_id": null,
+      "normalized_alias": "embalagem plástica",
+      "is_active": true
+    },
+    {
+      "object_id": 38,
+      "variant_id": null,
+      "normalized_alias": "frasco de shampoo",
+      "is_active": true
+    },
+    {
+      "object_id": 38,
+      "variant_id": null,
+      "normalized_alias": "embalagem shampoo",
+      "is_active": true
+    },
+    {
+      "object_id": 39,
+      "variant_id": null,
+      "normalized_alias": "frasco detergente",
+      "is_active": true
+    },
+    {
+      "object_id": 39,
+      "variant_id": null,
+      "normalized_alias": "garrafa de detergente",
+      "is_active": true
+    },
+    {
+      "object_id": 40,
+      "variant_id": null,
+      "normalized_alias": "pote de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 40,
+      "variant_id": null,
+      "normalized_alias": "recipiente plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 41,
+      "variant_id": null,
+      "normalized_alias": "pote de manteiga",
+      "is_active": true
+    },
+    {
+      "object_id": 41,
+      "variant_id": null,
+      "normalized_alias": "pote de margarina",
+      "is_active": true
+    },
+    {
+      "object_id": 42,
+      "variant_id": null,
+      "normalized_alias": "pote sorvete",
+      "is_active": true
+    },
+    {
+      "object_id": 43,
+      "variant_id": null,
+      "normalized_alias": "copo descartável",
+      "is_active": true
+    },
+    {
+      "object_id": 43,
+      "variant_id": null,
+      "normalized_alias": "copo plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 44,
+      "variant_id": null,
+      "normalized_alias": "tampa de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 44,
+      "variant_id": null,
+      "normalized_alias": "tampa plástica",
+      "is_active": true
+    },
+    {
+      "object_id": 45,
+      "variant_id": null,
+      "normalized_alias": "canudo",
+      "is_active": true
+    },
+    {
+      "object_id": 45,
+      "variant_id": null,
+      "normalized_alias": "canudo de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 46,
+      "variant_id": null,
+      "normalized_alias": "talher descartável",
+      "is_active": true
+    },
+    {
+      "object_id": 46,
+      "variant_id": null,
+      "normalized_alias": "talher de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 47,
+      "variant_id": null,
+      "normalized_alias": "filme pvc",
+      "is_active": true
+    },
+    {
+      "object_id": 47,
+      "variant_id": null,
+      "normalized_alias": "filme plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 48,
+      "variant_id": null,
+      "normalized_alias": "galão de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 48,
+      "variant_id": null,
+      "normalized_alias": "galão plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 49,
+      "variant_id": null,
+      "normalized_alias": "frasco de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 49,
+      "variant_id": null,
+      "normalized_alias": "recipiente plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 50,
+      "variant_id": null,
+      "normalized_alias": "balde plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 50,
+      "variant_id": null,
+      "normalized_alias": "balde de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 51,
+      "variant_id": null,
+      "normalized_alias": "bacia de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 52,
+      "variant_id": null,
+      "normalized_alias": "escova dental",
+      "is_active": true
+    },
+    {
+      "object_id": 52,
+      "variant_id": null,
+      "normalized_alias": "escova de dente",
+      "is_active": true
+    },
+    {
+      "object_id": 53,
+      "variant_id": null,
+      "normalized_alias": "pente",
+      "is_active": true
+    },
+    {
+      "object_id": 53,
+      "variant_id": null,
+      "normalized_alias": "pente plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 54,
+      "variant_id": null,
+      "normalized_alias": "brinquedo de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 55,
+      "variant_id": null,
+      "normalized_alias": "mangueira de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 56,
+      "variant_id": null,
+      "normalized_alias": "tubo plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 56,
+      "variant_id": null,
+      "normalized_alias": "tubulação de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 57,
+      "variant_id": null,
+      "normalized_alias": "caixa plástica",
+      "is_active": true
+    },
+    {
+      "object_id": 57,
+      "variant_id": null,
+      "normalized_alias": "organizador plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 58,
+      "variant_id": null,
+      "normalized_alias": "pote cozinha",
+      "is_active": true
+    },
+    {
+      "object_id": 59,
+      "variant_id": null,
+      "normalized_alias": "embalagem de comida",
+      "is_active": true
+    },
+    {
+      "object_id": 59,
+      "variant_id": null,
+      "normalized_alias": "embalagem para alimento",
+      "is_active": true
+    },
+    {
+      "object_id": 60,
+      "variant_id": null,
+      "normalized_alias": "pacote de biscoito",
+      "is_active": true
+    },
+    {
+      "object_id": 61,
+      "variant_id": null,
+      "normalized_alias": "pacote de salgadinho",
+      "is_active": true
+    },
+    {
+      "object_id": 62,
+      "variant_id": null,
+      "normalized_alias": "pacote de arroz",
+      "is_active": true
+    },
+    {
+      "object_id": 63,
+      "variant_id": null,
+      "normalized_alias": "pacote de feijão",
+      "is_active": true
+    },
+    {
+      "object_id": 64,
+      "variant_id": null,
+      "normalized_alias": "saco de plástico",
+      "is_active": true
+    },
+    {
+      "object_id": 64,
+      "variant_id": null,
+      "normalized_alias": "sacolinha",
+      "is_active": true
+    },
+    {
+      "object_id": 65,
+      "variant_id": null,
+      "normalized_alias": "lacre",
+      "is_active": true
+    },
+    {
+      "object_id": 66,
+      "variant_id": null,
+      "normalized_alias": "pote cosmético",
+      "is_active": true
+    },
+    {
+      "object_id": 67,
+      "variant_id": null,
+      "normalized_alias": "frasco cosmético",
+      "is_active": true
+    },
+    {
+      "object_id": 68,
+      "variant_id": null,
+      "normalized_alias": "pote de creme",
+      "is_active": true
+    },
+    {
+      "object_id": 68,
+      "variant_id": null,
+      "normalized_alias": "embalagem de creme",
+      "is_active": true
+    },
+    {
+      "object_id": 69,
+      "variant_id": null,
+      "normalized_alias": "seringa",
+      "is_active": true
+    },
+    {
+      "object_id": 70,
+      "variant_id": null,
+      "normalized_alias": "folha",
+      "is_active": true
+    },
+    {
+      "object_id": 70,
+      "variant_id": null,
+      "normalized_alias": "folha de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 71,
+      "variant_id": null,
+      "normalized_alias": "jornal",
+      "is_active": true
+    },
+    {
+      "object_id": 72,
+      "variant_id": null,
+      "normalized_alias": "revista",
+      "is_active": true
+    },
+    {
+      "object_id": 73,
+      "variant_id": null,
+      "normalized_alias": "caderno",
+      "is_active": true
+    },
+    {
+      "object_id": 10,
+      "variant_id": null,
+      "normalized_alias": "livro",
+      "is_active": true
+    },
+    {
+      "object_id": 75,
+      "variant_id": null,
+      "normalized_alias": "cartolina",
+      "is_active": true
+    },
+    {
+      "object_id": 76,
+      "variant_id": null,
+      "normalized_alias": "papelao",
+      "is_active": true
+    },
+    {
+      "object_id": 76,
+      "variant_id": null,
+      "normalized_alias": "papelão",
+      "is_active": true
+    },
+    {
+      "object_id": 77,
+      "variant_id": null,
+      "normalized_alias": "caixa de papelao",
+      "is_active": true
+    },
+    {
+      "object_id": 77,
+      "variant_id": null,
+      "normalized_alias": "caixa de papelão",
+      "is_active": true
+    },
+    {
+      "object_id": 77,
+      "variant_id": null,
+      "normalized_alias": "caixa de cartão",
+      "is_active": true
+    },
+    {
+      "object_id": 78,
+      "variant_id": null,
+      "normalized_alias": "caixa de cereal",
+      "is_active": true
+    },
+    {
+      "object_id": 78,
+      "variant_id": null,
+      "normalized_alias": "embalagem de cereal",
+      "is_active": true
+    },
+    {
+      "object_id": 79,
+      "variant_id": null,
+      "normalized_alias": "caixa de sapato",
+      "is_active": true
+    },
+    {
+      "object_id": 80,
+      "variant_id": null,
+      "normalized_alias": "caixa de mudança",
+      "is_active": true
+    },
+    {
+      "object_id": 80,
+      "variant_id": null,
+      "normalized_alias": "caixa de mudanca",
+      "is_active": true
+    },
+    {
+      "object_id": 81,
+      "variant_id": null,
+      "normalized_alias": "envelope de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 82,
+      "variant_id": null,
+      "normalized_alias": "saco de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 82,
+      "variant_id": null,
+      "normalized_alias": "sacola de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 83,
+      "variant_id": null,
+      "normalized_alias": "papel para presente",
+      "is_active": true
+    },
+    {
+      "object_id": 83,
+      "variant_id": null,
+      "normalized_alias": "papel presente",
+      "is_active": true
+    },
+    {
+      "object_id": 84,
+      "variant_id": null,
+      "normalized_alias": "papel embrulho",
+      "is_active": true
+    },
+    {
+      "object_id": 85,
+      "variant_id": null,
+      "normalized_alias": "papel impresso",
+      "is_active": true
+    },
+    {
+      "object_id": 86,
+      "variant_id": null,
+      "normalized_alias": "panfleto",
+      "is_active": true
+    },
+    {
+      "object_id": 86,
+      "variant_id": null,
+      "normalized_alias": "folheto",
+      "is_active": true
+    },
+    {
+      "object_id": 87,
+      "variant_id": null,
+      "normalized_alias": "folder",
+      "is_active": true
+    },
+    {
+      "object_id": 87,
+      "variant_id": null,
+      "normalized_alias": "folheto dobrável",
+      "is_active": true
+    },
+    {
+      "object_id": 88,
+      "variant_id": null,
+      "normalized_alias": "cartao",
+      "is_active": true
+    },
+    {
+      "object_id": 88,
+      "variant_id": null,
+      "normalized_alias": "cartão de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 89,
+      "variant_id": null,
+      "normalized_alias": "cartao de visita",
+      "is_active": true
+    },
+    {
+      "object_id": 89,
+      "variant_id": null,
+      "normalized_alias": "cartão de visita",
+      "is_active": true
+    },
+    {
+      "object_id": 90,
+      "variant_id": null,
+      "normalized_alias": "poster",
+      "is_active": true
+    },
+    {
+      "object_id": 90,
+      "variant_id": null,
+      "normalized_alias": "cartaz",
+      "is_active": true
+    },
+    {
+      "object_id": 91,
+      "variant_id": null,
+      "normalized_alias": "apostila",
+      "is_active": true
+    },
+    {
+      "object_id": 92,
+      "variant_id": null,
+      "normalized_alias": "bilhete",
+      "is_active": true
+    },
+    {
+      "object_id": 92,
+      "variant_id": null,
+      "normalized_alias": "papel de anotação",
+      "is_active": true
+    },
+    {
+      "object_id": 93,
+      "variant_id": null,
+      "normalized_alias": "guardanapo",
+      "is_active": true
+    },
+    {
+      "object_id": 93,
+      "variant_id": null,
+      "normalized_alias": "guardanapo de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 94,
+      "variant_id": null,
+      "normalized_alias": "toalha de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 94,
+      "variant_id": null,
+      "normalized_alias": "papel toalha",
+      "is_active": true
+    },
+    {
+      "object_id": 95,
+      "variant_id": null,
+      "normalized_alias": "filtro de café",
+      "is_active": true
+    },
+    {
+      "object_id": 95,
+      "variant_id": null,
+      "normalized_alias": "filtro de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 96,
+      "variant_id": null,
+      "normalized_alias": "papel a4",
+      "is_active": true
+    },
+    {
+      "object_id": 96,
+      "variant_id": null,
+      "normalized_alias": "papel de impressora",
+      "is_active": true
+    },
+    {
+      "object_id": 96,
+      "variant_id": null,
+      "normalized_alias": "folha a4",
+      "is_active": true
+    },
+    {
+      "object_id": 97,
+      "variant_id": null,
+      "normalized_alias": "folha de caderno",
+      "is_active": true
+    },
+    {
+      "object_id": 98,
+      "variant_id": null,
+      "normalized_alias": "papelão ondulado",
+      "is_active": true
+    },
+    {
+      "object_id": 99,
+      "variant_id": null,
+      "normalized_alias": "tubo de papelão",
+      "is_active": true
+    },
+    {
+      "object_id": 100,
+      "variant_id": null,
+      "normalized_alias": "rolo de papelão",
+      "is_active": true
+    },
+    {
+      "object_id": 101,
+      "variant_id": null,
+      "normalized_alias": "bandeja de papelão",
+      "is_active": true
+    },
+    {
+      "object_id": 102,
+      "variant_id": null,
+      "normalized_alias": "embalagem papel",
+      "is_active": true
+    },
+    {
+      "object_id": 102,
+      "variant_id": null,
+      "normalized_alias": "embalagem de papel",
+      "is_active": true
+    },
+    {
+      "object_id": 103,
+      "variant_id": null,
+      "normalized_alias": "embalagem papelão",
+      "is_active": true
+    },
+    {
+      "object_id": 103,
+      "variant_id": null,
+      "normalized_alias": "embalagem de papelao",
+      "is_active": true
+    },
+    {
+      "object_id": 104,
+      "variant_id": null,
+      "normalized_alias": "garrafa vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 104,
+      "variant_id": null,
+      "normalized_alias": "garrafa de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 105,
+      "variant_id": null,
+      "normalized_alias": "pote de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 105,
+      "variant_id": null,
+      "normalized_alias": "pote vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 106,
+      "variant_id": null,
+      "normalized_alias": "pote conserva",
+      "is_active": true
+    },
+    {
+      "object_id": 106,
+      "variant_id": null,
+      "normalized_alias": "pote de conserva",
+      "is_active": true
+    },
+    {
+      "object_id": 106,
+      "variant_id": null,
+      "normalized_alias": "frasco de conserva",
+      "is_active": true
+    },
+    {
+      "object_id": 107,
+      "variant_id": null,
+      "normalized_alias": "frasco vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 107,
+      "variant_id": null,
+      "normalized_alias": "frasco de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 107,
+      "variant_id": null,
+      "normalized_alias": "glass container",
+      "is_active": true
+    },
+    {
+      "object_id": 108,
+      "variant_id": null,
+      "normalized_alias": "frasco de perfume",
+      "is_active": true
+    },
+    {
+      "object_id": 108,
+      "variant_id": null,
+      "normalized_alias": "perfume bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 108,
+      "variant_id": null,
+      "normalized_alias": "vidro perfume",
+      "is_active": true
+    },
+    {
+      "object_id": 109,
+      "variant_id": null,
+      "normalized_alias": "copo vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 109,
+      "variant_id": null,
+      "normalized_alias": "copo de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 109,
+      "variant_id": null,
+      "normalized_alias": "glass cup",
+      "is_active": true
+    },
+    {
+      "object_id": 110,
+      "variant_id": null,
+      "normalized_alias": "taça vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 110,
+      "variant_id": null,
+      "normalized_alias": "taça de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 110,
+      "variant_id": null,
+      "normalized_alias": "glass wine glass",
+      "is_active": true
+    },
+    {
+      "object_id": 111,
+      "variant_id": null,
+      "normalized_alias": "jarra vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 111,
+      "variant_id": null,
+      "normalized_alias": "jarra de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 112,
+      "variant_id": null,
+      "normalized_alias": "travessa vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 112,
+      "variant_id": null,
+      "normalized_alias": "travessa de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 113,
+      "variant_id": null,
+      "normalized_alias": "assadeira vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 113,
+      "variant_id": null,
+      "normalized_alias": "assadeira de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 114,
+      "variant_id": null,
+      "normalized_alias": "pote hermético",
+      "is_active": true
+    },
+    {
+      "object_id": 114,
+      "variant_id": null,
+      "normalized_alias": "pote hermetico",
+      "is_active": true
+    },
+    {
+      "object_id": 114,
+      "variant_id": null,
+      "normalized_alias": "pote hermético de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 115,
+      "variant_id": null,
+      "normalized_alias": "recipiente vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 115,
+      "variant_id": null,
+      "normalized_alias": "recipiente de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 116,
+      "variant_id": null,
+      "normalized_alias": "vidro conserva",
+      "is_active": true
+    },
+    {
+      "object_id": 116,
+      "variant_id": null,
+      "normalized_alias": "recipiente de conserva",
+      "is_active": true
+    },
+    {
+      "object_id": 117,
+      "variant_id": null,
+      "normalized_alias": "garrafa vinho",
+      "is_active": true
+    },
+    {
+      "object_id": 117,
+      "variant_id": null,
+      "normalized_alias": "garrafa de vinho",
+      "is_active": true
+    },
+    {
+      "object_id": 117,
+      "variant_id": null,
+      "normalized_alias": "wine bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 118,
+      "variant_id": null,
+      "normalized_alias": "garrafa cerveja",
+      "is_active": true
+    },
+    {
+      "object_id": 118,
+      "variant_id": null,
+      "normalized_alias": "garrafa de cerveja",
+      "is_active": true
+    },
+    {
+      "object_id": 118,
+      "variant_id": null,
+      "normalized_alias": "beer bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 119,
+      "variant_id": null,
+      "normalized_alias": "garrafa suco",
+      "is_active": true
+    },
+    {
+      "object_id": 119,
+      "variant_id": null,
+      "normalized_alias": "garrafa de suco",
+      "is_active": true
+    },
+    {
+      "object_id": 120,
+      "variant_id": null,
+      "normalized_alias": "garrafa refrigerante",
+      "is_active": true
+    },
+    {
+      "object_id": 120,
+      "variant_id": null,
+      "normalized_alias": "garrafa de refrigerante",
+      "is_active": true
+    },
+    {
+      "object_id": 121,
+      "variant_id": null,
+      "normalized_alias": "pote molho",
+      "is_active": true
+    },
+    {
+      "object_id": 121,
+      "variant_id": null,
+      "normalized_alias": "pote de molho",
+      "is_active": true
+    },
+    {
+      "object_id": 122,
+      "variant_id": null,
+      "normalized_alias": "pote geleia",
+      "is_active": true
+    },
+    {
+      "object_id": 122,
+      "variant_id": null,
+      "normalized_alias": "pote de geleia",
+      "is_active": true
+    },
+    {
+      "object_id": 123,
+      "variant_id": null,
+      "normalized_alias": "pote palmito",
+      "is_active": true
+    },
+    {
+      "object_id": 123,
+      "variant_id": null,
+      "normalized_alias": "pote de palmito",
+      "is_active": true
+    },
+    {
+      "object_id": 124,
+      "variant_id": null,
+      "normalized_alias": "pote azeitona",
+      "is_active": true
+    },
+    {
+      "object_id": 124,
+      "variant_id": null,
+      "normalized_alias": "pote de azeitona",
+      "is_active": true
+    },
+    {
+      "object_id": 125,
+      "variant_id": null,
+      "normalized_alias": "pote café",
+      "is_active": true
+    },
+    {
+      "object_id": 125,
+      "variant_id": null,
+      "normalized_alias": "pote de café",
+      "is_active": true
+    },
+    {
+      "object_id": 126,
+      "variant_id": null,
+      "normalized_alias": "pote tempero",
+      "is_active": true
+    },
+    {
+      "object_id": 126,
+      "variant_id": null,
+      "normalized_alias": "pote de tempero",
+      "is_active": true
+    },
+    {
+      "object_id": 127,
+      "variant_id": null,
+      "normalized_alias": "pote cozinha vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 127,
+      "variant_id": null,
+      "normalized_alias": "pote de cozinha de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 128,
+      "variant_id": null,
+      "normalized_alias": "garrafa decorativa",
+      "is_active": true
+    },
+    {
+      "object_id": 128,
+      "variant_id": null,
+      "normalized_alias": "garrafa decorativa de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 129,
+      "variant_id": null,
+      "normalized_alias": "vaso vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 129,
+      "variant_id": null,
+      "normalized_alias": "vaso de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 129,
+      "variant_id": null,
+      "normalized_alias": "glass vase",
+      "is_active": true
+    },
+    {
+      "object_id": 130,
+      "variant_id": null,
+      "normalized_alias": "objeto de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 130,
+      "variant_id": null,
+      "normalized_alias": "objeto decorativo vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 131,
+      "variant_id": null,
+      "normalized_alias": "placa vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 131,
+      "variant_id": null,
+      "normalized_alias": "placa de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 132,
+      "variant_id": null,
+      "normalized_alias": "tubo vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 132,
+      "variant_id": null,
+      "normalized_alias": "tubo de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 133,
+      "variant_id": null,
+      "normalized_alias": "vidro embalagem",
+      "is_active": true
+    },
+    {
+      "object_id": 133,
+      "variant_id": null,
+      "normalized_alias": "vidro de embalagem",
+      "is_active": true
+    },
+    {
+      "object_id": 134,
+      "variant_id": null,
+      "normalized_alias": "embalagem vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 134,
+      "variant_id": null,
+      "normalized_alias": "embalagem de vidro",
+      "is_active": true
+    },
+    {
+      "object_id": 21,
+      "variant_id": null,
+      "normalized_alias": "wireless mouse",
+      "is_active": true
+    },
+    {
+      "object_id": 22,
+      "variant_id": null,
+      "normalized_alias": "keyboard",
+      "is_active": true
+    },
+    {
+      "object_id": 24,
+      "variant_id": null,
+      "normalized_alias": "tv",
+      "is_active": true
+    },
+    {
+      "object_id": 10000,
+      "variant_id": null,
+      "normalized_alias": "plastic bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 10001,
+      "variant_id": null,
+      "normalized_alias": "glass bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 10002,
+      "variant_id": null,
+      "normalized_alias": "aluminum can",
+      "is_active": true
+    },
+    {
+      "object_id": 10003,
+      "variant_id": null,
+      "normalized_alias": "steel can",
+      "is_active": true
+    },
+    {
+      "object_id": 10004,
+      "variant_id": null,
+      "normalized_alias": "cardboard box",
+      "is_active": true
+    },
+    {
+      "object_id": 10005,
+      "variant_id": null,
+      "normalized_alias": "cardboard",
+      "is_active": true
+    },
+    {
+      "object_id": 10006,
+      "variant_id": null,
+      "normalized_alias": "paper",
+      "is_active": true
+    },
+    {
+      "object_id": 10007,
+      "variant_id": null,
+      "normalized_alias": "newspaper",
+      "is_active": true
+    },
+    {
+      "object_id": 10008,
+      "variant_id": null,
+      "normalized_alias": "magazine",
+      "is_active": true
+    },
+    {
+      "object_id": 10009,
+      "variant_id": null,
+      "normalized_alias": "book",
+      "is_active": true
+    },
+    {
+      "object_id": 10010,
+      "variant_id": null,
+      "normalized_alias": "envelope",
+      "is_active": true
+    },
+    {
+      "object_id": 10011,
+      "variant_id": null,
+      "normalized_alias": "plastic bag",
+      "is_active": true
+    },
+    {
+      "object_id": 10012,
+      "variant_id": null,
+      "normalized_alias": "paper bag",
+      "is_active": true
+    },
+    {
+      "object_id": 10013,
+      "variant_id": null,
+      "normalized_alias": "plastic cup",
+      "is_active": true
+    },
+    {
+      "object_id": 10014,
+      "variant_id": null,
+      "normalized_alias": "paper cup",
+      "is_active": true
+    },
+    {
+      "object_id": 10015,
+      "variant_id": null,
+      "normalized_alias": "glass jar",
+      "is_active": true
+    },
+    {
+      "object_id": 10016,
+      "variant_id": null,
+      "normalized_alias": "plastic container",
+      "is_active": true
+    },
+    {
+      "object_id": 10017,
+      "variant_id": null,
+      "normalized_alias": "food container",
+      "is_active": true
+    },
+    {
+      "object_id": 10018,
+      "variant_id": null,
+      "normalized_alias": "beverage carton",
+      "is_active": true
+    },
+    {
+      "object_id": 10019,
+      "variant_id": null,
+      "normalized_alias": "aerosol can",
+      "is_active": true
+    },
+    {
+      "object_id": 10020,
+      "variant_id": null,
+      "normalized_alias": "battery",
+      "is_active": true
+    },
+    {
+      "object_id": 10021,
+      "variant_id": null,
+      "normalized_alias": "car battery",
+      "is_active": true
+    },
+    {
+      "object_id": 10022,
+      "variant_id": null,
+      "normalized_alias": "light bulb",
+      "is_active": true
+    },
+    {
+      "object_id": 10023,
+      "variant_id": null,
+      "normalized_alias": "fluorescent lamp",
+      "is_active": true
+    },
+    {
+      "object_id": 10024,
+      "variant_id": null,
+      "normalized_alias": "smartphone",
+      "is_active": true
+    },
+    {
+      "object_id": 10025,
+      "variant_id": null,
+      "normalized_alias": "tablet",
+      "is_active": true
+    },
+    {
+      "object_id": 10026,
+      "variant_id": null,
+      "normalized_alias": "laptop",
+      "is_active": true
+    },
+    {
+      "object_id": 10027,
+      "variant_id": null,
+      "normalized_alias": "computer monitor",
+      "is_active": true
+    },
+    {
+      "object_id": 10028,
+      "variant_id": null,
+      "normalized_alias": "computer keyboard",
+      "is_active": true
+    },
+    {
+      "object_id": 10029,
+      "variant_id": null,
+      "normalized_alias": "computer mouse",
+      "is_active": true
+    },
+    {
+      "object_id": 10030,
+      "variant_id": null,
+      "normalized_alias": "printer",
+      "is_active": true
+    },
+    {
+      "object_id": 10031,
+      "variant_id": null,
+      "normalized_alias": "television",
+      "is_active": true
+    },
+    {
+      "object_id": 10032,
+      "variant_id": null,
+      "normalized_alias": "phone charger",
+      "is_active": true
+    },
+    {
+      "object_id": 10033,
+      "variant_id": null,
+      "normalized_alias": "power cable",
+      "is_active": true
+    },
+    {
+      "object_id": 10034,
+      "variant_id": null,
+      "normalized_alias": "headphones",
+      "is_active": true
+    },
+    {
+      "object_id": 10035,
+      "variant_id": null,
+      "normalized_alias": "earphones",
+      "is_active": true
+    },
+    {
+      "object_id": 10036,
+      "variant_id": null,
+      "normalized_alias": "circuit board",
+      "is_active": true
+    },
+    {
+      "object_id": 10037,
+      "variant_id": null,
+      "normalized_alias": "router",
+      "is_active": true
+    },
+    {
+      "object_id": 10038,
+      "variant_id": null,
+      "normalized_alias": "power bank",
+      "is_active": true
+    },
+    {
+      "object_id": 10039,
+      "variant_id": null,
+      "normalized_alias": "electronic device",
+      "is_active": true
+    },
+    {
+      "object_id": 10040,
+      "variant_id": null,
+      "normalized_alias": "camera",
+      "is_active": true
+    },
+    {
+      "object_id": 10041,
+      "variant_id": null,
+      "normalized_alias": "speaker",
+      "is_active": true
+    },
+    {
+      "object_id": 10042,
+      "variant_id": null,
+      "normalized_alias": "game controller",
+      "is_active": true
+    },
+    {
+      "object_id": 10043,
+      "variant_id": null,
+      "normalized_alias": "remote control",
+      "is_active": true
+    },
+    {
+      "object_id": 10044,
+      "variant_id": null,
+      "normalized_alias": "microwave oven",
+      "is_active": true
+    },
+    {
+      "object_id": 10045,
+      "variant_id": null,
+      "normalized_alias": "refrigerator",
+      "is_active": true
+    },
+    {
+      "object_id": 10046,
+      "variant_id": null,
+      "normalized_alias": "washing machine",
+      "is_active": true
+    },
+    {
+      "object_id": 10047,
+      "variant_id": null,
+      "normalized_alias": "tire",
+      "is_active": true
+    },
+    {
+      "object_id": 10048,
+      "variant_id": null,
+      "normalized_alias": "clothing",
+      "is_active": true
+    },
+    {
+      "object_id": 10049,
+      "variant_id": null,
+      "normalized_alias": "shoe",
+      "is_active": true
+    },
+    {
+      "object_id": 10050,
+      "variant_id": null,
+      "normalized_alias": "medicine blister pack",
+      "is_active": true
+    },
+    {
+      "object_id": 10051,
+      "variant_id": null,
+      "normalized_alias": "cooking oil bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 10052,
+      "variant_id": null,
+      "normalized_alias": "food waste",
+      "is_active": true
+    },
+    {
+      "object_id": 10053,
+      "variant_id": null,
+      "normalized_alias": "metal container",
+      "is_active": true
+    },
+    {
+      "object_id": 10054,
+      "variant_id": null,
+      "normalized_alias": "plastic wrapper",
+      "is_active": true
+    },
+    {
+      "object_id": 10055,
+      "variant_id": null,
+      "normalized_alias": "detergent bottle",
+      "is_active": true
+    },
+    {
+      "object_id": 10056,
+      "variant_id": null,
+      "normalized_alias": "shampoo bottle",
+      "is_active": true
+    }
+  ],
+  "variants": [
+    {
+      "variant_id": 1,
+      "object_id": 16,
+      "material_name": "Plástico PET",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Esvazie a garrafa e descarte-a na coleta seletiva.",
+      "preparation_instructions": "Esvazie a embalagem e, quando possível, mantenha-a livre de restos de alimentos ou líquidos."
+    },
+    {
+      "variant_id": 4,
+      "object_id": 17,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta."
+    },
+    {
+      "variant_id": 6,
+      "object_id": 18,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta."
+    },
+    {
+      "variant_id": 8,
+      "object_id": 19,
+      "material_name": "Plástico comum",
+      "category_name": "Plásticos",
+      "bin_name": "Vermelha",
+      "recommendation": "Encaminhe o plástico para a coleta seletiva.",
+      "preparation_instructions": "Sempre que possível, esvazie e limpe o excesso de conteúdo antes da coleta."
+    },
+    {
+      "variant_id": 2,
+      "object_id": 16,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes."
+    },
+    {
+      "variant_id": 5,
+      "object_id": 17,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes."
+    },
+    {
+      "variant_id": 7,
+      "object_id": 18,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes."
+    },
+    {
+      "variant_id": 9,
+      "object_id": 19,
+      "material_name": "Vidro",
+      "category_name": "Vidros",
+      "bin_name": "Verde",
+      "recommendation": "Acondicione cuidadosamente o vidro quebrado para evitar acidentes.",
+      "preparation_instructions": "Esvazie o recipiente e acondicione vidro quebrado de forma segura para evitar acidentes."
+    },
+    {
+      "variant_id": 3,
+      "object_id": 16,
+      "material_name": "Aço",
+      "category_name": "Metais",
+      "bin_name": "Amarela",
+      "recommendation": "Retire o excesso de resíduos e encaminhe para a coleta seletiva.",
+      "preparation_instructions": "Retire o excesso de conteúdo e mantenha o material separado."
+    }
+  ],
+  "generatedAt": "2026-09-30",
+  "yoloe_classes": [
+    {
+      "label": "plastic bottle",
+      "object_name": "Garrafa plástica",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "glass bottle",
+      "object_name": "Garrafa de vidro",
+      "material_id": "glass",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro."
+    },
+    {
+      "label": "aluminum can",
+      "object_name": "Lata de alumínio",
+      "material_id": "metal",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente."
+    },
+    {
+      "label": "steel can",
+      "object_name": "Lata de aço",
+      "material_id": "metal",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente."
+    },
+    {
+      "label": "cardboard box",
+      "object_name": "Caixa de papelão",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "cardboard",
+      "object_name": "Papelão",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "paper",
+      "object_name": "Papel",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "newspaper",
+      "object_name": "Jornal",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "magazine",
+      "object_name": "Revista",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "book",
+      "object_name": "Livro",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "envelope",
+      "object_name": "Envelope",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "plastic bag",
+      "object_name": "Sacola plástica",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "paper bag",
+      "object_name": "Sacola de papel",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "plastic cup",
+      "object_name": "Copo plástico",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "paper cup",
+      "object_name": "Copo de papel",
+      "material_id": "paper",
+      "minimum_confidence": 0.35,
+      "instruction": "Mantenha seco e sem restos de alimentos. Papéis revestidos ou contaminados podem exigir outro destino; confirme a coleta local."
+    },
+    {
+      "label": "glass jar",
+      "object_name": "Pote de vidro",
+      "material_id": "glass",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie. Proteja e identifique cacos antes de entregar à coleta de vidro."
+    },
+    {
+      "label": "plastic container",
+      "object_name": "Recipiente plástico",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "food container",
+      "object_name": "Recipiente de alimentos",
+      "material_id": null,
+      "minimum_confidence": 0.35,
+      "instruction": "O recipiente pode ser de plástico, vidro ou metal. Aproxime apenas o objeto e tire outra foto para identificar o material."
+    },
+    {
+      "label": "beverage carton",
+      "object_name": "Embalagem longa vida",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Embalagem multicamadas. Esvazie e encaminhe à coleta seletiva que aceite embalagens longa vida na sua cidade."
+    },
+    {
+      "label": "aerosol can",
+      "object_name": "Lata de aerossol",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Não perfure nem queime. Confirme a coleta de aerossóis e embalagens pressurizadas no ponto de recebimento."
+    },
+    {
+      "label": "battery",
+      "object_name": "Pilha ou bateria",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum."
+    },
+    {
+      "label": "car battery",
+      "object_name": "Bateria automotiva",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum."
+    },
+    {
+      "label": "light bulb",
+      "object_name": "Lâmpada",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro."
+    },
+    {
+      "label": "fluorescent lamp",
+      "object_name": "Lâmpada fluorescente",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Evite quebrar. Entregue em um ponto que aceite esse tipo de lâmpada; não descarte na coleta de vidro."
+    },
+    {
+      "label": "smartphone",
+      "object_name": "Celular",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "tablet",
+      "object_name": "Tablet",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "laptop",
+      "object_name": "Notebook",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "computer monitor",
+      "object_name": "Monitor",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "computer keyboard",
+      "object_name": "Teclado",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "computer mouse",
+      "object_name": "Mouse",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "printer",
+      "object_name": "Impressora",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "television",
+      "object_name": "Televisão",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "phone charger",
+      "object_name": "Carregador",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "power cable",
+      "object_name": "Cabo elétrico",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "headphones",
+      "object_name": "Fone de ouvido",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "earphones",
+      "object_name": "Fone de ouvido",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "circuit board",
+      "object_name": "Placa eletrônica",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "router",
+      "object_name": "Roteador",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "power bank",
+      "object_name": "Bateria portátil",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Proteja os terminais contra curto-circuito. Entregue em coleta específica de pilhas e baterias; não coloque na coleta comum."
+    },
+    {
+      "label": "electronic device",
+      "object_name": "Aparelho eletrônico",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "camera",
+      "object_name": "Câmera",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "speaker",
+      "object_name": "Caixa de som",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "game controller",
+      "object_name": "Controle de videogame",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "remote control",
+      "object_name": "Controle remoto",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "microwave oven",
+      "object_name": "Micro-ondas",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "refrigerator",
+      "object_name": "Geladeira",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "washing machine",
+      "object_name": "Máquina de lavar",
+      "material_id": "electronic",
+      "minimum_confidence": 0.35,
+      "instruction": "Leve a um ponto autorizado de coleta de eletrônicos. Não coloque nas lixeiras comuns."
+    },
+    {
+      "label": "tire",
+      "object_name": "Pneu",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Entregue em ponto de recebimento de pneus ou revendedor participante da logística reversa."
+    },
+    {
+      "label": "clothing",
+      "object_name": "Roupa",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade."
+    },
+    {
+      "label": "shoe",
+      "object_name": "Calçado",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Priorize doação ou reuso. Para peças inutilizadas, confirme coleta de têxteis ou calçados na sua cidade."
+    },
+    {
+      "label": "medicine blister pack",
+      "object_name": "Cartela de medicamento",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Se ainda houver medicamento, entregue em ponto de logística reversa de medicamentos. Embalagem vazia: confirme o destino aceito localmente."
+    },
+    {
+      "label": "cooking oil bottle",
+      "object_name": "Garrafa de óleo de cozinha",
+      "material_id": "special",
+      "minimum_confidence": 0.35,
+      "instruction": "Se houver óleo usado, entregue o óleo em recipiente fechado em coleta específica. Embalagem vazia segue a coleta do seu material; a imagem não confirma o conteúdo."
+    },
+    {
+      "label": "food waste",
+      "object_name": "Restos de alimentos",
+      "material_id": "organic",
+      "minimum_confidence": 0.35,
+      "instruction": "Separe das embalagens para compostagem ou coleta orgânica."
+    },
+    {
+      "label": "metal container",
+      "object_name": "Recipiente de metal",
+      "material_id": "metal",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e encaminhe para a coleta de metais aceita localmente."
+    },
+    {
+      "label": "plastic wrapper",
+      "object_name": "Embalagem plástica",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "detergent bottle",
+      "object_name": "Frasco de detergente",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    },
+    {
+      "label": "shampoo bottle",
+      "object_name": "Frasco de shampoo",
+      "material_id": "plastic",
+      "minimum_confidence": 0.35,
+      "instruction": "Esvazie, retire o excesso de resíduos e confirme o tipo de plástico aceito na coleta seletiva local."
+    }
+  ]
+}

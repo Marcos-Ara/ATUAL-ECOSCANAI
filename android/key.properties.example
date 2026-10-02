@@ -1,0 +1,6 @@
+# Copy to android/key.properties and replace every placeholder.
+# Never commit key.properties or the keystore.
+storePassword=YOUR_KEYSTORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=ecoscan
+storeFile=../keystores/ecoscan-upload.jks

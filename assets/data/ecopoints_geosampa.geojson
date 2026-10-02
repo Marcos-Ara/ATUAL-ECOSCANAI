@@ -1,0 +1,4111 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "ecoponto.1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.60646234,
+          -23.54340338
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 1,
+        "cd_identificador_original": 1,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Brás",
+        "nm_ecoponto": "Bresser",
+        "nm_endereco": "Praça Giuseppe Cesari, 54 (Baixos do Viaduto Bresser)",
+        "dt_inauguracao": "2003-10-01Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.69133431,
+          -23.59791565
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 2,
+        "cd_identificador_original": 2,
+        "nm_subprefeitura": "Pinheiros",
+        "sg_subprefeitura": "PI",
+        "nm_distrito": "Itaim Bibi",
+        "nm_ecoponto": "Pinheiros",
+        "nm_endereco": "Praça do Cancioneiro, 15 (Baixos da Ponte Engenheiro Ary Torres)",
+        "dt_inauguracao": "2004-07-01Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.5833247,
+          -23.52948777
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 3,
+        "cd_identificador_original": 3,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Tatuapé",
+        "nm_ecoponto": "Tatuapé",
+        "nm_endereco": "Avenida Salim Farah Maluf, 179, Praça Tito Lívio Ferreira (Central de Triagem)",
+        "dt_inauguracao": "2005-04-01Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.72201391,
+          -23.49213174
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 5,
+        "cd_identificador_original": 5,
+        "nm_subprefeitura": "Pirituba-Jaraguá",
+        "sg_subprefeitura": "PJ",
+        "nm_distrito": "Pirituba",
+        "nm_ecoponto": "Cônego José Salomon",
+        "nm_endereco": "Avenida Cônego José Salomon, 861",
+        "dt_inauguracao": "2006-04-01Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.54739792,
+          -23.53714937
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 6,
+        "cd_identificador_original": 6,
+        "nm_subprefeitura": "Aricanduva",
+        "sg_subprefeitura": "AF",
+        "nm_distrito": "Carrão",
+        "nm_ecoponto": "Viaduto Engenheiro Alberto Badra",
+        "nm_endereco": "Avenida Aricanduva, 200, Praça Lúcia Mekhitarian (baixo do Viaduto Engenheiro Alberto Badra)",
+        "dt_inauguracao": "2007-01-01Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.71820761,
+          -23.47760719
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 7,
+        "cd_identificador_original": 7,
+        "nm_subprefeitura": "Pirituba-Jaraguá",
+        "sg_subprefeitura": "PJ",
+        "nm_distrito": "Pirituba",
+        "nm_ecoponto": "Vigário Godói",
+        "nm_endereco": "Rua Vigário Godói, 480",
+        "dt_inauguracao": "2007-01-01Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.6446815,
+          -23.6116377
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 10,
+        "cd_identificador_original": 10,
+        "nm_subprefeitura": "Vila Mariana",
+        "sg_subprefeitura": "VM",
+        "nm_distrito": "Saúde",
+        "nm_ecoponto": "Mirandópolis",
+        "nm_endereco": "Avenida Senador Casemiro da Rocha, 1220, esquina com Avenida José Maria Whitaker",
+        "dt_inauguracao": "2007-04-01Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.52504822,
+          -23.55005315
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 11,
+        "cd_identificador_original": 11,
+        "nm_subprefeitura": "Aricanduva",
+        "sg_subprefeitura": "AF",
+        "nm_distrito": "Carrão",
+        "nm_ecoponto": "Astarte ",
+        "nm_endereco": "Rua Astarte, 500",
+        "dt_inauguracao": "2007-05-01Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.6950769,
+          -23.48630859
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 12,
+        "cd_identificador_original": 12,
+        "nm_subprefeitura": "Freguesia-Brasilândia",
+        "sg_subprefeitura": "FB",
+        "nm_distrito": "Freguesia Do Ó",
+        "nm_ecoponto": "Bandeirantes ",
+        "nm_endereco": "Rua Itaiquara, 237 - Travessa Avenida Itaberaba",
+        "dt_inauguracao": "2007-05-01Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.15",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.60041502,
+          -23.51713689
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 15,
+        "cd_identificador_original": 15,
+        "nm_subprefeitura": "Vila Maria-Vila Guilherme",
+        "sg_subprefeitura": "MG",
+        "nm_distrito": "Vila Guilherme",
+        "nm_ecoponto": "Vila Guilherme",
+        "nm_endereco": "Rua José Bernardo Pinto, 1480",
+        "dt_inauguracao": "2007-07-01Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.19",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.7922717,
+          -23.67182498
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 19,
+        "cd_identificador_original": 19,
+        "nm_subprefeitura": "Campo Limpo",
+        "sg_subprefeitura": "CL",
+        "nm_distrito": "Capão Redondo",
+        "nm_ecoponto": "Parque Fernanda",
+        "nm_endereco": "Avenida Doutor Salvador Rocco, 261, defronte Rua Antonio Cânon",
+        "dt_inauguracao": "2008-03-29Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.23",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.57117849,
+          -23.58256684
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 23,
+        "cd_identificador_original": 23,
+        "nm_subprefeitura": "Vila Prudente",
+        "sg_subprefeitura": "VP",
+        "nm_distrito": "Vila Prudente",
+        "nm_ecoponto": "Anhaia Mello",
+        "nm_endereco": "Rua da Prece, 296",
+        "dt_inauguracao": "2008-07-30Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.53454286,
+          -23.59917252
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 24,
+        "cd_identificador_original": 24,
+        "nm_subprefeitura": "Vila Prudente",
+        "sg_subprefeitura": "VP",
+        "nm_distrito": "São Lucas",
+        "nm_ecoponto": "São Lucas",
+        "nm_endereco": "Rua Florêncio Sanches, 307",
+        "dt_inauguracao": "2008-08-05Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.25",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.60852849,
+          -23.56913861
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 25,
+        "cd_identificador_original": 25,
+        "nm_subprefeitura": "Ipiranga",
+        "sg_subprefeitura": "IP",
+        "nm_distrito": "Ipiranga",
+        "nm_ecoponto": "Tereza Cristina ",
+        "nm_endereco": "Avenida Teresa Cristina, 10 x Avenida do Estado",
+        "dt_inauguracao": "2008-09-03Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.46361279,
+          -23.52078451
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 28,
+        "cd_identificador_original": 28,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "Itaquera",
+        "nm_ecoponto": "Parque Guarani ",
+        "nm_endereco": "Rua Manuel Alves da Rocha, 584",
+        "dt_inauguracao": "2009-02-09Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.29",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.62646319,
+          -23.55412195
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 29,
+        "cd_identificador_original": 29,
+        "nm_subprefeitura": "Sé",
+        "sg_subprefeitura": "SE",
+        "nm_distrito": "Sé",
+        "nm_ecoponto": "Glicério",
+        "nm_endereco": "Praça Ministro Francisco Sá Carneiro, 6 (Baixos do Viaduto Glicério, acesso pela Avenida do Estado, 4434)",
+        "dt_inauguracao": "2009-03-05Z",
+        "cd_lote_indivisivel": "1",
+        "nm_empresa": "Sustentare",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.66979942,
+          -23.47212978
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 33,
+        "cd_identificador_original": 33,
+        "nm_subprefeitura": "Casa Verde",
+        "sg_subprefeitura": "CV",
+        "nm_distrito": "Cachoeirinha",
+        "nm_ecoponto": "Vila Nova Cachoeirinha",
+        "nm_endereco": "Rua Felix Alves Pereira, 113",
+        "dt_inauguracao": "2010-08-13Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.36",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.54375268,
+          -23.51321978
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 36,
+        "cd_identificador_original": 36,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Cangaíba",
+        "nm_ecoponto": "Tiquatira ",
+        "nm_endereco": "Rua Amorim Diniz, 495",
+        "dt_inauguracao": "2010-08-25Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.37",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.50909896,
+          -23.62326925
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 37,
+        "cd_identificador_original": 37,
+        "nm_subprefeitura": "Sapopemba",
+        "sg_subprefeitura": "SB",
+        "nm_distrito": "Sapopemba",
+        "nm_ecoponto": "Vila Cardoso Franco ",
+        "nm_endereco": "Rua dos Vorás, 25",
+        "dt_inauguracao": "2010-09-04Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.39",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.68564954,
+          -23.62836639
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 39,
+        "cd_identificador_original": 39,
+        "nm_subprefeitura": "Santo Amaro",
+        "sg_subprefeitura": "SA",
+        "nm_distrito": "Santo Amaro",
+        "nm_ecoponto": "Vicente Rao",
+        "nm_endereco": "Avenida Professor Vicente Rao, 308, sentido Diadema (Baixos do Viaduto Vereador José Diniz)",
+        "dt_inauguracao": "2010-12-18Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.48",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.61136516,
+          -23.56485941
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 48,
+        "cd_identificador_original": 48,
+        "nm_subprefeitura": "Sé",
+        "sg_subprefeitura": "SE",
+        "nm_distrito": "Cambuci",
+        "nm_ecoponto": "Cambuci ",
+        "nm_endereco": "Avenida Dom Pedro I, 38",
+        "dt_inauguracao": "2012-03-16Z",
+        "cd_lote_indivisivel": "1",
+        "nm_empresa": "Sustentare",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.50",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.63054387,
+          -23.63238705
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 50,
+        "cd_identificador_original": 50,
+        "nm_subprefeitura": "Jabaquara",
+        "sg_subprefeitura": "JA",
+        "nm_distrito": "Jabaquara",
+        "nm_ecoponto": "Imigrantes ",
+        "nm_endereco": "Rua Opixe s/n",
+        "dt_inauguracao": "2012-04-21Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.52",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.73981397,
+          -23.44514424
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 52,
+        "cd_identificador_original": 52,
+        "nm_subprefeitura": "Pirituba-Jaraguá",
+        "sg_subprefeitura": "PJ",
+        "nm_distrito": "Jaraguá",
+        "nm_ecoponto": "Voith",
+        "nm_endereco": "Avenida Atílio Brugnoli, 489",
+        "dt_inauguracao": "2012-05-05Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.53",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.74968875,
+          -23.45301221
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 53,
+        "cd_identificador_original": 53,
+        "nm_subprefeitura": "Pirituba-Jaraguá",
+        "sg_subprefeitura": "PJ",
+        "nm_distrito": "Jaraguá",
+        "nm_ecoponto": "Alexios Jafet ",
+        "nm_endereco": "Avenida Alexios Jafet, 233",
+        "dt_inauguracao": "2012-05-12Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.54",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.67063322,
+          -23.52436718
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 54,
+        "cd_identificador_original": 54,
+        "nm_subprefeitura": "Lapa",
+        "sg_subprefeitura": "LA",
+        "nm_distrito": "Barra Funda",
+        "nm_ecoponto": "Viaduto Antártica",
+        "nm_endereco": "Rua Robert Bosch (Baixos Viaduto Antártica)",
+        "dt_inauguracao": "2012-10-27Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.57",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.7550692,
+          -23.58938421
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 57,
+        "cd_identificador_original": 57,
+        "nm_subprefeitura": "Butantã",
+        "sg_subprefeitura": "BT",
+        "nm_distrito": "Raposo Tavares",
+        "nm_ecoponto": "Jardim Jaqueline ",
+        "nm_endereco": "Parque Raposo Tavares",
+        "dt_inauguracao": "2013-01-23Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.58",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.48748376,
+          -23.53218183
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 58,
+        "cd_identificador_original": 58,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Artur Alvim",
+        "nm_ecoponto": "Franquinho",
+        "nm_endereco": "Rua Praia de Mucuripe, 685",
+        "dt_inauguracao": "2013-01-03Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.62",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.72232936,
+          -23.66226904
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 62,
+        "cd_identificador_original": 62,
+        "nm_subprefeitura": "Capela Do Socorro",
+        "sg_subprefeitura": "CS",
+        "nm_distrito": "Socorro",
+        "nm_ecoponto": "Cidade Saudável",
+        "nm_endereco": "Rua Ptolomeu, 869",
+        "dt_inauguracao": "2013-04-08Z",
+        "cd_lote_indivisivel": "11",
+        "nm_empresa": "Emergencial - SCK",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.64",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.71046986,
+          -23.55702395
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 64,
+        "cd_identificador_original": 64,
+        "nm_subprefeitura": "Pinheiros",
+        "sg_subprefeitura": "PI",
+        "nm_distrito": "Alto De Pinheiros",
+        "nm_ecoponto": "Alto de Pinheiros ",
+        "nm_endereco": "Praça Arcipreste Anselmo de Oliveira",
+        "dt_inauguracao": "2013-05-10Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.65",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.765178,
+          -23.57586927
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 65,
+        "cd_identificador_original": 65,
+        "nm_subprefeitura": "Butantã",
+        "sg_subprefeitura": "BT",
+        "nm_distrito": "Rio Pequeno",
+        "nm_ecoponto": "Politécnica",
+        "nm_endereco": "Rua Paulino Baptista Conti, 2",
+        "dt_inauguracao": "2013-06-03Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.66",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.49168811,
+          -23.55660145
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 66,
+        "cd_identificador_original": 66,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "Cidade Líder",
+        "nm_ecoponto": "Osvaldo Valle Cordeiro",
+        "nm_endereco": "Avenida Osvaldo Valle Cordeiro, 405",
+        "dt_inauguracao": "2013-06-14Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.67",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.55247849,
+          -23.53118745
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 67,
+        "cd_identificador_original": 67,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Penha",
+        "nm_ecoponto": "Vila Luisa",
+        "nm_endereco": "Praça Dante Maron, 92 (Baixos Viaduto Engenheiro Alberto Badra)",
+        "dt_inauguracao": "2013-08-06Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.68",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.79192145,
+          -23.43182355
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 68,
+        "cd_identificador_original": 68,
+        "nm_subprefeitura": "Perus-Anhanguera",
+        "sg_subprefeitura": "PR",
+        "nm_distrito": "Anhanguera",
+        "nm_ecoponto": "Jardim Santa Fé",
+        "nm_endereco": "Rua Salvador Albano, 156",
+        "dt_inauguracao": "2013-08-09Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.69",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.74156076,
+          -23.63804489
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 69,
+        "cd_identificador_original": 69,
+        "nm_subprefeitura": "Campo Limpo",
+        "sg_subprefeitura": "CL",
+        "nm_distrito": "Vila Andrade",
+        "nm_ecoponto": "Vila das Belezas",
+        "nm_endereco": "Rua Campo Novo do Sul, 500",
+        "dt_inauguracao": "2013-11-04Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.70",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.58057767,
+          -23.54374754
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 70,
+        "cd_identificador_original": 70,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Belém",
+        "nm_ecoponto": "Água Rasa",
+        "nm_endereco": "Avenida Salim Farah Maluf, 1500",
+        "dt_inauguracao": "2013-11-04Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.71",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.61016926,
+          -23.46741246
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 71,
+        "cd_identificador_original": 71,
+        "nm_subprefeitura": "Santana-Tucuruvi",
+        "sg_subprefeitura": "ST",
+        "nm_distrito": "Tucuruvi",
+        "nm_ecoponto": "Tucuruvi",
+        "nm_endereco": "Rua Eduardo Vicente Nasser, 519",
+        "dt_inauguracao": "2013-11-25Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.72",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.43267625,
+          -23.51004341
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 72,
+        "cd_identificador_original": 72,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "São Miguel",
+        "nm_ecoponto": "Itaqueruna ",
+        "nm_endereco": "Rua Domitilia d'Abril, 88",
+        "dt_inauguracao": "2013-11-04Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.74",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.70481562,
+          -23.50587435
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 74,
+        "cd_identificador_original": 74,
+        "nm_subprefeitura": "Freguesia-Brasilândia",
+        "sg_subprefeitura": "FB",
+        "nm_distrito": "Freguesia Do Ó",
+        "nm_ecoponto": "Freguesia do Ó",
+        "nm_endereco": "Rua Sousa Filho, 690",
+        "dt_inauguracao": "2013-12-26Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.76",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.4132398,
+          -23.5553204
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 76,
+        "cd_identificador_original": 76,
+        "nm_subprefeitura": "Guaianases",
+        "sg_subprefeitura": "G",
+        "nm_distrito": "Guaianases",
+        "nm_ecoponto": "Guaiaponto ",
+        "nm_endereco": "Rua da Passagem Funda, 250",
+        "dt_inauguracao": "2014-08-14Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.77",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.6495108,
+          -23.6531483
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 77,
+        "cd_identificador_original": 77,
+        "nm_subprefeitura": "Jabaquara",
+        "sg_subprefeitura": "JA",
+        "nm_distrito": "Jabaquara",
+        "nm_ecoponto": "Jabaquara ",
+        "nm_endereco": "Rua Jupatis, 140",
+        "dt_inauguracao": "2015-02-24Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.79",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.6214528,
+          -23.51115525
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 79,
+        "cd_identificador_original": 79,
+        "nm_subprefeitura": "Santana-Tucuruvi",
+        "sg_subprefeitura": "ST",
+        "nm_distrito": "Santana",
+        "nm_ecoponto": "Santana ",
+        "nm_endereco": "Avenida Zaki Narchi, 375",
+        "dt_inauguracao": "2015-03-18Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.80",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.41689302,
+          -23.50839444
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 80,
+        "cd_identificador_original": 80,
+        "nm_subprefeitura": "Itaim Paulista",
+        "sg_subprefeitura": "IT",
+        "nm_distrito": "Vila Curuçá",
+        "nm_ecoponto": "Mãe Preta",
+        "nm_endereco": "Avenida Dama Entre Verdes, 21",
+        "dt_inauguracao": "2015-04-20Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.84",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.63504142,
+          -23.59305472
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 84,
+        "cd_identificador_original": 84,
+        "nm_subprefeitura": "Vila Mariana",
+        "sg_subprefeitura": "VM",
+        "nm_distrito": "Vila Mariana",
+        "nm_ecoponto": "Vila Mariana ",
+        "nm_endereco": "Rua Mauricio Francisco Klabin, 37",
+        "dt_inauguracao": "2015-08-26Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.90",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.73653365,
+          -23.66982945
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 90,
+        "cd_identificador_original": 90,
+        "nm_subprefeitura": "M'Boi Mirim",
+        "sg_subprefeitura": "MB",
+        "nm_distrito": "Jardim São Luis",
+        "nm_ecoponto": "Piraporinha ",
+        "nm_endereco": "Rua João de Abreu, 326",
+        "dt_inauguracao": "2016-05-13Z",
+        "cd_lote_indivisivel": "11",
+        "nm_empresa": "Emergencial - SCK",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.92",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.4953924,
+          -23.57934896
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 92,
+        "cd_identificador_original": 92,
+        "nm_subprefeitura": "São Mateus",
+        "sg_subprefeitura": "SM",
+        "nm_distrito": "São Mateus",
+        "nm_ecoponto": "Montalvania ",
+        "nm_endereco": "Rua Montalvania, 195",
+        "dt_inauguracao": "2016-07-01Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.97",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.43705951,
+          -23.54791902
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 97,
+        "cd_identificador_original": 97,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "José Bonifácio",
+        "nm_ecoponto": "Corinthians ",
+        "nm_endereco": "Rua Ana Perena, 155",
+        "dt_inauguracao": "2017-11-25Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.105",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.58847969,
+          -23.45700093
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 105,
+        "cd_identificador_original": 108,
+        "nm_subprefeitura": "Jaçanã-Tremembé",
+        "sg_subprefeitura": "JT",
+        "nm_distrito": "Tremembé",
+        "nm_ecoponto": "Silvio Bittencourt",
+        "nm_endereco": "Rua Maria Amália Lopes Azevedo, 4008",
+        "dt_inauguracao": "2023-08-01Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.106",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.46539704,
+          -23.56281376
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 106,
+        "cd_identificador_original": 109,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "Parque Do Carmo",
+        "nm_ecoponto": "Vila Carmosina",
+        "nm_endereco": "Avenida Francisco Tranchesi, 32 (altura)",
+        "dt_inauguracao": "2024-12-02Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.107",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.56842612,
+          -23.5277739
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 107,
+        "cd_identificador_original": 114,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Tatuapé",
+        "nm_ecoponto": "Condessa",
+        "nm_endereco": "Avenida Condessa Elizabeth de Robiano, 930 (altura)",
+        "dt_inauguracao": "2023-08-01Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.108",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.6610746,
+          -23.63840164
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 108,
+        "cd_identificador_original": 123,
+        "nm_subprefeitura": "Santo Amaro",
+        "sg_subprefeitura": "SA",
+        "nm_distrito": "Campo Belo",
+        "nm_ecoponto": "Pedro Bueno",
+        "nm_endereco": "Rua João de Lery, 503 (altura)",
+        "dt_inauguracao": "2020-07-23Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.111",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.69296294,
+          -23.74778926
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 111,
+        "cd_identificador_original": 137,
+        "nm_subprefeitura": "Capela Do Socorro",
+        "sg_subprefeitura": "CS",
+        "nm_distrito": "Grajaú",
+        "nm_ecoponto": "Geraldo Honório",
+        "nm_endereco": "Rua Geraldo Honório da Silva, 280",
+        "dt_inauguracao": "2024-05-29Z",
+        "cd_lote_indivisivel": "11",
+        "nm_empresa": "Emergencial - SCK",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.112",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.53608968,
+          -23.60445684
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 112,
+        "cd_identificador_original": 141,
+        "nm_subprefeitura": "Vila Prudente",
+        "sg_subprefeitura": "VP",
+        "nm_distrito": "São Lucas",
+        "nm_ecoponto": "Vila Industrial",
+        "nm_endereco": "Rua Lisa Ansorge, 645 (altura)",
+        "dt_inauguracao": "2020-11-12Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.114",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.58570579,
+          -23.45891321
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 114,
+        "cd_identificador_original": 146,
+        "nm_subprefeitura": "Jaçanã-Tremembé",
+        "sg_subprefeitura": "JT",
+        "nm_distrito": "Tremembé",
+        "nm_ecoponto": "Anselmo Machado",
+        "nm_endereco": "Avenida Paulo Lincoln do Valle Pontin, 550 (altura)",
+        "dt_inauguracao": "2020-11-05Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.115",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.70549477,
+          -23.66068803
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 115,
+        "cd_identificador_original": 147,
+        "nm_subprefeitura": "Santo Amaro",
+        "sg_subprefeitura": "SA",
+        "nm_distrito": "Santo Amaro",
+        "nm_ecoponto": "Vitor Manzini",
+        "nm_endereco": "Praça Dom Francisco de Sousa, 635",
+        "dt_inauguracao": "2020-07-23Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.116",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.5145184,
+          -23.58079181
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 116,
+        "cd_identificador_original": 148,
+        "nm_subprefeitura": "Aricanduva",
+        "sg_subprefeitura": "AF",
+        "nm_distrito": "Aricanduva",
+        "nm_ecoponto": "Aricanduva I",
+        "nm_endereco": "Rua Professora Alzira Oliveira Gilioli, 400",
+        "dt_inauguracao": "2021-02-02Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.122",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.56657311,
+          -23.5614094
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 122,
+        "cd_identificador_original": 161,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Água Rasa",
+        "nm_ecoponto": "Mooca II",
+        "nm_endereco": "Rua Pantojo, 1147",
+        "dt_inauguracao": "2020-11-13Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.124",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.45265167,
+          -23.49137823
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 124,
+        "cd_identificador_original": 163,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "São Miguel",
+        "nm_ecoponto": "Jardim Lapena",
+        "nm_endereco": "Rua Rafael Zimbardi, 78 (altura)",
+        "dt_inauguracao": "2020-12-21Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.126",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.64370208,
+          -23.55452657
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 126,
+        "cd_identificador_original": 165,
+        "nm_subprefeitura": "Sé",
+        "sg_subprefeitura": "SE",
+        "nm_distrito": "República",
+        "nm_ecoponto": "Bela Vista",
+        "nm_endereco": "Rua Quatorze de Julho, 59",
+        "dt_inauguracao": "2020-11-05Z",
+        "cd_lote_indivisivel": "1",
+        "nm_empresa": "Sustentare",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.127",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.65109869,
+          -23.60224205
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 127,
+        "cd_identificador_original": 369,
+        "nm_subprefeitura": "Vila Mariana",
+        "sg_subprefeitura": "VM",
+        "nm_distrito": "Moema",
+        "nm_ecoponto": "Rubem Berta",
+        "nm_endereco": "Avenida Rubem Berta, 1100 (baixo do Viaduto Onze de Junho)",
+        "dt_inauguracao": "2024-02-29Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": "Gesso",
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento diferenciado"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.45666779,
+          -23.51391756
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 4,
+        "cd_identificador_original": 4,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Vila Jacuí",
+        "nm_ecoponto": "Imperador",
+        "nm_endereco": "Avenida Ribeirão Jacu, 201 (Baixos do Viaduto Jacu Pêssego)",
+        "dt_inauguracao": "2006-01-01Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.52546966,
+          -23.53128019
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 8,
+        "cd_identificador_original": 8,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Penha",
+        "nm_ecoponto": "Penha I ",
+        "nm_endereco": "Rua Doutor Heládio, 104",
+        "dt_inauguracao": "2007-04-01Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.39353725,
+          -23.49008029
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 9,
+        "cd_identificador_original": 9,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Jardim Helena",
+        "nm_ecoponto": "Carlito Maia",
+        "nm_endereco": "Rua Domingos Fernandes Nobre, 109",
+        "dt_inauguracao": "2007-04-01Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.13",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.7506729,
+          -23.40911172
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 13,
+        "cd_identificador_original": 13,
+        "nm_subprefeitura": "Perus-Anhanguera",
+        "sg_subprefeitura": "PR",
+        "nm_distrito": "Perus",
+        "nm_ecoponto": "Recanto dos Humildes",
+        "nm_endereco": "Rua Salles Gomes, 415",
+        "dt_inauguracao": "2007-05-01Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.14",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.77678157,
+          -23.66393422
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 14,
+        "cd_identificador_original": 14,
+        "nm_subprefeitura": "Campo Limpo",
+        "sg_subprefeitura": "CL",
+        "nm_distrito": "Capão Redondo",
+        "nm_ecoponto": "Santo Dias ",
+        "nm_endereco": "Travessa Rosifloras, 301",
+        "dt_inauguracao": "2007-06-01Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.74667865,
+          -23.59550532
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 16,
+        "cd_identificador_original": 16,
+        "nm_subprefeitura": "Butantã",
+        "sg_subprefeitura": "BT",
+        "nm_distrito": "Vila Sônia",
+        "nm_ecoponto": "Jardim Maria do Carmo",
+        "nm_endereco": "Rua Caminho do Engenho, 800",
+        "dt_inauguracao": "2007-12-01Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.17",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.48263444,
+          -23.52307578
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 17,
+        "cd_identificador_original": 17,
+        "nm_subprefeitura": "Ermelino Matarazzo",
+        "sg_subprefeitura": "EM",
+        "nm_distrito": "Ponte Rasa",
+        "nm_ecoponto": "Jardim São Nicolau",
+        "nm_endereco": "Rua Agreste de Itabaiana, 590, esquina Rua Eduardo Kiyoshi Shimuta",
+        "dt_inauguracao": "2007-12-01Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.37089595,
+          -23.49748526
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 18,
+        "cd_identificador_original": 18,
+        "nm_subprefeitura": "Itaim Paulista",
+        "sg_subprefeitura": "IT",
+        "nm_distrito": "Itaim Paulista",
+        "nm_ecoponto": "Moreira ",
+        "nm_endereco": "Rua João Batista de Godoy, 1164",
+        "dt_inauguracao": "2007-12-01Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.41515726,
+          -23.59367758
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 20,
+        "cd_identificador_original": 20,
+        "nm_subprefeitura": "Cidade Tiradentes",
+        "sg_subprefeitura": "CT",
+        "nm_distrito": "Cidade Tiradentes",
+        "nm_ecoponto": "Nascer do Sol ",
+        "nm_endereco": "Rua Nascer do Sol, 356",
+        "dt_inauguracao": "2008-03-07Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.21",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.71379562,
+          -23.63607305
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 21,
+        "cd_identificador_original": 21,
+        "nm_subprefeitura": "Santo Amaro",
+        "sg_subprefeitura": "SA",
+        "nm_distrito": "Santo Amaro",
+        "nm_ecoponto": "Alceu Maynard de Araújo",
+        "nm_endereco": "Avenida Professor Alceu Maynard de Araújo, 330, ao lado da Central de Triagem",
+        "dt_inauguracao": "2008-03-04Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.46220222,
+          -23.62932309
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 22,
+        "cd_identificador_original": 22,
+        "nm_subprefeitura": "São Mateus",
+        "sg_subprefeitura": "SM",
+        "nm_distrito": "São Rafael",
+        "nm_ecoponto": "Cipoaba",
+        "nm_endereco": "Rua Padre Luis de Siqueira, 947, com Avenida Rodolfo Pirani",
+        "dt_inauguracao": "2008-04-29Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.26",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.49691572,
+          -23.60556995
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 26,
+        "cd_identificador_original": 26,
+        "nm_subprefeitura": "Sapopemba",
+        "sg_subprefeitura": "SB",
+        "nm_distrito": "Sapopemba",
+        "nm_ecoponto": "Sapopemba ",
+        "nm_endereco": "Rua Francesco Usper, 550",
+        "dt_inauguracao": "2008-10-01Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.27",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.65597969,
+          -23.49171361
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 27,
+        "cd_identificador_original": 27,
+        "nm_subprefeitura": "Casa Verde",
+        "sg_subprefeitura": "CV",
+        "nm_distrito": "Casa Verde",
+        "nm_ecoponto": "Parque Peruche ",
+        "nm_endereco": "Avenida Engenheiro Caetano Álvares, 3142",
+        "dt_inauguracao": "2008-11-17Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.62321068,
+          -23.59970707
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 30,
+        "cd_identificador_original": 30,
+        "nm_subprefeitura": "Ipiranga",
+        "sg_subprefeitura": "IP",
+        "nm_distrito": "Cursino",
+        "nm_ecoponto": "Santa Cruz ",
+        "nm_endereco": "Rua Santa Cruz, 1452 (Baixos Viaduto Santa Cruz)",
+        "dt_inauguracao": "2009-04-15Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.31",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.68733627,
+          -23.55826233
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 31,
+        "cd_identificador_original": 31,
+        "nm_subprefeitura": "Pinheiros",
+        "sg_subprefeitura": "PI",
+        "nm_distrito": "Pinheiros",
+        "nm_ecoponto": "Vila Madalena ",
+        "nm_endereco": "Rua Girassol, 15, esquina com Rua Luís Murat",
+        "dt_inauguracao": "2009-06-17Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.32",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.46229337,
+          -23.50648884
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 32,
+        "cd_identificador_original": 32,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Vila Jacuí",
+        "nm_ecoponto": "Pedro Nunes ",
+        "nm_endereco": "Rua da Polka, 100",
+        "dt_inauguracao": "2010-05-03Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.67155979,
+          -23.49401309
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 34,
+        "cd_identificador_original": 34,
+        "nm_subprefeitura": "Casa Verde",
+        "sg_subprefeitura": "CV",
+        "nm_distrito": "Limão",
+        "nm_ecoponto": "Vila Santa Maria ",
+        "nm_endereco": "Rua André Bolsena x Travessa Luiz Sá",
+        "dt_inauguracao": "2010-08-13Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.35",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.3984914,
+          -23.56538977
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 35,
+        "cd_identificador_original": 35,
+        "nm_subprefeitura": "Guaianases",
+        "sg_subprefeitura": "G",
+        "nm_distrito": "Guaianases",
+        "nm_ecoponto": "Jardim São Paulo ",
+        "nm_endereco": "Rua Utaro Kanai, 374",
+        "dt_inauguracao": "2010-08-13Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.38",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.65147728,
+          -23.69543603
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 38,
+        "cd_identificador_original": 38,
+        "nm_subprefeitura": "Cidade Ademar",
+        "sg_subprefeitura": "AD",
+        "nm_distrito": "Pedreira",
+        "nm_ecoponto": "Alvarenga ",
+        "nm_endereco": "Estrada do Alvarenga, 2475",
+        "dt_inauguracao": "2010-12-18Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.40",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.63709904,
+          -23.55651997
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 40,
+        "cd_identificador_original": 40,
+        "nm_subprefeitura": "Sé",
+        "sg_subprefeitura": "SE",
+        "nm_distrito": "Liberdade",
+        "nm_ecoponto": "Liberdade ",
+        "nm_endereco": "Rua Jaceguai, 67, esquina com Avenida Liberdade",
+        "dt_inauguracao": "2010-12-18Z",
+        "cd_lote_indivisivel": "1",
+        "nm_empresa": "Sustentare",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.41",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.62775066,
+          -23.52142252
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 41,
+        "cd_identificador_original": 41,
+        "nm_subprefeitura": "Sé",
+        "sg_subprefeitura": "SE",
+        "nm_distrito": "Bom Retiro",
+        "nm_ecoponto": "Armênia ",
+        "nm_endereco": "Rua General Carmona, 156",
+        "dt_inauguracao": "2011-07-05Z",
+        "cd_lote_indivisivel": "1",
+        "nm_empresa": "Sustentare",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.42",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.49481348,
+          -23.55072846
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 42,
+        "cd_identificador_original": 42,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Artur Alvim",
+        "nm_ecoponto": "Gamelinha",
+        "nm_endereco": "Rua Morfeu, 25 x Avenida Edgar dos Santos",
+        "dt_inauguracao": "2011-09-27Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.43",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.64851396,
+          -23.52708624
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 43,
+        "cd_identificador_original": 43,
+        "nm_subprefeitura": "Sé",
+        "sg_subprefeitura": "SE",
+        "nm_distrito": "Santa Cecília",
+        "nm_ecoponto": "Barra Funda",
+        "nm_endereco": "Rua Cônego Vicente Miguel Marino, 76 (Baixos Viaduto Engenheiro Orlando Murgel)",
+        "dt_inauguracao": "2011-09-26Z",
+        "cd_lote_indivisivel": "1",
+        "nm_empresa": "Sustentare",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.44",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.65422699,
+          -23.66540629
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 44,
+        "cd_identificador_original": 44,
+        "nm_subprefeitura": "Cidade Ademar",
+        "sg_subprefeitura": "AD",
+        "nm_distrito": "Cidade Ademar",
+        "nm_ecoponto": "Cupecê",
+        "nm_endereco": "Rua Anália Maria de Jesus, 130 - Travessa Avenida Cupecê",
+        "dt_inauguracao": "2006-12-01Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.45",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.610758,
+          -23.55450236
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 45,
+        "cd_identificador_original": 45,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Brás",
+        "nm_ecoponto": "Brás",
+        "nm_endereco": "Avenida Presidente Wilson, 1 (Baixo Viaduto Professor Alberto Mesquita de Carvalho)",
+        "dt_inauguracao": "2012-03-16Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.46",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.60277055,
+          -23.54752322
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 46,
+        "cd_identificador_original": 46,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Mooca",
+        "nm_ecoponto": "Mooca",
+        "nm_endereco": "Avenida Pires do Rio, 600 (Baixo Viaduto Bresser)",
+        "dt_inauguracao": "2012-03-16Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.47",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.60936444,
+          -23.52444163
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 47,
+        "cd_identificador_original": 47,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Pari",
+        "nm_ecoponto": "Pari",
+        "nm_endereco": "Avenida Carlos de Campos, 996, esquina com Avenida Presidente Castelo Branco",
+        "dt_inauguracao": "2012-03-16Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.49",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.5656272,
+          -23.48638492
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 49,
+        "cd_identificador_original": 49,
+        "nm_subprefeitura": "Vila Maria-Vila Guilherme",
+        "sg_subprefeitura": "MG",
+        "nm_distrito": "Vila Medeiros",
+        "nm_ecoponto": "Vila Sabrina ",
+        "nm_endereco": "Avenida dos Poetas, 931",
+        "dt_inauguracao": "2012-03-16Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.51",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.45178854,
+          -23.60625788
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 51,
+        "cd_identificador_original": 51,
+        "nm_subprefeitura": "São Mateus",
+        "sg_subprefeitura": "SM",
+        "nm_distrito": "Iguatemi",
+        "nm_ecoponto": "Iguatemi",
+        "nm_endereco": "Rua Francisco de Melo Palheta, 1548",
+        "dt_inauguracao": "2012-04-21Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.55",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.50518207,
+          -23.53923009
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 55,
+        "cd_identificador_original": 55,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Vila Matilde",
+        "nm_ecoponto": "Vila Matilde",
+        "nm_endereco": "Rua Mateus de Siqueira, 375, com Praça Leonildes Ramos Saigo",
+        "dt_inauguracao": "2012-12-21Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.56",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.52758766,
+          -23.50392361
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 56,
+        "cd_identificador_original": 56,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Cangaíba",
+        "nm_ecoponto": "Cangaíba",
+        "nm_endereco": "Rua Luciano Nogueira, 241, esquina com Rua Hugo Wolf",
+        "dt_inauguracao": "2012-12-21Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.59",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.75803603,
+          -23.63414755
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 59,
+        "cd_identificador_original": 59,
+        "nm_subprefeitura": "Campo Limpo",
+        "sg_subprefeitura": "CL",
+        "nm_distrito": "Campo Limpo",
+        "nm_ecoponto": "Olinda",
+        "nm_endereco": "Rua Nelsom Brissac, 1235, esquina com Avenida Padre Adolfo Kolping",
+        "dt_inauguracao": "2013-02-23Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.60",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.59391808,
+          -23.54324161
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 60,
+        "cd_identificador_original": 60,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Belém",
+        "nm_ecoponto": "Belém",
+        "nm_endereco": "Rua Belarmino Matos, 26 (baixos do Viaduto Guadalajara)",
+        "dt_inauguracao": "2013-02-07Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.61",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.58082474,
+          -23.51972464
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 61,
+        "cd_identificador_original": 61,
+        "nm_subprefeitura": "Vila Maria-Vila Guilherme",
+        "sg_subprefeitura": "MG",
+        "nm_distrito": "Vila Maria",
+        "nm_ecoponto": "Vila Maria ",
+        "nm_endereco": "Rua Curuçá, 1700",
+        "dt_inauguracao": "2013-02-07Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.63",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.74200639,
+          -23.51647874
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 63,
+        "cd_identificador_original": 63,
+        "nm_subprefeitura": "Lapa",
+        "sg_subprefeitura": "LA",
+        "nm_distrito": "Jaguara",
+        "nm_ecoponto": "Vila Jaguara",
+        "nm_endereco": "Rua Agrestina, 189",
+        "dt_inauguracao": "2013-04-15Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.73",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.72681417,
+          -23.60993349
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 73,
+        "cd_identificador_original": 73,
+        "nm_subprefeitura": "Butantã",
+        "sg_subprefeitura": "BT",
+        "nm_distrito": "Morumbi",
+        "nm_ecoponto": "Giovani Gronchi",
+        "nm_endereco": "Avenida Giovani Gronchi, 3413",
+        "dt_inauguracao": "2013-12-11Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.75",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.50905398,
+          -23.58763615
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 75,
+        "cd_identificador_original": 75,
+        "nm_subprefeitura": "Aricanduva",
+        "sg_subprefeitura": "AF",
+        "nm_distrito": "Aricanduva",
+        "nm_ecoponto": "Nova York",
+        "nm_endereco": "Rua Amália Vanso Magnoli, 480",
+        "dt_inauguracao": "2014-05-21Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.78",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.67485774,
+          -23.46984812
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 78,
+        "cd_identificador_original": 78,
+        "nm_subprefeitura": "Freguesia-Brasilândia",
+        "sg_subprefeitura": "FB",
+        "nm_distrito": "Brasilândia",
+        "nm_ecoponto": "Vila Rica ",
+        "nm_endereco": "Rua Jorge Mamede da Silva, 200",
+        "dt_inauguracao": "2015-03-05Z",
+        "cd_lote_indivisivel": "7",
+        "nm_empresa": "Consórcio SP Urbano (URBSAN)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.81",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.72520717,
+          -23.62310137
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 81,
+        "cd_identificador_original": 81,
+        "nm_subprefeitura": "Campo Limpo",
+        "sg_subprefeitura": "CL",
+        "nm_distrito": "Vila Andrade",
+        "nm_ecoponto": "Paraisópolis ",
+        "nm_endereco": "Rua Irapará, 73",
+        "dt_inauguracao": "2015-05-25Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.82",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.39644443,
+          -23.58643063
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 82,
+        "cd_identificador_original": 82,
+        "nm_subprefeitura": "Cidade Tiradentes",
+        "sg_subprefeitura": "CT",
+        "nm_distrito": "Cidade Tiradentes",
+        "nm_ecoponto": "Setor G",
+        "nm_endereco": "Rua Alfonso Asturaro, 600 (altura)",
+        "dt_inauguracao": "2015-05-20Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.83",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.38938862,
+          -23.50124957
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 83,
+        "cd_identificador_original": 83,
+        "nm_subprefeitura": "Itaim Paulista",
+        "sg_subprefeitura": "IT",
+        "nm_distrito": "Itaim Paulista",
+        "nm_ecoponto": "Pesqueiro ",
+        "nm_endereco": "Rua Caiuas, 18 x Avenida Itamerendiba",
+        "dt_inauguracao": "2015-08-19Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.85",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.62234416,
+          -23.59454966
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 85,
+        "cd_identificador_original": 85,
+        "nm_subprefeitura": "Vila Mariana",
+        "sg_subprefeitura": "VM",
+        "nm_distrito": "Vila Mariana",
+        "nm_ecoponto": "Saioa ",
+        "nm_endereco": "Rua Mary Baida Salem, 1",
+        "dt_inauguracao": "2015-08-26Z",
+        "cd_lote_indivisivel": "8",
+        "nm_empresa": "Ecoss",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.86",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.60553211,
+          -23.62379832
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 86,
+        "cd_identificador_original": 86,
+        "nm_subprefeitura": "Ipiranga",
+        "sg_subprefeitura": "IP",
+        "nm_distrito": "Sacomã",
+        "nm_ecoponto": "Vila das Mercês",
+        "nm_endereco": "Rua Italva, 86",
+        "dt_inauguracao": "2015-09-23Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.87",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.49717843,
+          -23.5627761
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 87,
+        "cd_identificador_original": 87,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "Cidade Líder",
+        "nm_ecoponto": "Cidade Lider ",
+        "nm_endereco": "Rua Charles Manguin, 20",
+        "dt_inauguracao": "2015-09-25Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.88",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.4013513,
+          -23.57340135
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 88,
+        "cd_identificador_original": 88,
+        "nm_subprefeitura": "Cidade Tiradentes",
+        "sg_subprefeitura": "CT",
+        "nm_distrito": "Cidade Tiradentes",
+        "nm_ecoponto": "Inácio Monteiro",
+        "nm_endereco": "Rua Regresso Feliz, 1190",
+        "dt_inauguracao": "2015-11-26Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.89",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.42128077,
+          -23.51452624
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 89,
+        "cd_identificador_original": 89,
+        "nm_subprefeitura": "Itaim Paulista",
+        "sg_subprefeitura": "IT",
+        "nm_distrito": "Vila Curuçá",
+        "nm_ecoponto": "Flamingo ",
+        "nm_endereco": "Rua Alexandre Dias Nogueira, 353",
+        "dt_inauguracao": "2015-12-09Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.91",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.62234212,
+          -23.53928252
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 91,
+        "cd_identificador_original": 91,
+        "nm_subprefeitura": "Mooca",
+        "sg_subprefeitura": "MO",
+        "nm_distrito": "Brás",
+        "nm_ecoponto": "Mendes Caldeira",
+        "nm_endereco": "Rua Monsenhor Andrade, 685",
+        "dt_inauguracao": "2016-06-09Z",
+        "cd_lote_indivisivel": "2",
+        "nm_empresa": "Consórcio SP-LURB (TERRACOM)",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.93",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.65951212,
+          -23.45494801
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 93,
+        "cd_identificador_original": 93,
+        "nm_subprefeitura": "Casa Verde",
+        "sg_subprefeitura": "CV",
+        "nm_distrito": "Cachoeirinha",
+        "nm_ecoponto": "Jardim Antártica ",
+        "nm_endereco": "Rua Dom Aquino, 309",
+        "dt_inauguracao": "2016-09-22Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.94",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.48494987,
+          -23.50382827
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 94,
+        "cd_identificador_original": 94,
+        "nm_subprefeitura": "Ermelino Matarazzo",
+        "sg_subprefeitura": "EM",
+        "nm_distrito": "Ermelino Matarazzo",
+        "nm_ecoponto": "Boturussu ",
+        "nm_endereco": "Rua Nélio Batista Guimarães, 183",
+        "dt_inauguracao": "2016-10-17Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.95",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.59727985,
+          -23.60012246
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 95,
+        "cd_identificador_original": 95,
+        "nm_subprefeitura": "Ipiranga",
+        "sg_subprefeitura": "IP",
+        "nm_distrito": "Ipiranga",
+        "nm_ecoponto": "Comandante Taylor",
+        "nm_endereco": "Rua Comandante Taylor, 690 (Baixos Viaduto Comandante Taylor)",
+        "dt_inauguracao": "2016-12-19Z",
+        "cd_lote_indivisivel": "9",
+        "nm_empresa": "Consórcio CPLU",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.96",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.48624485,
+          -23.57898094
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 96,
+        "cd_identificador_original": 96,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "Parque Do Carmo",
+        "nm_ecoponto": "Parque do Carmo ",
+        "nm_endereco": "Rua Machado Nunes, 95",
+        "dt_inauguracao": "2017-01-30Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.98",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.52230312,
+          -23.5505719
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 98,
+        "cd_identificador_original": 98,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Vila Matilde",
+        "nm_ecoponto": "Dalila",
+        "nm_endereco": "Rua Inácio da Costa, 740 x Avenida Aricanduva",
+        "dt_inauguracao": "2017-11-25Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Limpa SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.99",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.48322901,
+          -23.54920087
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 99,
+        "cd_identificador_original": 99,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Artur Alvim",
+        "nm_ecoponto": "COHAB Artur Alvim",
+        "nm_endereco": "Avenida Padre Estanislau de Campos, 56",
+        "dt_inauguracao": "2017-11-25Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.100",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.51576487,
+          -23.53923497
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 100,
+        "cd_identificador_original": 100,
+        "nm_subprefeitura": "Penha",
+        "sg_subprefeitura": "PE",
+        "nm_distrito": "Vila Matilde",
+        "nm_ecoponto": "Vila Talarico",
+        "nm_endereco": "Avenida Doutor Bernardino Brito Fonseca de Carvalho, 1050",
+        "dt_inauguracao": "2017-11-25Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.101",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.40618233,
+          -23.53093233
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 101,
+        "cd_identificador_original": 101,
+        "nm_subprefeitura": "Guaianases",
+        "sg_subprefeitura": "G",
+        "nm_distrito": "Lajeado",
+        "nm_ecoponto": "Lajeado ",
+        "nm_endereco": "Rua Isabela, 405",
+        "dt_inauguracao": "2018-06-02Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.102",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.44632786,
+          -23.62838551
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 102,
+        "cd_identificador_original": 102,
+        "nm_subprefeitura": "São Mateus",
+        "sg_subprefeitura": "SM",
+        "nm_distrito": "São Rafael",
+        "nm_ecoponto": "Lima Bonfante",
+        "nm_endereco": "Rua Capitão Mor Lázaro da Costa, 251",
+        "dt_inauguracao": "2018-06-02Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.103",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.45866749,
+          -23.48766599
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 103,
+        "cd_identificador_original": 103,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Vila Jacuí",
+        "nm_ecoponto": "Varre Vila",
+        "nm_endereco": "Rua Primeiro de Maio, 106 (defronte)",
+        "dt_inauguracao": "2020-01-01Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.104",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.47231119,
+          -23.50937414
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 104,
+        "cd_identificador_original": 105,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Vila Jacuí",
+        "nm_ecoponto": "Vitória Popular",
+        "nm_endereco": "Rua El Rey, 526",
+        "dt_inauguracao": "2020-08-14Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.109",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.5177184,
+          -23.60741897
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 109,
+        "cd_identificador_original": 124,
+        "nm_subprefeitura": "Sapopemba",
+        "sg_subprefeitura": "SB",
+        "nm_distrito": "Sapopemba",
+        "nm_ecoponto": "Reynaldo José",
+        "nm_endereco": "Rua Silvestro Silvestri, 400",
+        "dt_inauguracao": "2020-11-12Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.110",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.74556176,
+          -23.66667354
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 110,
+        "cd_identificador_original": 136,
+        "nm_subprefeitura": "M'Boi Mirim",
+        "sg_subprefeitura": "MB",
+        "nm_distrito": "Jardim São Luis",
+        "nm_ecoponto": "São Luis",
+        "nm_endereco": "Rua Pedro Armani, 252",
+        "dt_inauguracao": "2023-12-28Z",
+        "cd_lote_indivisivel": "11",
+        "nm_empresa": "Emergencial - SCK",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.113",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.41193272,
+          -23.47990648
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 113,
+        "cd_identificador_original": 145,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Jardim Helena",
+        "nm_ecoponto": "Jardim Helena",
+        "nm_endereco": "Rua Cosme dos Santos, 110 (defronte)",
+        "dt_inauguracao": "2021-06-04Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.117",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.68380831,
+          -23.49659996
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 117,
+        "cd_identificador_original": 150,
+        "nm_subprefeitura": "Casa Verde",
+        "sg_subprefeitura": "CV",
+        "nm_distrito": "Limão",
+        "nm_ecoponto": "São Leandro",
+        "nm_endereco": "Rua São Leandro, 13",
+        "dt_inauguracao": "2020-11-05Z",
+        "cd_lote_indivisivel": "3",
+        "nm_empresa": "Limpebrás",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.118",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.42891494,
+          -23.52072432
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 118,
+        "cd_identificador_original": 156,
+        "nm_subprefeitura": "Guaianases",
+        "sg_subprefeitura": "G",
+        "nm_distrito": "Lajeado",
+        "nm_ecoponto": "Padre Nildo do Amaral",
+        "nm_endereco": "Rua Padre Nildo do Amaral Junior, 900",
+        "dt_inauguracao": "2021-02-03Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.119",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.43179796,
+          -23.53756543
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 119,
+        "cd_identificador_original": 157,
+        "nm_subprefeitura": "Itaquera",
+        "sg_subprefeitura": "IQ",
+        "nm_distrito": "José Bonifácio",
+        "nm_ecoponto": "Caldeirão",
+        "nm_endereco": "Rua Major Vitorino de Souza Rocha, 148 (altura)",
+        "dt_inauguracao": "2021-02-11Z",
+        "cd_lote_indivisivel": "5",
+        "nm_empresa": "Emergencial - Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.120",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.37266161,
+          -23.50466316
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 120,
+        "cd_identificador_original": 158,
+        "nm_subprefeitura": "Itaim Paulista",
+        "sg_subprefeitura": "IT",
+        "nm_distrito": "Itaim Paulista",
+        "nm_ecoponto": "Itaim Paulista",
+        "nm_endereco": "Rua Barão Almeida Galeão, 61 (altura)",
+        "dt_inauguracao": "2021-06-22Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.121",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.3943328,
+          -23.51600617
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 121,
+        "cd_identificador_original": 159,
+        "nm_subprefeitura": "Itaim Paulista",
+        "sg_subprefeitura": "IT",
+        "nm_distrito": "Itaim Paulista",
+        "nm_ecoponto": "Jardim Indaiá",
+        "nm_endereco": "Rua Rossini Pinto, 214 (altura)",
+        "dt_inauguracao": "2021-08-11Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.123",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.38311894,
+          -23.47813908
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 123,
+        "cd_identificador_original": 162,
+        "nm_subprefeitura": "São Miguel Paulista",
+        "sg_subprefeitura": "MP",
+        "nm_distrito": "Jardim Helena",
+        "nm_ecoponto": "Jardim Romano",
+        "nm_endereco": "Rua Duarte Martins Mourão, 400",
+        "dt_inauguracao": "2021-06-04Z",
+        "cd_lote_indivisivel": "4",
+        "nm_empresa": "Corpus",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.125",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.48878768,
+          -23.61955954
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 125,
+        "cd_identificador_original": 164,
+        "nm_subprefeitura": "Sapopemba",
+        "sg_subprefeitura": "SB",
+        "nm_distrito": "Sapopemba",
+        "nm_ecoponto": "Joaquim Catuna",
+        "nm_endereco": "Rua Luca Conforti, 210",
+        "dt_inauguracao": "2020-11-12Z",
+        "cd_lote_indivisivel": "6",
+        "nm_empresa": "Locat SP",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ecoponto.128",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.80035258,
+          -23.5860221
+        ]
+      },
+      "geometry_name": "ge_ponto",
+      "properties": {
+        "cd_identificador_ecoponto": 128,
+        "cd_identificador_original": 379,
+        "nm_subprefeitura": "Butantã",
+        "sg_subprefeitura": "BT",
+        "nm_distrito": "Raposo Tavares",
+        "nm_ecoponto": "Vida Nova",
+        "nm_endereco": "Travessa Córrego Independência, 2",
+        "dt_inauguracao": "2025-04-10Z",
+        "cd_lote_indivisivel": "10",
+        "nm_empresa": "Constroeste",
+        "tx_atendimento": "segunda a sábado, das 6h às 22h; domingo e feriado, das 6h às 18h",
+        "tx_recebimento_comum": "Entulho, volumosos, restos de poda e recicláveis secos",
+        "tx_recebimento_diferenciado": null,
+        "tx_decreto": "55.113/2014",
+        "tx_link_decreto": "http://legislacao.prefeitura.sp.gov.br/leis/decreto-55113-de-15-de-maio-de-2014",
+        "tx_lei": "14.803/2008",
+        "tx_link_lei": "http://legislacao.prefeitura.sp.gov.br/leis/lei-14803-de-26-de-junho-de-2008",
+        "tx_tipo_recebimento": "Recebimento comum"
+      }
+    }
+  ],
+  "totalFeatures": 128,
+  "numberMatched": 128,
+  "numberReturned": 128,
+  "timeStamp": "2026-09-29T18:53:01.492Z",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  }
+}
