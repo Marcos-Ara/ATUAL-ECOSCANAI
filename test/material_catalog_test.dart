@@ -32,6 +32,8 @@ void main() {
     ]);
     expect(result.name, 'Plástico');
     expect(result.bin, 'Vermelha');
+    expect(result.objectId, '10000');
+    expect(result.detectionLabel, 'plastic bottle');
   });
   test('catálogo completo sem listas aninhadas', () {
     final data =

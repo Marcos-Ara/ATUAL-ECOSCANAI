@@ -115,3 +115,23 @@ test('guest mode and map controller wiring remain present in Dart source',()=>{
   assert.ok(gate.includes('auth.isGuest'));
   assert.ok(controller.includes("package:flutter/foundation.dart"));
 });
+
+test('YOLOView native fica isolado do build web',()=>{
+  const bridge=fs.readFileSync(path.join(root,'lib/widgets/live_yolo_camera.dart'),'utf8');
+  const stub=fs.readFileSync(path.join(root,'lib/widgets/live_yolo_camera_stub.dart'),'utf8');
+  const native=fs.readFileSync(path.join(root,'lib/widgets/live_yolo_camera_native.dart'),'utf8');
+  const scanner=fs.readFileSync(path.join(root,'lib/screens/scanner_screen.dart'),'utf8');
+  assert.ok(bridge.includes("if (dart.library.io) 'live_yolo_camera_native.dart'"));
+  assert.ok(!stub.includes('ultralytics_yolo'));
+  assert.ok(native.includes('YOLOView('));
+  assert.ok(scanner.includes('if (_useNativeYoloView) return;'));
+});
+
+test('fase de validação mantém dados remotos desligados e Auth separado',()=>{
+  const config=JSON.parse(fs.readFileSync(path.join(root,'config/mobile.json'),'utf8'));
+  assert.equal(config.ECOSCAN_USE_SUPABASE_MODEL,false);
+  assert.equal(config.ECOSCAN_USE_SUPABASE_CATALOG,false);
+  assert.equal(config.ECOSCAN_USE_SUPABASE_ECOPOINTS,false);
+  assert.equal(config.ECOSCAN_SYNC_SUPABASE_HISTORY,false);
+  assert.ok(config.SUPABASE_URL.startsWith('https://'));
+});

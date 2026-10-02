@@ -127,16 +127,26 @@ void main() {
   );
 
   test(
-    'label inconclusivo usa RPC só na foto, nunca no frame ao vivo',
+    'scanner local não consulta RPC durante a fase de validação',
     () async {
       backend.objects = [object('unmapped object')];
       await scanner.analyzeFile(XFile(image.path), live: true);
       await scanner.analyzeFile(XFile(image.path), live: true);
-      expect(resolver.calls, 0);
       await scanner.analyzeFile(XFile(image.path));
-      expect(resolver.calls, 1);
+      expect(resolver.calls, 0);
     },
   );
+
+  test('resultado do YOLOView usa duas confirmações sem nova inferência', () async {
+    final first = await scanner.analyzeLiveDetections([object('smartphone')]);
+    expect(first.selectedDetection, isNull);
+    final second = await scanner.analyzeLiveDetections([object('smartphone')]);
+    expect(second.selectedDetection?.label, 'smartphone');
+    expect(second.classification.material?.id, 'electronic');
+    expect(second.classification.detectedObject, 'Celular');
+    expect(second.classification.objectId, isNotNull);
+    expect(resolver.calls, 0);
+  });
 
   test(
     'foto confirma diretamente e reset ao vivo exige consenso novamente',

@@ -16,6 +16,10 @@ class WasteClassification {
     this.source = 'image',
     this.instruction,
     this.detectedObject,
+    this.objectId,
+    this.variantId,
+    this.detectionLabel,
+    this.classIndex,
   });
 
   final MaterialGuide? material;
@@ -24,6 +28,10 @@ class WasteClassification {
   final String source;
   final String? instruction;
   final String? detectedObject;
+  final String? objectId;
+  final String? variantId;
+  final String? detectionLabel;
+  final int? classIndex;
 
   bool get isKnown => material != null;
   bool get isManual => source == 'manual';
@@ -41,6 +49,10 @@ class WasteClassification {
     material: choice,
     source: 'manual',
     detectedObject: detectedObject,
+    objectId: objectId,
+    variantId: variantId,
+    detectionLabel: detectionLabel,
+    classIndex: classIndex,
   );
 
   WasteClassification copyWith({
@@ -50,6 +62,10 @@ class WasteClassification {
     String? source,
     String? instruction,
     String? detectedObject,
+    String? objectId,
+    String? variantId,
+    String? detectionLabel,
+    int? classIndex,
   }) => WasteClassification(
     material: material ?? this.material,
     confidence: confidence ?? this.confidence,
@@ -57,6 +73,10 @@ class WasteClassification {
     source: source ?? this.source,
     instruction: instruction ?? this.instruction,
     detectedObject: detectedObject ?? this.detectedObject,
+    objectId: objectId ?? this.objectId,
+    variantId: variantId ?? this.variantId,
+    detectionLabel: detectionLabel ?? this.detectionLabel,
+    classIndex: classIndex ?? this.classIndex,
   );
 }
 

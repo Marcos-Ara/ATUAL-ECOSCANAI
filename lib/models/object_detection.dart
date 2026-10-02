@@ -44,7 +44,7 @@ class ObjectDetection {
 }
 
 abstract final class DetectionTargetSelector {
-  static const target = Rect.fromLTWH(0.07, 0.08, 0.86, 0.84);
+  static const target = Rect.fromLTWH(0.04, 0.05, 0.92, 0.90);
 
   static ObjectDetection? select(
     Iterable<ObjectDetection> detections, {
@@ -63,15 +63,18 @@ abstract final class DetectionTargetSelector {
       final boxArea = math.max(0.0001, box.width * box.height);
       final coverage = (overlapArea / boxArea).clamp(0.0, 1.0).toDouble();
       final center = box.center;
-      if (!region.contains(center) || coverage < 0.35) continue;
+      // A moldura é uma preferência de enquadramento, não uma trava rígida.
+      // Aceitamos objetos parcialmente dentro dela para o usuário não precisar
+      // alinhar o item no milímetro, mas ainda rejeitamos o fundo nas bordas.
       final distance = (center - region.center).distance;
+      if (coverage < 0.18 || distance > 0.60) continue;
       final centrality = (1 - distance / 0.72).clamp(0.0, 1.0).toDouble();
       final size = math.sqrt(boxArea).clamp(0.0, 1.0).toDouble();
       final score =
-          detection.confidence * 0.42 +
-          coverage * 0.32 +
-          centrality * 0.21 +
-          size * 0.05;
+          detection.confidence * 0.52 +
+          coverage * 0.20 +
+          centrality * 0.20 +
+          size * 0.08;
       if (score > bestScore) {
         best = detection;
         bestScore = score;

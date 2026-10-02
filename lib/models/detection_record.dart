@@ -14,6 +14,10 @@ class DetectionRecord {
     this.longitude,
     this.detectedObject,
     this.detector,
+    this.objectId,
+    this.variantId,
+    this.detectionLabel,
+    this.classIndex,
   });
 
   final String id;
@@ -30,6 +34,10 @@ class DetectionRecord {
   final double? longitude;
   final String? detectedObject;
   final String? detector;
+  final String? objectId;
+  final String? variantId;
+  final String? detectionLabel;
+  final int? classIndex;
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -46,6 +54,10 @@ class DetectionRecord {
     'longitude': longitude,
     'detectedObject': detectedObject,
     'detector': detector,
+    'objectId': objectId,
+    'variantId': variantId,
+    'detectionLabel': detectionLabel,
+    'classIndex': classIndex,
   };
 
   factory DetectionRecord.fromJson(Map<String, dynamic> json) {
@@ -64,6 +76,10 @@ class DetectionRecord {
       longitude: (json['longitude'] as num?)?.toDouble(),
       detectedObject: json['detectedObject']?.toString(),
       detector: json['detector']?.toString(),
+      objectId: json['objectId']?.toString(),
+      variantId: json['variantId']?.toString(),
+      detectionLabel: json['detectionLabel']?.toString(),
+      classIndex: (json['classIndex'] as num?)?.toInt(),
       detectedAt:
           DateTime.tryParse(json['detectedAt']?.toString() ?? '') ??
           DateTime.now(),

@@ -1,4 +1,4 @@
-# EcoScan AI — Flutter + Supabase 3.4.2
+# EcoScan AI — Flutter + Supabase 3.4.3
 
 Base completa do projeto enviado, com YOLOE-26n LiteRT incluído para Android, 57 prompts de objetos, scanner ao vivo ajustado, catálogo offline atualizado e os 128 EcoPontos oficiais GeoSampa.
 
@@ -34,36 +34,24 @@ Para testar o mapa antes de configurar login, clique em **Continuar sem conta**,
 - Nome, endereço, distrito, subprefeitura, horário e materiais recebidos vêm do GeoSampa. Restos de poda não são tratados como autorização para resíduos alimentares ou compostagem.
 - O arquivo original usa **SIRGAS 2000 / UTM 23S (EPSG:31983)**. As coordenadas foram convertidas para **WGS84 (longitude/latitude)** antes da inclusão. Ex.: Bresser = `-23.54340338, -46.60646234`.
 - Os pontos são carregados de `assets/data/ecopoints_geosampa.geojson`. A abertura do mapa não depende de GPS, API key, WFS, Edge Function ou importação no Supabase.
-- O botão atualizar consulta o catálogo completo em `public.ecopoints` no novo Supabase, com paginação. Uma resposta remota não vazia substitui o catálogo; falhas preservam a cópia disponível.
+- Nesta fase o catálogo remoto está desligado; o botão atualizar mantém/recarrega a cópia local. A sincronização com `public.ecopoints` será reativada somente depois da validação do scanner e da criação do banco definitivo.
 - O renderizador Web CanvasKit é carregado dos arquivos da própria publicação.
 - A imagem do mapa (ruas/satélite) e as rotas externas continuam exigindo internet. O catálogo de pontos está dentro do app.
 
 **Cobertura:** o arquivo enviado contém pontos do município de São Paulo. Estar em outra cidade não impede carregar/ver esses 128 pontos, mas não cria um catálogo de ecopontos de outros municípios.
 
-## Preparar o Supabase novo
+## Supabase nesta fase de validação
 
-O app já aponta para o projeto novo, mas os arquivos SQL não foram executados remotamente por esta entrega.
+**Não execute os SQLs do banco ainda.** Nesta 3.4.3, o Supabase fica ativo apenas para **Auth** (cadastro, login, Google, confirmação e recuperação). O scanner, catálogo, EcoPontos, histórico e modelo usam a base local enquanto validamos o YOLO-E no Android.
 
-1. Abra o projeto `kekcfxoiyufskltnzlie` no Supabase.
-2. Vá em **SQL Editor → New query**.
-3. Abra `supabase/ECOSCAN_SUPABASE_NOVO.sql`, copie todo o conteúdo e execute.
-4. O final mostra as verificações: **128 ecopontos**, **190 objetos** e a resolução de `garrafa pet`.
+Os arquivos SQL e migrations continuam preservados no projeto para a próxima etapa, mas `config/mobile.json` deixa desativados:
 
-Esse arquivo cria:
+- `ECOSCAN_USE_SUPABASE_MODEL`
+- `ECOSCAN_USE_SUPABASE_CATALOG`
+- `ECOSCAN_USE_SUPABASE_ECOPOINTS`
+- `ECOSCAN_SYNC_SUPABASE_HISTORY`
 
-- `profiles`, sincronizado automaticamente com nome e e-mail do Supabase Auth;
-- `fato_scan`, que registra no banco cada análise salva por um usuário autenticado, com objeto, material, lixeira, confiança, detector, data e localização quando disponível;
-- `ecopoints`, com coordenadas, metadados e índice PostGIS;
-- `objects`, `object_variants`, `object_aliases` e RPC `find_ecoscan_object(p_alias)`;
-- os objetos, variantes e aliases do catálogo fornecido, mais 57 entradas específicas de YOLOE;
-- os 128 ecopontos convertidos;
-- registro de modelos e amostras de treinamento da base 3.2;
-- buckets privados `ecoscan-models` e `ecoscan-training` e políticas de acesso;
-- RLS: catálogo público somente para leitura; perfis e amostras acessíveis ao proprietário. Upload/edição de modelos exige administração.
-
-Não apaga schemas, tabelas ou usuários. A chave pública no Flutter não tem permissão para instalar o SQL. Use o SQL Editor autenticado como administrador. O arquivo completo é para o banco novo; não o aplique sobre uma estrutura antiga diferente.
-
-Alternativamente, usuários do Supabase CLI podem aplicar as migrações ordenadas em `supabase/migrations/`.
+Depois que os testes do scanner passarem no aparelho, o schema definitivo será montado a partir do Supabase vazio e os dados locais serão importados automaticamente. Isso evita misturar erro de câmera/modelo com erro de banco.
 
 ## Login e Google no projeto novo
 
@@ -85,19 +73,27 @@ Não coloque Client Secret ou service-role no Flutter. Contas do projeto antigo 
 
 ## Scanner e dados locais
 
-**Android:** o arquivo `assets/models/ecoscan_yoloe26n_w8a32.tflite` é real, foi exportado e validado no PC. O modelo usa 57 classes fixadas por prompts no checkpoint oficial YOLOE-26n; não foi treinado com fotos do EcoScan. O app tenta primeiro uma release ativa do Supabase quando há login, depois o modelo incluído e por último o YOLO genérico/ML Kit se os anteriores falharem. O modelo incluído funciona também para visitante e não exige baixar pesos na primeira abertura.
+**Android:** o scan ao vivo usa `YOLOView` do pacote oficial `ultralytics_yolo 0.6.15`, com o modelo local `assets/models/ecoscan_yoloe26n_w8a32.tflite`. A câmera envia frames diretamente ao runtime nativo; não existe mais o ciclo `Timer → takePicture() → JPG → predict()` no Android. O callback `onResult` entrega as detecções em tempo real e o EcoScan faz seleção, estabilização e objeto → material → lixeira localmente.
 
-**Web:** mantém COCO-SSD/MobileNet. O arquivo LiteRT incluído não é executado pelo navegador nesta versão. **iOS:** exige o equivalente Core ML publicado ou configurado; o arquivo Android não é um modelo iOS.
+Configuração inicial do ao vivo:
 
-No Android, o scan ao vivo usa confiança 0,35, IoU 0,50, intervalo mínimo de 650 ms entre capturas, imagem de análise com até 768 px e estabilizador de 4 leituras com pelo menos 2 confirmações. A área visível da câmera foi ampliada e usa preenchimento do quadro para facilitar o enquadramento. Inferências não se sobrepõem.
+- confiança de entrada do YOLOView: **0,25**;
+- IoU: **0,50**;
+- GPU habilitada com fallback do runtime quando necessário;
+- câmera traseira em **720p**;
+- moldura útil ampla, sem exigir alinhamento milimétrico;
+- estabilizador: janela de 4 leituras, **2 confirmações** antes de assumir o objeto;
+- diagnóstico temporário na tela: **YOLO-E ativo, FPS, inferência, objeto/confiança e índice de classe**.
 
-A seleção ao vivo exige objeto dentro da moldura. YOLO confirmado determina os candidatos; ML Kit não substitui o label por um objeto do fundo durante estabilização. Quando o objeto desaparece, o resultado deixa de ser confirmado. Fotos usam o quadro inteiro e não aguardam duas leituras.
+A confiança 0,25 apenas permite que um candidato entre no pipeline. O catálogo ainda aplica o piso de confiança específico de cada prompt (em geral 0,35), além de estabilidade e mapeamento local, para reduzir falso positivo. O scan ao vivo não faz RPC nem consulta Supabase por frame.
 
-Os 57 prompts têm nomes e orientação no catálogo local. Papelão usa a categoria Papel. Pilhas, lâmpadas e óleo exigem orientação específica; recipiente genérico de alimento fica inconclusivo em vez de inventar um material. A foto não determina contaminação, conteúdo ou todas as características do resíduo. Longe de garantir acerto para qualquer objeto, esta base permite medir e melhorar o reconhecimento no celular.
+**Foto/Galeria:** continuam separadas do vídeo. Uma foto usa o caminho de inferência única (`YOLO.predict`) e depois a mesma resolução de objeto → material → lixeira. Ao fotografar a partir do scanner ao vivo, o frame é capturado pelo próprio `YOLOView`; o stream é pausado enquanto a análise única roda, evitando duas câmeras concorrentes.
 
-Ao vivo: catálogo local, sem RPC por frame. Foto inconclusiva: pode consultar `find_ecoscan_object`. Não há confirmação manual obrigatória. O histórico visual continua no aparelho; quando um usuário autenticado salva uma análise, os metadados também são enviados para `public.fato_scan`. Se o envio falhar por falta de rede, os registros locais são tentados novamente na próxima entrada da conta. Amostras de treinamento continuam dependendo de consentimento explícito.
+**Web:** continua usando a ponte Web existente (COCO-SSD/MobileNet) e não importa `YOLOView`, preservando o build Web. **iOS:** continua no fluxo anterior por enquanto, pois esta base inclui o modelo LiteRT/TFLite do Android; o equivalente Core ML será tratado separadamente.
 
-O botão Voltar do Android continua retornando das abas ao Início.
+Os 57 prompts YOLO-E continuam ligados ao catálogo local, que possui 190 objetos, 261 sinônimos e 9 variações. O resultado agora também pode carregar `objectId`, `variantId`, `detectionLabel` e `classIndex`, preparando o futuro `FATO_SCAN` sem depender do banco nesta fase.
+
+Os EcoPontos continuam usando os 128 registros do GeoSampa local. O histórico continua local nesta fase. Supabase continua somente no login.
 
 ## Validar e gerar APK de teste
 
@@ -106,10 +102,10 @@ flutter analyze
 flutter test
 node --test test/web_bridges_test.cjs
 flutter build web --release --no-web-resources-cdn --dart-define-from-file=config/mobile.json
-flutter build apk --debug --dart-define-from-file=config/mobile.json
+flutter build apk --release --dart-define-from-file=config/mobile.json
 ```
 
-O APK de teste fica em `build/app/outputs/flutter-apk/app-debug.apk`. Compilar Android requer Android SDK e JDK configurados. A geração de APK não foi realizada nesta entrega.
+O APK de teste fica em `build/app/outputs/flutter-apk/app-release.apk`. Compilar Android requer Android SDK e JDK configurados. A geração de APK não foi realizada nesta entrega.
 
 Para executar o roteiro completo com Flutter:
 
@@ -125,4 +121,4 @@ python -m pip install pyproj
 python tool/import_geosampa.py "C:\caminho\geoportal_ecoponto.geojson"
 ```
 
-O script converte/valida o GeoJSON, atualiza o asset e recria o SQL de ecopontos e o SQL completo. Após uma nova exportação, reconstrua o app e reaplique o SQL correspondente no Supabase. Não há sincronização WFS periódica automática nesta versão.
+O script converte/valida o GeoJSON e atualiza os arquivos locais/SQL preparados. Enquanto o banco remoto estiver desligado, apenas reconstrua o app; a aplicação do SQL no Supabase fica para a etapa posterior. Não há sincronização WFS periódica automática nesta versão.

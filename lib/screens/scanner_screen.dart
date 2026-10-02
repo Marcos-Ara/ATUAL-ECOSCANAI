@@ -11,6 +11,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../core/app_config.dart';
 import '../core/app_theme.dart';
 import '../models/detection_record.dart';
 import '../models/learning_sample.dart';
@@ -22,6 +23,7 @@ import '../services/waste_classifier.dart';
 import '../services/web_image_labeler.dart';
 import '../state/eco_point_controller.dart';
 import '../state/ecoscan_store.dart';
+import '../widgets/live_yolo_camera.dart';
 
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({this.scanner, this.onFindNearby, super.key});
@@ -35,6 +37,16 @@ class _ScannerScreenState extends State<ScannerScreen>
     with WidgetsBindingObserver {
   late final _scanner = widget.scanner ?? ScanService();
   final _picker = ImagePicker();
+  final _liveYoloController = LiveYoloCameraController();
+  static const _liveYoloModel = String.fromEnvironment(
+    'ECOSCAN_YOLO_MODEL',
+    defaultValue: 'assets/models/ecoscan_yoloe26n_w8a32.tflite',
+  );
+
+  // O modelo incluído nesta base é LiteRT/TFLite para Android. iOS continua
+  // no fluxo anterior até recebermos o equivalente Core ML.
+  bool get _useNativeYoloView => !kIsWeb && Platform.isAndroid;
+
   CameraController? _camera;
   List<CameraDescription> _cameras = [];
   Future<void> _cameraQueue = Future.value();
@@ -64,6 +76,13 @@ class _ScannerScreenState extends State<ScannerScreen>
   List<ObjectDetection> _detections = const [];
   ObjectDetection? _selectedDetection;
   String _detector = 'unknown';
+  bool _liveModelReady = false;
+  bool _processingLiveDetections = false;
+  int _nativeEmptyFrames = 0;
+  double? _liveFps;
+  double? _liveInferenceMs;
+  int? _liveClassIndex;
+  DateTime? _lastMetricsUpdate;
 
   @override
   void initState() {
@@ -75,11 +94,17 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   Future<void> _warmup() async {
     try {
-      await _scanner.warmup();
+      if (_useNativeYoloView) {
+        // YOLOView carrega o modelo da câmera nativamente. Aqui preparamos só
+        // o catálogo local para nenhum frame depender de rede.
+        await _scanner.prepareLocalCatalog();
+      } else {
+        await _scanner.warmup();
+      }
     } catch (_) {
-      // A later scan retries model loading; gallery stays available.
+      // Foto/galeria ainda podem tentar carregar o modelo sob demanda.
     } finally {
-      if (mounted) {
+      if (mounted && !_useNativeYoloView) {
         setState(() => _preparingAi = false);
         _scheduleLive();
       }
@@ -103,21 +128,49 @@ class _ScannerScreenState extends State<ScannerScreen>
         }
       } catch (_) {}
     }
-    if (mounted) await _openCamera();
+    if (!mounted) return;
+    if (_useNativeYoloView) {
+      setState(() => _loading = false);
+    } else {
+      await _openCamera();
+    }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _active = true;
-      if (!_selecting) unawaited(_openCamera());
+      if (!_selecting) {
+        if (_useNativeYoloView) {
+          unawaited(_resumeNativeLiveCamera());
+        } else {
+          unawaited(_openCamera());
+        }
+      }
     } else if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
       _active = false;
       _revision++;
       _liveTimer?.cancel();
-      unawaited(_releaseCamera());
+      if (_useNativeYoloView) {
+        unawaited(_pauseNativeLiveCamera());
+      } else {
+        unawaited(_releaseCamera());
+      }
     }
+  }
+
+  Future<void> _pauseNativeLiveCamera() async {
+    try {
+      await _liveYoloController.pause();
+    } catch (_) {}
+  }
+
+  Future<void> _resumeNativeLiveCamera() async {
+    if (!_active || _selecting || !_live) return;
+    try {
+      await _liveYoloController.resume();
+    } catch (_) {}
   }
 
   Future<void> _releaseCamera() {
@@ -140,6 +193,10 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _openCamera({bool switchLens = false}) {
+    if (_useNativeYoloView) {
+      if (mounted) setState(() => _loading = false);
+      return Future.value();
+    }
     final request = ++_revision;
     _liveTimer?.cancel();
     _cameraQueue = _cameraQueue.then((_) async {
@@ -225,6 +282,7 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   void _scheduleLive() {
     _liveTimer?.cancel();
+    if (_useNativeYoloView) return;
     if (!_scanner.supportsAutomaticLabeling ||
         !_live ||
         !_active ||
@@ -243,6 +301,10 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _capture({bool automatic = false}) async {
+    if (_useNativeYoloView) {
+      if (!automatic) await _captureNativeStill();
+      return;
+    }
     if (_busy ||
         _saving ||
         _selecting ||
@@ -268,6 +330,144 @@ class _ScannerScreenState extends State<ScannerScreen>
       _scanTask = null;
       if (mounted) setState(() => _busy = false);
       _scheduleLive();
+    }
+  }
+
+  Future<void> _captureNativeStill() async {
+    if (_busy || _saving || _selecting || !_active || !_liveModelReady) return;
+    setState(() {
+      _busy = true;
+      _scanError = null;
+    });
+    String? rawPath;
+    var completed = false;
+    try {
+      // Primeiro captura o frame enquanto a câmera está ativa. Depois pausamos o
+      // stream durante a inferência única para não disputar GPU com o YOLOView.
+      final bytes = await _liveYoloController.capturePhoto(withOverlays: false);
+      if (bytes == null || bytes.isEmpty) {
+        throw const FormatException('Não foi possível capturar a imagem da câmera.');
+      }
+      final temp = await getTemporaryDirectory();
+      rawPath = p.join(
+        temp.path,
+        'ecoscan_live_capture_${DateTime.now().microsecondsSinceEpoch}.jpg',
+      );
+      await File(rawPath).writeAsBytes(bytes, flush: true);
+      await _pauseNativeLiveCamera();
+      final analysis = await _scanner.analyzeFile(XFile(rawPath));
+      if (!mounted) {
+        await _deleteTemp(analysis.imagePath);
+        return;
+      }
+      setState(() => _live = false);
+      await _accept(analysis, fromGallery: false, queueLearning: true);
+      completed = true;
+    } catch (error) {
+      if (mounted) setState(() => _scanError = _errorText(error));
+    } finally {
+      if (rawPath != null) await _deleteTemp(rawPath);
+      if (!completed && mounted && _active && _live) {
+        unawaited(_resumeNativeLiveCamera());
+      }
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _onNativeLiveResults(List<LiveYoloDetection> raw) async {
+    if (!_useNativeYoloView ||
+        !_live ||
+        !_active ||
+        _selecting ||
+        _saving ||
+        _busy ||
+        _processingLiveDetections) {
+      return;
+    }
+    _processingLiveDetections = true;
+    try {
+      final detections = raw
+          .map(
+            (item) => ObjectDetection(
+              label: item.className,
+              confidence: item.confidence.clamp(0.0, 1.0).toDouble(),
+              normalizedBox: item.normalizedBox,
+              backend: 'yoloe-26n-live',
+              classIndex: item.classIndex,
+            ),
+          )
+          .where((item) => item.isValid)
+          .toList(growable: false);
+      final analysis = await _scanner.analyzeLiveDetections(detections);
+      if (!mounted || !_live || !_active) return;
+
+      final stable = analysis.selectedDetection;
+      setState(() {
+        _detections = analysis.detections;
+        _detector = 'yoloe-26n-live';
+        if (stable != null) {
+          _nativeEmptyFrames = 0;
+          _selectedDetection = stable;
+          _liveClassIndex = stable.classIndex;
+          _result = analysis.classification;
+          _saved = false;
+          _scanError = null;
+        } else if (detections.isEmpty) {
+          _nativeEmptyFrames++;
+          if (_nativeEmptyFrames >= 2) {
+            _selectedDetection = null;
+            _liveClassIndex = null;
+            _result = null;
+          }
+        }
+      });
+    } catch (_) {
+      // Um frame ruim não derruba o scanner; o próximo frame tenta novamente.
+    } finally {
+      _processingLiveDetections = false;
+    }
+  }
+
+  void _onNativeMetrics(LiveYoloMetrics metrics) {
+    final now = DateTime.now();
+    final previous = _lastMetricsUpdate;
+    if (previous != null && now.difference(previous).inMilliseconds < 450) {
+      return;
+    }
+    _lastMetricsUpdate = now;
+    if (!mounted) return;
+    setState(() {
+      _liveFps = metrics.fps;
+      _liveInferenceMs = metrics.processingTimeMs;
+    });
+  }
+
+  void _onNativeModelLoad() {
+    if (!mounted) return;
+    setState(() {
+      _liveModelReady = true;
+      _preparingAi = false;
+      _cameraError = null;
+    });
+  }
+
+  void _onNativeModelError(String error) {
+    if (!mounted) return;
+    setState(() {
+      _liveModelReady = false;
+      _preparingAi = false;
+      _cameraError =
+          'O YOLO-E não carregou. Feche e abra o scanner novamente. ($error)';
+    });
+  }
+
+  Future<void> _switchNativeCamera() async {
+    if (_busy || !_liveModelReady) return;
+    try {
+      await _liveYoloController.switchCamera();
+      if (mounted) setState(() => _flash = false);
+    } catch (_) {
+      if (mounted) _notice('Não foi possível trocar a câmera.');
     }
   }
 
@@ -403,7 +603,11 @@ class _ScannerScreenState extends State<ScannerScreen>
     });
     _revision++;
     _liveTimer?.cancel();
-    await _releaseCamera();
+    if (_useNativeYoloView) {
+      await _pauseNativeLiveCamera();
+    } else {
+      await _releaseCamera();
+    }
     try {
       final photo = await _picker.pickImage(
         source: ImageSource.gallery,
@@ -426,11 +630,24 @@ class _ScannerScreenState extends State<ScannerScreen>
       }
     } finally {
       _selecting = false;
-      if (mounted && _active) unawaited(_openCamera());
+      if (mounted && _active && !_useNativeYoloView) {
+        unawaited(_openCamera());
+      }
     }
   }
 
   Future<void> _toggleFlash() async {
+    if (_useNativeYoloView) {
+      if (_busy || !_liveModelReady) return;
+      try {
+        final next = !_flash;
+        await _liveYoloController.setTorchMode(next);
+        if (mounted) setState(() => _flash = next);
+      } catch (_) {
+        if (mounted) _notice('O flash não está disponível nesta câmera.');
+      }
+      return;
+    }
     final camera = _camera;
     if (camera?.value.isInitialized != true || _busy) return;
     try {
@@ -458,6 +675,15 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _focus(TapDownDetails details, Size size) async {
+    if (_useNativeYoloView) {
+      if (!_liveModelReady || _busy) return;
+      final x = (details.localPosition.dx / size.width).clamp(0.0, 1.0);
+      final y = (details.localPosition.dy / size.height).clamp(0.0, 1.0);
+      try {
+        await _liveYoloController.tapToFocus(x, y);
+      } catch (_) {}
+      return;
+    }
     if (kIsWeb) return;
     final camera = _camera;
     if (camera?.value.isInitialized != true || _busy) return;
@@ -476,14 +702,14 @@ class _ScannerScreenState extends State<ScannerScreen>
         _busy ||
         _saved ||
         _result?.isKnown != true ||
-        _photoPath == null) {
+        (_photoPath == null && !_useNativeYoloView)) {
       return;
     }
     final store = context.read<EcoScanStore>();
     final uid = store.userId;
     if (uid == null) return;
     final result = _result!;
-    final image = _photoPath!;
+    var image = _photoPath;
     final location = _source == 'camera'
         ? context.read<EcoPointController>().userLocation
         : null;
@@ -493,7 +719,23 @@ class _ScannerScreenState extends State<ScannerScreen>
     });
     _liveTimer?.cancel();
     String? savedPath;
+    String? liveCapturePath;
     try {
+      if (_useNativeYoloView && image == null) {
+        final bytes = await _liveYoloController.capturePhoto(withOverlays: false);
+        if (bytes == null || bytes.isEmpty) {
+          throw const FormatException('Não foi possível capturar a imagem atual.');
+        }
+        final temp = await getTemporaryDirectory();
+        liveCapturePath = p.join(
+          temp.path,
+          'ecoscan_history_${DateTime.now().microsecondsSinceEpoch}.jpg',
+        );
+        await File(liveCapturePath).writeAsBytes(bytes, flush: true);
+        image = liveCapturePath;
+        await _pauseNativeLiveCamera();
+      }
+      if (image == null) return;
       final now = DateTime.now();
       if (kIsWeb) {
         final bytes = _photoBytes;
@@ -503,7 +745,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         final folder = Directory(p.join(documents.path, 'ecoscan', uid, 'scans'));
         await folder.create(recursive: true);
         savedPath = p.join(folder.path, '${now.microsecondsSinceEpoch}.jpg');
-        await File(image).copy(savedPath);
+        await File(image!).copy(savedPath);
         if (!mounted || store.userId != uid) {
           await File(savedPath).delete();
           return;
@@ -524,20 +766,24 @@ class _ScannerScreenState extends State<ScannerScreen>
         confirmedByUser: result.isManual,
         latitude: location?.latitude,
         longitude: location?.longitude,
-        detectedObject: _selectedDetection?.label ?? result.detectedObject,
+        detectedObject: result.detectedObject ?? _selectedDetection?.label,
         detector: _detector,
+        objectId: result.objectId,
+        variantId: result.variantId,
+        detectionLabel: result.detectionLabel ?? _selectedDetection?.label,
+        classIndex: result.classIndex ?? _selectedDetection?.classIndex,
       );
 
       await store.addDetection(record);
 
       var synced = false;
-      if (uid != AuthSession.guestUserId) {
+      if (uid != AuthSession.guestUserId && AppConfig.syncSupabaseHistory) {
         try {
           await ScanSyncService().upsert(record);
           synced = true;
         } catch (_) {
-          // O histórico local continua salvo. A próxima abertura da conta
-          // tenta sincronizar novamente os registros pendentes.
+          // O histórico local continua salvo. O banco será ligado depois da
+          // validação do scanner e da criação do schema definitivo.
         }
       }
 
@@ -550,7 +796,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                 ? 'Análise salva neste aparelho.'
                 : synced
                 ? 'Análise salva no histórico e no banco de dados.'
-                : 'Análise salva. O banco será sincronizado quando possível.',
+                : 'Análise salva no histórico local.',
           );
         }
       }
@@ -562,6 +808,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       }
       if (mounted) _notice('Não foi possível salvar. Tente novamente.');
     } finally {
+      if (liveCapturePath != null) await _deleteTemp(liveCapturePath);
       if (mounted) setState(() => _saving = false);
     }
   }
@@ -585,6 +832,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     _revision++;
     _liveTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
+    if (_useNativeYoloView) unawaited(_pauseNativeLiveCamera());
     unawaited(
       _releaseCamera().then((_) async {
         await _scanner.close();
@@ -599,6 +847,9 @@ class _ScannerScreenState extends State<ScannerScreen>
   Widget build(BuildContext context) {
     final result = _result;
     final camera = _camera;
+    final captureReady = _useNativeYoloView
+        ? _liveModelReady && _photoBytes == null
+        : camera?.value.isInitialized == true;
     return SafeArea(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -625,22 +876,44 @@ class _ScannerScreenState extends State<ScannerScreen>
                           ? null
                           : (_) {
                               final live = !_live;
+                              final hadPhoto = live && _photoBytes != null;
+                              final oldPhoto = live ? _photoPath : null;
                               setState(() {
                                 _live = live;
                                 _scanError = null;
                                 _liveFailures = 0;
                                 _revision++;
                                 if (live) {
+                                  _photoPath = null;
+                                  _photoBytes = null;
+                                  _result = null;
                                   _detections = const [];
                                   _selectedDetection = null;
                                   _detector = 'unknown';
+                                  _nativeEmptyFrames = 0;
+                                  _liveClassIndex = null;
+                                  _saved = false;
+                                  if (_useNativeYoloView && hadPhoto) {
+                                    _liveModelReady = false;
+                                    _preparingAi = true;
+                                  }
                                 }
                               });
+                              if (oldPhoto != null) {
+                                unawaited(_deleteTemp(oldPhoto));
+                              }
                               if (live) {
                                 _scanner.resetLiveSession();
-                                _scheduleLive();
+                                if (_useNativeYoloView) {
+                                  unawaited(_resumeNativeLiveCamera());
+                                } else {
+                                  _scheduleLive();
+                                }
                               } else {
                                 _liveTimer?.cancel();
+                                if (_useNativeYoloView) {
+                                  unawaited(_pauseNativeLiveCamera());
+                                }
                               }
                             },
                     ),
@@ -651,16 +924,20 @@ class _ScannerScreenState extends State<ScannerScreen>
                     ),
                     IconButton(
                       tooltip: 'Trocar câmera',
-                      onPressed: _busy || _cameras.length < 2
+                      onPressed: _busy
                           ? null
-                          : () => _openCamera(switchLens: true),
+                          : _useNativeYoloView
+                          ? (_liveModelReady ? _switchNativeCamera : null)
+                          : (_cameras.length < 2
+                                ? null
+                                : () => _openCamera(switchLens: true)),
                       icon: const Icon(Icons.cameraswitch_outlined),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: (constraints.maxHeight * 0.62).clamp(330.0, 560.0),
+                height: (constraints.maxHeight * 0.68).clamp(380.0, 620.0),
                 child: ColoredBox(
                   color: Colors.black,
                   child: Stack(
@@ -676,6 +953,32 @@ class _ScannerScreenState extends State<ScannerScreen>
                             color: Colors.white,
                           ),
                         )
+                      else if (_useNativeYoloView)
+                        LayoutBuilder(
+                          builder: (context, box) => Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              LiveYoloCamera(
+                                key: ValueKey('yolo-live-$_revision'),
+                                modelPath: _liveYoloModel,
+                                controller: _liveYoloController,
+                                confidenceThreshold: 0.25,
+                                iouThreshold: 0.50,
+                                onResult: (items) {
+                                  unawaited(_onNativeLiveResults(items));
+                                },
+                                onPerformanceMetrics: _onNativeMetrics,
+                                onModelLoad: _onNativeModelLoad,
+                                onModelError: _onNativeModelError,
+                              ),
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTapDown: (details) =>
+                                    _focus(details, box.biggest),
+                              ),
+                            ],
+                          ),
+                        )
                       else if (camera?.value.isInitialized == true)
                         _CameraPreviewCover(
                           camera: camera!,
@@ -683,16 +986,20 @@ class _ScannerScreenState extends State<ScannerScreen>
                           selected: _selectedDetection,
                           onFocus: _focus,
                         ),
-                      if (_loading && _photoBytes == null)
-                        const Center(
+                      if ((_loading ||
+                              (_useNativeYoloView && _preparingAi)) &&
+                          _photoBytes == null)
+                        Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              CircularProgressIndicator(),
-                              SizedBox(height: 12),
+                              const CircularProgressIndicator(),
+                              const SizedBox(height: 12),
                               Text(
-                                'Abrindo câmera…',
-                                style: TextStyle(color: Colors.white),
+                                _useNativeYoloView
+                                    ? 'Carregando YOLO-E…'
+                                    : 'Abrindo câmera…',
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ],
                           ),
@@ -716,19 +1023,30 @@ class _ScannerScreenState extends State<ScannerScreen>
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 TextButton(
-                                  onPressed: () => _openCamera(),
+                                  onPressed: () {
+                                    if (_useNativeYoloView) {
+                                      setState(() {
+                                        _cameraError = null;
+                                        _preparingAi = true;
+                                        _liveModelReady = false;
+                                        _revision++;
+                                      });
+                                    } else {
+                                      unawaited(_openCamera());
+                                    }
+                                  },
                                   child: const Text('Tentar novamente'),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      if (_live && camera?.value.isInitialized == true)
+                      if (_live && (_useNativeYoloView || camera?.value.isInitialized == true))
                         IgnorePointer(
                           child: Center(
                             child: FractionallySizedBox(
-                              widthFactor: 0.86,
-                              heightFactor: 0.84,
+                              widthFactor: 0.90,
+                              heightFactor: 0.88,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -736,6 +1054,53 @@ class _ScannerScreenState extends State<ScannerScreen>
                                     width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(24),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (_useNativeYoloView &&
+                          _live &&
+                          _photoBytes == null &&
+                          _liveModelReady)
+                        Positioned(
+                          left: 12,
+                          top: 12,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.72),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                              child: DefaultTextStyle(
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('YOLO-E ● ATIVO'),
+                                    if (_liveFps != null)
+                                      Text(
+                                        'FPS: ${_liveFps!.toStringAsFixed(1)}',
+                                      ),
+                                    if (_liveInferenceMs != null)
+                                      Text(
+                                        'Inferência: ${_liveInferenceMs!.toStringAsFixed(0)} ms',
+                                      ),
+                                    if (_selectedDetection != null)
+                                      Text(
+                                        'Objeto: ${_selectedDetection!.label} · ${(_selectedDetection!.confidence * 100).round()}%',
+                                      ),
+                                    if (_liveClassIndex != null)
+                                      Text('Classe: $_liveClassIndex'),
+                                  ],
                                 ),
                               ),
                             ),
@@ -757,7 +1122,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (kIsWeb || _maxExposure > 0)
+                    if (!_useNativeYoloView && (kIsWeb || _maxExposure > 0))
                       Row(children: [
                         const Icon(Icons.brightness_6_outlined, size: 20),
                         const SizedBox(width: 8),
@@ -769,7 +1134,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                           onChanged: _busy ? null : (value) => _setBrightness(value),
                         )),
                       ]),
-                    if (_preparingAi)
+                    if (_preparingAi && !_useNativeYoloView)
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
                         child: Text(kIsWeb
@@ -784,7 +1149,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                                 _busy ||
                                     _saving ||
                                     _selecting ||
-                                    camera?.value.isInitialized != true
+                                    !captureReady
                                 ? null
                                 : () => _capture(),
                             icon: const Icon(Icons.camera_alt_outlined),
@@ -892,18 +1257,31 @@ class _ScannerScreenState extends State<ScannerScreen>
                         onPressed: _busy || _saving
                             ? null
                             : () {
+                                final oldPhoto = _photoPath;
                                 setState(() {
                                   _live = true;
                                   _scanError = null;
+                                  _photoPath = null;
                                   _photoBytes = null;
                                   _result = null;
                                   _detections = const [];
                                   _selectedDetection = null;
                                   _detector = 'unknown';
                                   _saved = false;
+                                  _nativeEmptyFrames = 0;
+                                  _liveClassIndex = null;
+                                  if (_useNativeYoloView) {
+                                    _liveModelReady = false;
+                                    _preparingAi = true;
+                                  }
                                 });
+                                if (oldPhoto != null) {
+                                  unawaited(_deleteTemp(oldPhoto));
+                                }
                                 _scanner.resetLiveSession();
-                                if (_camera?.value.isInitialized != true) {
+                                if (_useNativeYoloView) {
+                                  unawaited(_resumeNativeLiveCamera());
+                                } else if (_camera?.value.isInitialized != true) {
                                   unawaited(_openCamera());
                                 } else {
                                   _scheduleLive();

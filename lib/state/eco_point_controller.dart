@@ -111,12 +111,19 @@ class EcoPointController extends ChangeNotifier {
       notifyListeners();
     }
     if (_disposed) return;
-    if (refresh) unawaited(refreshCatalog());
+    if (refresh && AppConfig.useSupabaseEcoPoints) {
+      unawaited(refreshCatalog());
+    }
     if (locate) unawaited(locateAndSearch());
   }
 
   Future<void> refreshCatalog() async {
     if (_isSearching || _disposed) return;
+    if (!AppConfig.useSupabaseEcoPoints) {
+      _status = '$totalCount EcoPontos no mapa. Catálogo local GeoSampa.';
+      notifyListeners();
+      return;
+    }
     _isSearching = true;
     _status = 'Atualizando o catálogo completo…';
     notifyListeners();

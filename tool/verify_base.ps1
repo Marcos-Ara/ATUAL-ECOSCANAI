@@ -16,6 +16,9 @@ try {
         'assets/data/yoloe_classes.json',
         'assets/models/ecoscan_yoloe26n_w8a32.tflite',
         'lib/services/auth_session.dart',
+        'lib/widgets/live_yolo_camera.dart',
+        'lib/widgets/live_yolo_camera_native.dart',
+        'lib/widgets/live_yolo_camera_stub.dart',
         'android/app/src/main/AndroidManifest.xml'
     )) {
         if (-not (Test-Path $requiredFile)) {
@@ -51,7 +54,7 @@ try {
         Invoke-Flutter build apk --release --dart-define-from-file=config/mobile.json
     }
 
-    Write-Host 'EcoScan 3.4.2: verificações concluídas.'
+    Write-Host 'EcoScan 3.4.3: verificações concluídas.'
 }
 finally {
     Pop-Location

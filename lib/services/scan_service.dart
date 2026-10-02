@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../core/app_config.dart';
 import '../models/object_detection.dart';
 import 'material_catalog.dart';
 import 'supabase_material_resolver.dart';
@@ -49,6 +50,7 @@ class ScanService {
   Future<MaterialCatalog>? _catalog;
   final SupabaseMaterialResolver _supabaseResolver;
   final YoloService _yolo;
+  final DetectionStabilizer _liveViewStabilizer = DetectionStabilizer();
   bool _closed = false;
 
   bool get supportsAutomaticLabeling => true;
@@ -72,12 +74,17 @@ class ScanService {
       analyzeFile(XFile(sourcePath));
 
   Future<void> warmup() async {
-    _catalog ??= MaterialCatalog.load();
+    await prepareLocalCatalog();
     if (kIsWeb) {
       await warmupWebScanner();
     } else {
       await _yolo.warmup();
     }
+  }
+
+  Future<void> prepareLocalCatalog() async {
+    _catalog ??= MaterialCatalog.load();
+    await _catalog;
   }
 
   Future<WasteClassification> _resolveCandidates(
@@ -95,12 +102,47 @@ class ScanService {
       result = WasteClassifier.classifyCandidates(candidates);
     }
 
-    if (!live && !result.isKnown) {
+    if (!live && !result.isKnown && AppConfig.useSupabaseCatalog) {
       final remote = await _supabaseResolver.resolve(candidates);
       if (remote != null) result = remote;
     }
 
     return WasteClassifier.finalizeAutomatic(result, candidates);
+  }
+
+  Future<ScanResult> analyzeLiveDetections(
+    List<ObjectDetection> detections,
+  ) async {
+    if (_closed) throw StateError('Scanner encerrado');
+    final current = DetectionTargetSelector.select(detections);
+    final selected = _liveViewStabilizer.add(current);
+    // Enquanto ainda não há duas confirmações, não gastamos tempo passando
+    // um frame instável pelo catálogo. Isso mantém o callback do vídeo leve.
+    if (selected == null) {
+      return ScanResult(
+        imagePath: '',
+        imageBytes: Uint8List(0),
+        classification: WasteClassifier.unknown,
+        detections: List.unmodifiable(detections),
+        detector: 'yoloe-live',
+      );
+    }
+    final candidates = <LabelCandidate>[
+      LabelCandidate(selected.label, selected.confidence),
+    ];
+    var classification = await _resolveCandidates(candidates, live: true);
+    classification = classification.copyWith(
+      detectionLabel: selected.label,
+      classIndex: selected.classIndex,
+    );
+    return ScanResult(
+      imagePath: '',
+      imageBytes: Uint8List(0),
+      classification: classification,
+      detections: List.unmodifiable(detections),
+      selectedDetection: selected,
+      detector: selected?.backend ?? 'yoloe-live',
+    );
   }
 
   Future<ScanResult> analyzeFile(
@@ -153,7 +195,14 @@ class ScanService {
     try {
       final yolo = await _yolo.detect(prepared, live: live);
       final native = await _nativeCandidates(file, prepared, yolo);
-      final result = await _resolveCandidates(native.candidates, live: live);
+      var result = await _resolveCandidates(native.candidates, live: live);
+      final selected = native.selected;
+      if (selected != null) {
+        result = result.copyWith(
+          detectionLabel: selected.label,
+          classIndex: selected.classIndex,
+        );
+      }
       return ScanResult(
         imagePath: file.path,
         imageBytes: prepared,
@@ -293,7 +342,10 @@ class ScanService {
     return 'data:image/jpeg;base64,${base64Encode(thumbnail)}';
   }
 
-  void resetLiveSession() => _yolo.resetLiveSession();
+  void resetLiveSession() {
+    _yolo.resetLiveSession();
+    _liveViewStabilizer.reset();
+  }
 
   Future<void> close() async {
     if (_closed) return;
@@ -304,6 +356,7 @@ class ScanService {
     _objectDetector = null;
     if (labeler != null) await labeler.close();
     if (objectDetector != null) await objectDetector.close();
+    _liveViewStabilizer.reset();
     await _yolo.close();
   }
 }

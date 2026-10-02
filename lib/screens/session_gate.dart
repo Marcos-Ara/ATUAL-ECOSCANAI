@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../core/app_config.dart';
 import '../services/auth_session.dart';
 import '../services/scan_sync_service.dart';
 import '../state/ecoscan_store.dart';
@@ -129,7 +130,7 @@ class _SessionGateState extends State<SessionGate>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         store.switchUser(sessionUserId);
-        if (!auth.isGuest) {
+        if (!auth.isGuest && AppConfig.syncSupabaseHistory) {
           unawaited(ScanSyncService().syncAll(store.detections));
         }
       });

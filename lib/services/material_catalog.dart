@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import '../models/material_guide.dart';
 import 'waste_classifier.dart';
 
-/// Snapshot of the same public Supabase knowledge base used by the website.
-/// Scan latency and availability do not depend on a network request.
+/// Snapshot local da base de conhecimento do EcoScan.
+/// O scanner ao vivo nunca depende de rede para objeto -> material -> lixeira.
 class MaterialCatalog {
   MaterialCatalog.fromJson(Map<String, dynamic> json) {
     for (final row in _rows(json['yoloe_classes'])) {
@@ -36,6 +36,7 @@ class MaterialCatalog {
       }
     }
   }
+
   final _objects = <String, Map<String, dynamic>>{};
   final _variants = <String, Map<String, dynamic>>{};
   final _byObject = <String, List<Map<String, dynamic>>>{};
@@ -45,6 +46,7 @@ class MaterialCatalog {
   static Iterable<Map<String, dynamic>> _rows(dynamic value) => value is List
       ? value.whereType<Map>().map((e) => Map<String, dynamic>.from(e))
       : const [];
+
   static Future<MaterialCatalog> load() async {
     final content = await rootBundle.loadString('assets/data/catalog.json');
     return MaterialCatalog.fromJson(
@@ -53,34 +55,50 @@ class MaterialCatalog {
   }
 
   WasteClassification classify(List<LabelCandidate> candidates) {
-    // The YOLO pipeline supplies only the selected object. Match its exact
-    // prompt instead of allowing a generic heuristic to replace its material.
+    // YOLO-E usa prompts específicos. Quando o prompt existe no snapshot local,
+    // ele é a fonte principal e também fornece o ID estável que depois poderá ser
+    // gravado no FATO_SCAN sem repetir nome/material/lixeira.
     if (candidates.length == 1) {
       final candidate = candidates.single;
-      final prompt = _yoloe[WasteClassifier.normalize(candidate.label)];
+      final normalized = WasteClassifier.normalize(candidate.label);
+      final prompt = _yoloe[normalized];
       final floor = (prompt?['minimum_confidence'] as num?)?.toDouble() ?? .35;
       if (prompt != null &&
           candidate.confidence.isFinite &&
           candidate.confidence >= floor) {
         final material = prompt['material_id']?.toString();
+        final identity = _identityForLabel(normalized);
         return WasteClassification(
           material: material == null ? null : MaterialGuide.byId(material),
           confidence: candidate.confidence,
           source: 'catalog-yoloe',
           detectedObject: prompt['object_name']?.toString(),
           instruction: prompt['instruction']?.toString(),
+          objectId: identity.objectId,
+          variantId: identity.variantId,
+          detectionLabel: candidate.label,
         );
       }
     }
+
     final direct = WasteClassifier.classifyCandidates(candidates);
     final scores = <String, double>{};
     final possible = <String, MaterialGuide>{};
+    _CatalogIdentity? bestIdentity;
+    LabelCandidate? bestCandidate;
+
     for (final candidate in candidates) {
       if (!candidate.confidence.isFinite || candidate.confidence < 0.60) {
         continue;
       }
-      final matches =
-          _byLabel[WasteClassifier.normalize(candidate.label)] ?? const [];
+      final normalized = WasteClassifier.normalize(candidate.label);
+      final matches = _byLabel[normalized] ?? const [];
+      if (matches.isNotEmpty &&
+          (bestCandidate == null ||
+              candidate.confidence > bestCandidate.confidence)) {
+        bestCandidate = candidate;
+        bestIdentity = _identityForLabel(normalized);
+      }
       for (final match in matches) {
         final guide = MaterialGuide.fromDatabase(match);
         final variants = _byObject[match['object_id'].toString()] ?? const [];
@@ -91,7 +109,6 @@ class MaterialCatalog {
             final choice = MaterialGuide.fromDatabase(variant);
             if (choice != null) possible[choice.id] = choice;
           }
-          // Bottle/cup/etc can have several materials. Never pick the first row.
           continue;
         }
         if (!isVariant && match['is_ambiguous'] == true && !special) {
@@ -106,6 +123,7 @@ class MaterialCatalog {
         }
       }
     }
+
     if (direct.isKnown) scores[direct.material!.id] = direct.confidence;
     for (final special in ['special', 'electronic']) {
       if ((scores[special] ?? 0) >= (special == 'electronic' ? 0.50 : 0.7)) {
@@ -113,9 +131,14 @@ class MaterialCatalog {
           material: MaterialGuide.byId(special),
           confidence: scores[special]!,
           source: 'catalog',
+          detectedObject: direct.detectedObject,
+          objectId: bestIdentity?.objectId,
+          variantId: bestIdentity?.variantId,
+          detectionLabel: bestCandidate?.label,
         );
       }
     }
+
     final ranked = scores.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     if (ranked.isNotEmpty) {
@@ -124,6 +147,10 @@ class MaterialCatalog {
           material: MaterialGuide.byId(ranked.first.key),
           confidence: ranked.first.value,
           source: 'catalog',
+          detectedObject: direct.detectedObject,
+          objectId: bestIdentity?.objectId,
+          variantId: bestIdentity?.variantId,
+          detectionLabel: bestCandidate?.label,
         );
       }
       for (final score in ranked) {
@@ -133,6 +160,32 @@ class MaterialCatalog {
     for (final choice in direct.options) {
       possible[choice.id] = choice;
     }
-    return WasteClassification(options: possible.values.toList());
+    return WasteClassification(
+      options: possible.values.toList(),
+      detectedObject: direct.detectedObject,
+      objectId: bestIdentity?.objectId,
+      variantId: bestIdentity?.variantId,
+      detectionLabel: bestCandidate?.label,
+    );
   }
+
+  _CatalogIdentity _identityForLabel(String normalizedLabel) {
+    final matches = _byLabel[normalizedLabel] ?? const [];
+    for (final row in matches) {
+      final objectId = row['object_id']?.toString();
+      if (objectId == null || objectId.isEmpty) continue;
+      final variantId = row['variant_id']?.toString();
+      return _CatalogIdentity(
+        objectId: objectId,
+        variantId: variantId == null || variantId.isEmpty ? null : variantId,
+      );
+    }
+    return const _CatalogIdentity();
+  }
+}
+
+class _CatalogIdentity {
+  const _CatalogIdentity({this.objectId, this.variantId});
+  final String? objectId;
+  final String? variantId;
 }

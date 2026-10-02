@@ -42,6 +42,13 @@ void main() {
     expect(stabilizer.add(keyboard)?.label, 'keyboard');
   });
 
+  test('objeto parcialmente enquadrado continua elegível', () {
+    final selected = DetectionTargetSelector.select([
+      detection('plastic bottle', .78, const Rect.fromLTWH(0, .28, .22, .42)),
+    ]);
+    expect(selected?.label, 'plastic bottle');
+  });
+
   test('objeto fora da moldura não gera seleção', () {
     expect(
       DetectionTargetSelector.select([
