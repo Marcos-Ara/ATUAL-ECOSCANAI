@@ -69,7 +69,13 @@ Habilite o provedor **Google** no Supabase e preencha Client ID e Client Secret 
 
 `https://kekcfxoiyufskltnzlie.supabase.co/auth/v1/callback`
 
-Não coloque Client Secret ou service-role no Flutter. Contas do projeto antigo não passam automaticamente para o projeto novo: cadastre novamente uma conta para testar. O modo visitante não cria usuário remoto.
+O Client ID atualizado é `980630728564-c2uvaqelhr3ekmdn90mc9rmrtrkaccqh.apps.googleusercontent.com`. As origens JavaScript autorizadas são `http://localhost:7357` e `https://ecoscan-ai-e961f.web.app`. No Google Cloud, mantenha também o callback acima como URI de redirecionamento autorizado. Use o Client Secret atual do arquivo JSON do Google Cloud para atualizar o campo **Client Secret** do provedor Google no Supabase.
+
+Não coloque Client Secret ou service-role no Flutter, em `config/mobile.json` ou neste ZIP. O segredo do Google é usado pelo Supabase no servidor e deve permanecer somente nas configurações do provedor. Contas do projeto antigo não passam automaticamente para o projeto novo: cadastre novamente uma conta para testar. O modo visitante não cria usuário remoto.
+
+## Aba de download do APK
+
+Na versão Web, a navegação inclui a aba **Baixar** com um botão de download do APK. Para publicar uma nova versão, cole o link HTTPS direto para o arquivo no campo `ECOSCAN_APK_DOWNLOAD_URL` de `config/mobile.json` e publique novamente o site. Enquanto o campo estiver vazio, o botão aparece como **APK em breve** e fica desativado. O link não contém credenciais e pode ser alterado a cada lançamento.
 
 ## Scanner e dados locais
 

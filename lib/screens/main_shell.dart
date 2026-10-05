@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'download_screen.dart';
 import 'home_screen.dart';
 import 'map_screen.dart';
 import 'scanner_screen.dart';
@@ -46,28 +48,35 @@ class _MainShellState extends State<MainShell> {
           initialSearch: _mapSearch,
           initialMaterialId: _mapMaterialId,
         ),
+        3 when kIsWeb => const DownloadScreen(),
         _ => SettingsScreen(onOpenMap: () => _select(2)),
       },
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selected,
         onDestinationSelected: _select,
-        destinations: const [
-          NavigationDestination(
+        destinations: [
+          const NavigationDestination(
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
             label: 'Início',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.center_focus_weak),
             selectedIcon: Icon(Icons.center_focus_strong),
             label: 'Scan',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.map_outlined),
             selectedIcon: Icon(Icons.map),
             label: 'Mapa',
           ),
-          NavigationDestination(
+          if (kIsWeb)
+            const NavigationDestination(
+              icon: Icon(Icons.download_outlined),
+              selectedIcon: Icon(Icons.download_rounded),
+              label: 'Baixar',
+            ),
+          const NavigationDestination(
             icon: Icon(Icons.settings_outlined),
             selectedIcon: Icon(Icons.settings),
             label: 'Config',
