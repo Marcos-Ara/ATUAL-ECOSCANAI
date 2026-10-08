@@ -1,6 +1,7 @@
 abstract final class AppConfig {
   static const appName = 'EcoScan AI';
   static const packageName = 'br.com.ecoscan.ecoscan_mobile';
+  static const webUrl = 'https://ecoscanai-66682.web.app';
   static const apkDownloadUrl = String.fromEnvironment(
     'ECOSCAN_APK_DOWNLOAD_URL',
     defaultValue: '',

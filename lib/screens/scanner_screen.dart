@@ -63,6 +63,11 @@ class _ScannerScreenState extends State<ScannerScreen>
   bool _preparingAi = true;
   double _brightness = 1.2;
   double _maxExposure = 0;
+  double _zoom = 1;
+  double _minZoom = 1;
+  double _maxZoom = 3;
+  bool _hardwareZoom = false;
+  double get _previewScale => _hardwareZoom ? 1 : _zoom;
   bool _adjustingLight = false;
   int _revision = 0;
   int _cameraIndex = 0;
@@ -235,6 +240,29 @@ class _ScannerScreenState extends State<ScannerScreen>
           await camera.dispose();
           return;
         }
+        if (kIsWeb) {
+          _minZoom = 1;
+          _maxZoom = 3;
+          _zoom = _zoom.clamp(_minZoom, _maxZoom).toDouble();
+          _hardwareZoom = false;
+        } else {
+          try {
+            _minZoom = await camera.getMinZoomLevel();
+            _maxZoom = await camera.getMaxZoomLevel();
+            _zoom = _zoom.clamp(_minZoom, _maxZoom).toDouble();
+            try {
+              await camera.setZoomLevel(_zoom);
+              _hardwareZoom = true;
+            } catch (_) {
+              _hardwareZoom = false;
+            }
+          } catch (_) {
+            _minZoom = 1;
+            _maxZoom = 1;
+            _zoom = _zoom.clamp(_minZoom, _maxZoom).toDouble();
+            _hardwareZoom = false;
+          }
+        }
         if (!kIsWeb) {
           try {
             await camera.setFocusMode(FocusMode.auto);
@@ -313,10 +341,6 @@ class _ScannerScreenState extends State<ScannerScreen>
       return;
     }
     _liveTimer?.cancel();
-    if (!automatic) {
-      _live = false;
-      _revision++;
-    }
     final request = _revision;
     setState(() {
       _busy = true;
@@ -340,7 +364,6 @@ class _ScannerScreenState extends State<ScannerScreen>
       _scanError = null;
     });
     String? rawPath;
-    var completed = false;
     try {
       // Primeiro captura o frame enquanto a câmera está ativa. Depois pausamos o
       // stream durante a inferência única para não disputar GPU com o YOLOView.
@@ -360,14 +383,12 @@ class _ScannerScreenState extends State<ScannerScreen>
         await _deleteTemp(analysis.imagePath);
         return;
       }
-      setState(() => _live = false);
       await _accept(analysis, fromGallery: false, queueLearning: true);
-      completed = true;
     } catch (error) {
       if (mounted) setState(() => _scanError = _errorText(error));
     } finally {
       if (rawPath != null) await _deleteTemp(rawPath);
-      if (!completed && mounted && _active && _live) {
+      if (mounted && _active && _live) {
         unawaited(_resumeNativeLiveCamera());
       }
       if (mounted) setState(() => _busy = false);
@@ -474,7 +495,13 @@ class _ScannerScreenState extends State<ScannerScreen>
   Future<void> _captureWork(int request, bool automatic) async {
     XFile? photo;
     try {
-      photo = await _camera!.takePicture();
+      final camera = _camera!;
+      photo = await camera.takePicture();
+      if (camera.value.isPreviewPaused) {
+        try {
+          await camera.resumePreview();
+        } catch (_) {}
+      }
       final analysis = await _scanner.analyzeFile(photo, live: automatic, brightness: _brightness);
       if (!mounted || request != _revision || !_active) {
         await _deleteTemp(analysis.imagePath);
@@ -491,7 +518,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       _liveFailures++;
       setState(() {
         _scanError = _errorText(error);
-        if (!automatic || _liveFailures >= 3) _live = false;
+        if (automatic && _liveFailures >= 3) _live = false;
       });
     } finally {
       if (photo != null && !kIsWeb) {
@@ -596,6 +623,7 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   Future<void> _selectPhoto() async {
     if (_busy || _saving || _selecting) return;
+    final wasLive = _live;
     setState(() {
       _selecting = true;
       _live = false;
@@ -616,22 +644,34 @@ class _ScannerScreenState extends State<ScannerScreen>
         imageQuality: 94,
       );
       if (!mounted) return;
-      if (photo != null) await _analyzeFile(photo, fromGallery: true);
+      if (photo != null) {
+        await _analyzeFile(photo, fromGallery: true);
+      } else if (mounted) {
+        setState(() => _live = wasLive);
+      }
     } on PlatformException {
       if (mounted) {
-        setState(
-          () => _scanError =
-              'Não foi possível abrir a galeria. Confira a permissão de fotos.',
-        );
+        setState(() {
+          _live = wasLive;
+          _scanError =
+              'Não foi possível abrir a galeria. Confira a permissão de fotos.';
+        });
       }
     } catch (_) {
       if (mounted) {
-        setState(() => _scanError = 'Não foi possível selecionar a foto.');
+        setState(() {
+          _live = wasLive;
+          _scanError = 'Não foi possível selecionar a foto.';
+        });
       }
     } finally {
       _selecting = false;
-      if (mounted && _active && !_useNativeYoloView) {
-        unawaited(_openCamera());
+      if (mounted && _active) {
+        if (_useNativeYoloView && _live) {
+          unawaited(_resumeNativeLiveCamera());
+        } else if (!_useNativeYoloView) {
+          unawaited(_openCamera());
+        }
       }
     }
   }
@@ -670,6 +710,20 @@ class _ScannerScreenState extends State<ScannerScreen>
         if (mounted) _notice('Esta câmera não permite ajustar a exposição.');
       } finally {
         _adjustingLight = false;
+      }
+    }
+  }
+
+  Future<void> _setZoom(double value) async {
+    final next = value.clamp(_minZoom, _maxZoom).toDouble();
+    if (mounted) setState(() => _zoom = next);
+    final camera = _camera;
+    if (!_useNativeYoloView && !kIsWeb && camera?.value.isInitialized == true) {
+      try {
+        await camera!.setZoomLevel(next);
+        if (mounted) setState(() => _hardwareZoom = true);
+      } catch (_) {
+        if (mounted) setState(() => _hardwareZoom = false);
       }
     }
   }
@@ -848,7 +902,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     final result = _result;
     final camera = _camera;
     final captureReady = _useNativeYoloView
-        ? _liveModelReady && _photoBytes == null
+        ? _liveModelReady
         : camera?.value.isInitialized == true;
     return SafeArea(
       child: LayoutBuilder(
@@ -958,18 +1012,21 @@ class _ScannerScreenState extends State<ScannerScreen>
                           builder: (context, box) => Stack(
                             fit: StackFit.expand,
                             children: [
-                              LiveYoloCamera(
-                                key: ValueKey('yolo-live-$_revision'),
-                                modelPath: _liveYoloModel,
-                                controller: _liveYoloController,
-                                confidenceThreshold: 0.25,
-                                iouThreshold: 0.50,
-                                onResult: (items) {
-                                  unawaited(_onNativeLiveResults(items));
-                                },
-                                onPerformanceMetrics: _onNativeMetrics,
-                                onModelLoad: _onNativeModelLoad,
-                                onModelError: _onNativeModelError,
+                              Transform.scale(
+                                scale: _previewScale,
+                                child: LiveYoloCamera(
+                                  key: ValueKey('yolo-live-$_revision'),
+                                  modelPath: _liveYoloModel,
+                                  controller: _liveYoloController,
+                                  confidenceThreshold: 0.25,
+                                  iouThreshold: 0.50,
+                                  onResult: (items) {
+                                    unawaited(_onNativeLiveResults(items));
+                                  },
+                                  onPerformanceMetrics: _onNativeMetrics,
+                                  onModelLoad: _onNativeModelLoad,
+                                  onModelError: _onNativeModelError,
+                                ),
                               ),
                               GestureDetector(
                                 behavior: HitTestBehavior.translucent,
@@ -980,11 +1037,14 @@ class _ScannerScreenState extends State<ScannerScreen>
                           ),
                         )
                       else if (camera?.value.isInitialized == true)
-                        _CameraPreviewCover(
-                          camera: camera!,
-                          detections: _detections,
-                          selected: _selectedDetection,
-                          onFocus: _focus,
+                        Transform.scale(
+                          scale: _previewScale,
+                          child: _CameraPreviewCover(
+                            camera: camera!,
+                            detections: _detections,
+                            selected: _selectedDetection,
+                            onFocus: _focus,
+                          ),
                         ),
                       if ((_loading ||
                               (_useNativeYoloView && _preparingAi)) &&
@@ -1059,10 +1119,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                             ),
                           ),
                         ),
-                      if (_useNativeYoloView &&
-                          _live &&
-                          _photoBytes == null &&
-                          _liveModelReady)
+                      if (_useNativeYoloView && _live && _liveModelReady)
                         Positioned(
                           left: 12,
                           top: 12,
@@ -1134,6 +1191,33 @@ class _ScannerScreenState extends State<ScannerScreen>
                           onChanged: _busy ? null : (value) => _setBrightness(value),
                         )),
                       ]),
+                    if (_maxZoom > _minZoom + 0.01)
+                      Row(
+                        children: [
+                          const Icon(Icons.zoom_in, size: 20),
+                          const SizedBox(width: 8),
+                          const Text('Zoom'),
+                          Expanded(
+                            child: Slider(
+                              value: _zoom.clamp(_minZoom, _maxZoom).toDouble(),
+                              min: _minZoom,
+                              max: _maxZoom,
+                              divisions: ((_maxZoom - _minZoom) * 2)
+                                  .round()
+                                  .clamp(1, 20)
+                                  .toInt(),
+                              label: '${_zoom.toStringAsFixed(1)}×',
+                              onChanged: _busy || _saving
+                                  ? null
+                                  : (value) => unawaited(_setZoom(value)),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 40,
+                            child: Text('${_zoom.toStringAsFixed(1)}×'),
+                          ),
+                        ],
+                      ),
                     if (_preparingAi && !_useNativeYoloView)
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),

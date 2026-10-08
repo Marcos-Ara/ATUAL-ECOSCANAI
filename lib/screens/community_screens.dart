@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/achievement_progress.dart';
 import '../models/material_guide.dart';
 import '../state/ecoscan_store.dart';
 import '../widgets/eco_brand.dart';
@@ -173,16 +174,11 @@ class AchievementsScreen extends StatelessWidget {
     final scans = store.scanCount;
     final categories = store.detections.map((r) => r.category).toSet().length;
     final points = ecoPoints(store);
-    final medals = <(String, String, int, int)>[
-      ('🌱', 'Primeiro Scan', scans, 1),
-      ('♻️', 'Reciclador', scans, 10),
-      ('🌎', 'Guardião Ambiental', scans, 25),
-      ('🏆', 'Mestre Sustentável', scans, 50),
-      ('📍', 'Explorador Verde', store.exploredMap ? 1 : 0, 1),
-      ('📚', 'Educador Verde', scans, 100),
-      ('🧠', 'Detetive dos Materiais', categories, 5),
-      ('🗑️', 'Destino Certo', scans, 10),
-    ];
+    final medals = AchievementProgress.build(
+      scans: scans,
+      categories: categories,
+      exploredMap: store.exploredMap,
+    );
     return Scaffold(
       appBar: AppBar(title: const Text('Conquistas')),
       body: ListView(
@@ -223,10 +219,10 @@ class AchievementsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        medal.$1,
+                        medal.icon,
                         style: TextStyle(
                           fontSize: 30,
-                          color: medal.$3 >= medal.$4 ? null : Colors.grey,
+                          color: medal.isUnlocked ? null : Colors.grey,
                         ),
                       ),
                       const SizedBox(width: 14),
@@ -235,18 +231,18 @@ class AchievementsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              medal.$2,
+                              medal.title,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 8),
                             LinearProgressIndicator(
-                              value: (medal.$3 / medal.$4).clamp(0, 1),
+                              value: medal.fraction,
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              '${medal.$3} / ${medal.$4}',
+                              '${medal.displayedCurrent} / ${medal.target}',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],
@@ -254,7 +250,7 @@ class AchievementsScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Icon(
-                        medal.$3 >= medal.$4
+                        medal.isUnlocked
                             ? Icons.verified
                             : Icons.lock_outline,
                         size: 20,

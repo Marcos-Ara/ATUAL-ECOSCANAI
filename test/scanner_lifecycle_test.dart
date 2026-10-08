@@ -57,6 +57,39 @@ class ControlledScan extends ScanService {
 }
 
 void main() {
+  testWidgets('fotografar mantém o scanner no modo ao vivo', (tester) async {
+    final previous = CameraPlatform.instance;
+    final camera = FakeCamera();
+    final scan = ControlledScan();
+    CameraPlatform.instance = camera;
+    addTearDown(() {
+      CameraPlatform.instance = previous;
+    });
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(home: Scaffold(body: ScannerScreen(scanner: scan))),
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.ensureVisible(find.text('Fotografar'));
+    await tester.tap(find.text('Fotografar'));
+    await tester.pump();
+
+    expect(scan.requests, hasLength(1));
+    expect(find.text('● AO VIVO'), findsOneWidget);
+    scan.finish(0);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.text('● AO VIVO'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(milliseconds: 200));
+  });
+
   testWidgets('live não sobrepõe leituras e descarta análise pausada', (tester) async {
     final previous = CameraPlatform.instance;
     final camera = FakeCamera();

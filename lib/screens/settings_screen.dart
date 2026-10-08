@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../core/app_config.dart';
 import '../services/auth_session.dart';
 import '../services/learning_sync_service.dart';
 import '../state/ecoscan_store.dart';
@@ -81,6 +83,13 @@ class SettingsScreen extends StatelessWidget {
             onTap: onOpenMap,
           ),
           ListTile(
+            leading: const Icon(Icons.language_outlined),
+            title: const Text('Acessar página web'),
+            subtitle: const Text('Abrir o EcoScan AI no navegador'),
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () => _openWebPage(context),
+          ),
+          ListTile(
             leading: const Icon(Icons.psychology_outlined),
             title: const Text('Amostras locais para melhoria'),
             subtitle: Text(
@@ -156,6 +165,18 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
     if (approved == true) await store.clearLearningSamples();
+  }
+
+  static Future<void> _openWebPage(BuildContext context) async {
+    final opened = await launchUrl(
+      Uri.parse(AppConfig.webUrl),
+      mode: LaunchMode.externalApplication,
+    );
+    if (!opened && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Não foi possível abrir a página web.')),
+      );
+    }
   }
 
   static Future<void> _uploadLearning(
