@@ -79,10 +79,19 @@ void main() {
     await tester.pump();
 
     expect(scan.requests, hasLength(1));
+    expect(find.text('Foto capturada. Analisando…'), findsOneWidget);
+    // ensureVisible may have scrolled the header out of the lazy ListView;
+    // return to the top before checking its live-mode indicator.
+    await tester.drag(find.byType(ListView), const Offset(0, 1000));
+    await tester.pump();
     expect(find.text('● AO VIVO'), findsOneWidget);
     scan.finish(0);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
+    expect(find.text('Resultado da foto'), findsOneWidget);
+    expect(find.text('Continuar escaneando'), findsOneWidget);
+    await tester.tap(find.text('Continuar escaneando'));
+    await tester.pump();
     expect(find.text('● AO VIVO'), findsOneWidget);
     expect(tester.takeException(), isNull);
 

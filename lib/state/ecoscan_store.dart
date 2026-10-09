@@ -157,7 +157,7 @@ class EcoScanStore extends ChangeNotifier {
   Future<void> addLearningSample(LearningSample sample) async {
     if (userId == null) return;
     final owner = userId;
-    final next = [sample, ..._learningSamples].take(30).toList();
+    final next = [sample, ..._learningSamples];
     final success = await _preferences.setString(
       _learningKey,
       jsonEncode(next.map((item) => item.toJson()).toList()),

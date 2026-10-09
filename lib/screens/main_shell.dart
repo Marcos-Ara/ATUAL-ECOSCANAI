@@ -21,6 +21,8 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> {
   int _selected = 0;
+  final GlobalKey<ScannerScreenState> _scannerKey =
+      GlobalKey<ScannerScreenState>();
   int _mapRevision = 0;
   String? _mapSearch;
   String? _mapMaterialId;
@@ -184,6 +186,10 @@ class _MainShellState extends State<MainShell> {
   }
 
   void _select(int index) {
+    if (index == 1 && index == _selected) {
+      _scannerKey.currentState?.showLiveScanner();
+      return;
+    }
     setState(() => _selected = index);
   }
 
@@ -200,6 +206,7 @@ class _MainShellState extends State<MainShell> {
           onOpenScanner: () => _select(1),
         ),
         1 => ScannerScreen(
+          key: _scannerKey,
           onFindNearby: (result) {
             setState(() {
               _mapSearch = result.detectedObject ?? result.name;

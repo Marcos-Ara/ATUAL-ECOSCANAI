@@ -31,8 +31,10 @@ class SettingsScreen extends StatelessWidget {
             onChanged: store.setDarkMode,
           ),
           SwitchListTile(
-            title: const Text('Avisos do aplicativo'),
-            subtitle: const Text('Confirmações dentro do EcoScan'),
+            title: const Text('Avisos dentro do app'),
+            subtitle: const Text(
+              'Mensagens na tela; não são notificações do celular.',
+            ),
             value: store.notifications,
             onChanged: store.setNotifications,
           ),
@@ -93,9 +95,12 @@ class SettingsScreen extends StatelessWidget {
             leading: const Icon(Icons.psychology_outlined),
             title: const Text('Amostras locais para melhoria'),
             subtitle: Text(
-              '${store.learningSampleCount}/30 leituras inconclusivas · sem envio automático',
+              'Disponível · ${store.learningSampleCount} ${store.learningSampleCount == 1 ? 'leitura salva' : 'leituras salvas'} · sem limite · envio só com seu consentimento',
             ),
-            trailing: const Icon(Icons.lock_outline),
+            trailing: const Icon(
+              Icons.check_circle_outline,
+              color: Color(0xFF8FE69A),
+            ),
           ),
           if (store.learningSampleCount > 0)
             Padding(
@@ -149,8 +154,8 @@ class SettingsScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const Text('Apagar amostras locais?'),
         content: const Text(
-          'Essas imagens reduzidas ficam somente neste aparelho e ajudam a '
-          'preparar um futuro conjunto de treinamento.',
+          'Essas imagens reduzidas e as correções informadas ficam somente '
+          'neste aparelho até você escolher enviá-las.',
         ),
         actions: [
           TextButton(
@@ -188,9 +193,10 @@ class SettingsScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const Text('Enviar para revisão?'),
         content: const Text(
-          'As miniaturas e caixas sugeridas serão enviadas ao Supabase para '
-          'revisão humana. Nada é usado para treinar automaticamente e as '
-          'amostras locais só serão removidas após o envio confirmado.',
+          'As fotos reduzidas, suas correções e as sugestões do YOLO-E serão '
+          'enviadas ao Supabase para revisão. O envio não atualiza o modelo '
+          'automaticamente. As correções locais só serão removidas após a '
+          'confirmação do Supabase.',
         ),
         actions: [
           TextButton(
@@ -219,12 +225,19 @@ class SettingsScreen extends StatelessWidget {
           ),
         );
       }
-    } catch (_) {
+    } catch (error) {
       if (context.mounted) {
+        final detail = error.toString().replaceFirst('Bad state: ', '').trim();
+        final message = detail.isEmpty
+            ? 'Falha no envio. As amostras continuam salvas no aparelho.'
+            : 'Falha no envio; as amostras continuam salvas. $detail';
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
+            duration: Duration(seconds: 8),
             content: Text(
-              'Não foi possível enviar. As amostras continuam no aparelho.',
+              message.length > 300
+                  ? '${message.substring(0, 300)}…'
+                  : message,
             ),
           ),
         );

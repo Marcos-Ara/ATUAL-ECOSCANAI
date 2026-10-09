@@ -202,7 +202,16 @@ create table if not exists public.ecoscan_training_samples (
   status text not null default 'pending'
     check (status in ('pending', 'approved', 'rejected', 'trained')),
   verified_label text,
+  verified_bin text,
   annotations jsonb not null default '[]'::jsonb,
+  user_reported_label text,
+  user_reported_bin text,
+  report_note text,
+  ai_detected boolean,
+  original_label text,
+  original_confidence double precision check (
+    original_confidence is null or original_confidence between 0 and 1
+  ),
   consented_at timestamptz not null default now(),
   reviewed_at timestamptz,
   created_at timestamptz not null default now(),

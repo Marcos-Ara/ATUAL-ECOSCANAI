@@ -141,7 +141,7 @@ class ScanService {
       classification: classification,
       detections: List.unmodifiable(detections),
       selectedDetection: selected,
-      detector: selected?.backend ?? 'yoloe-live',
+      detector: selected.backend,
     );
   }
 
