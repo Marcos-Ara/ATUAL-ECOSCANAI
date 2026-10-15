@@ -66,6 +66,8 @@ class _SessionGateState extends State<SessionGate>
     if (_syncingAccount || store.userId != userId) return;
     _syncingAccount = true;
     try {
+      await store.syncAccountSettings();
+      if (!mounted || store.userId != userId) return;
       final sync = ScanSyncService();
       await sync.reconcileDeletions(store);
       if (!mounted || store.userId != userId) return;

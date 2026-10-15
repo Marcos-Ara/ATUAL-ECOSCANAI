@@ -106,19 +106,19 @@ def publish_model(
     )
 
     row = {
-        "platform": platform,
-        "version": version,
-        "bucket_id": "ecoscan-models",
-        "object_path": object_path,
-        "sha256": digest,
-        "byte_size": len(payload),
-        "is_active": True,
-        "notes": notes or None,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "plataforma": platform,
+        "versao": version,
+        "id_bucket": "ecoscan-models",
+        "caminho_arquivo": object_path,
+        "hash_sha256": digest,
+        "tamanho_bytes": len(payload),
+        "ativa": True,
+        "observacoes": notes or None,
+        "criado_em": datetime.now(timezone.utc).isoformat(),
     }
     registry_url = (
-        f"{base_url}/rest/v1/ecoscan_model_releases?"
-        "on_conflict=platform,version"
+        f"{base_url}/rest/v1/versoes_modelo?"
+        "on_conflict=plataforma,versao"
     )
     response = request(
         registry_url,
@@ -130,16 +130,16 @@ def publish_model(
     rows = json.loads(response or b"[]")
     filter_query = urlencode(
         {
-            "platform": f"eq.{platform}",
-            "is_active": "eq.true",
-            "version": f"neq.{version}",
+            "plataforma": f"eq.{platform}",
+            "ativa": "eq.true",
+            "versao": f"neq.{version}",
         }
     )
     request(
-        f"{base_url}/rest/v1/ecoscan_model_releases?{filter_query}",
+        f"{base_url}/rest/v1/versoes_modelo?{filter_query}",
         service_role_key,
         method="PATCH",
-        data=json.dumps({"is_active": False}).encode(),
+        data=json.dumps({"ativa": False}).encode(),
         prefer="return=minimal",
     )
     return rows[0] if rows else row

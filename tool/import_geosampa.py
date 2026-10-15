@@ -94,17 +94,61 @@ def main():
     ids = ','.join("'" + row['id'].replace("'", "''") + "'" for row in rows)
     sql += f"update public.ecopoints set is_active=false, updated_at=now() where source='geosampa' and id not in ({ids});\n"
     (root / 'supabase/migrations/202609290003_ecopoints.sql').write_text(sql, encoding='utf-8')
+
+    material_ids = {
+        'plastic': 'plastico', 'paper': 'papel', 'glass': 'vidro',
+        'metal': 'metal', 'cardboard': 'papelao', 'organic': 'organico',
+        'reject': 'rejeito', 'electronic': 'eletronico',
+        'special': 'especial', 'battery': 'pilhas_baterias',
+    }
+    points_pt = [{
+        'ponto_id': row['id'], 'nome': row['name'],
+        'categoria': 'reciclagem', 'latitude': row['latitude'],
+        'longitude': row['longitude'], 'endereco': row['address'],
+        'horario_atendimento': row['opening_hours'],
+        'descricao_materiais_aceitos': row['accepted_materials_description'],
+        'distrito': row['district'], 'subprefeitura': row['administrative_area'],
+        'fonte': row['source'], 'url_fonte': row['source_url'], 'ativo': True,
+    } for row in rows]
+    cols_pt = list(points_pt[0])
+    types_pt = ','.join(
+        f"{key} {'double precision' if key in ('latitude','longitude') else 'boolean' if key == 'ativo' else 'text'}"
+        for key in cols_pt
+    )
+    literal_pt = "'" + json.dumps(points_pt, ensure_ascii=False, separators=(',', ':')).replace("'", "''") + "'::jsonb"
+    update_pt = ','.join(f'{key}=excluded.{key}' for key in cols_pt if key != 'ponto_id')
+    sql_pt = '-- Atualização do catálogo GeoSampa para o esquema em português.\nbegin;\n'
+    sql_pt += f'insert into public.pontos_ecologicos({",".join(cols_pt)}) select {",".join(cols_pt)} from jsonb_to_recordset({literal_pt}) as x({types_pt}) on conflict(ponto_id) do update set {update_pt},atualizado_em=now();\n'
+    accepted = [
+        {'ponto_id': row['id'], 'material_id': material_ids[material]}
+        for row in rows for material in row['accepted_material_ids']
+        if material in material_ids
+    ]
+    accepted_literal = "'" + json.dumps(accepted, ensure_ascii=False, separators=(',', ':')).replace("'", "''") + "'::jsonb"
+    sql_pt += f'delete from public.materiais_ponto_ecologico where ponto_id in ({ids});\n'
+    if accepted:
+        sql_pt += f"insert into public.materiais_ponto_ecologico(ponto_id,material_id) select ponto_id,material_id from jsonb_to_recordset({accepted_literal}) as x(ponto_id text,material_id text) on conflict do nothing;\n"
+    sql_pt += f"update public.pontos_ecologicos set ativo=false,atualizado_em=now() where fonte='geosampa' and ponto_id not in ({ids});\ncommit;\n"
+    migration_dir = root / 'supabase/migrations'
+    existing_versions = [
+        int(path.name[:12]) for path in migration_dir.glob('*.sql')
+        if path.name[:12].isdigit()
+    ]
+    next_version = max(existing_versions, default=202610160001) + 1
+    migration_path = migration_dir / f'{next_version}_ecopontos_atualizacao.sql'
+    migration_path.write_text(sql_pt, encoding='utf-8')
+
     migrations = sorted((root / 'supabase/migrations').glob('*.sql'))
-    full = '-- Execute no SQL Editor do projeto NOVO: kekcfxoiyufskltnzlie.\nBEGIN;\n'
-    bodies = []
+    full = '-- EcoScan AI: instalação inicial consolidada do banco Supabase, em português.\n'
+    full += '-- Execute uma vez em um projeto sem tabelas do EcoScan; não rode também as migrações individuais.\nbegin;\n'
     for migration in migrations:
         body = migration.read_text(encoding='utf-8')
-        if migration.name == '202609300001_yoloe_catalog.sql':
-            body = body.replace('begin;\n', '', 1).removesuffix('commit;\n')
-        bodies.append(body)
-    full += '\n'.join(bodies) + '\nCOMMIT;\n'
-    full += "select count(*) as ecopontos from public.ecopoints where source='geosampa' and is_active;\n"
-    full += "select count(*) as objetos from public.objects;\nselect public.find_ecoscan_object('garrafa pet') as teste_descarte;\n"
+        body = re.sub(r'(?im)^\s*(begin|commit)\s*;\s*(?:--[^\r\n]*)?\r?\n', '', body)
+        full += f'\n-- >>> MIGRATION {migration.name}\n{body.strip()}\n-- <<< MIGRATION {migration.name}\n'
+    full += '\ncommit;\n'
+    full += "select 'objetos' as conjunto, count(*) as quantidade from public.objetos;\n"
+    full += "select 'pontos_ecologicos_geosampa' as conjunto, count(*) as quantidade from public.pontos_ecologicos where fonte='geosampa' and ativo;\n"
+    full += "select public.buscar_objeto_ecoscan('bottle') is null as classe_ambigua_nao_classificada_sozinha;\n"
     (root / 'supabase/ECOSCAN_SUPABASE_NOVO.sql').write_text(full, encoding='utf-8')
     print(f'{len(rows)} EcoPontos validados. Asset e SQL atualizados.')
 

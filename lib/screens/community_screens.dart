@@ -136,7 +136,11 @@ class StatsScreen extends StatelessWidget {
 
 int ecoPoints(EcoScanStore store) {
   final records = store.detections;
-  final categories = records.map((r) => r.category).toSet().length;
+  final categories = records
+      .map((r) => r.category.trim())
+      .where((category) => category.isNotEmpty)
+      .toSet()
+      .length;
   final recycled = records
       .where((r) => MaterialGuide.byName(r.category)?.recyclable == true)
       .length;
@@ -154,7 +158,8 @@ int ecoPoints(EcoScanStore store) {
           )
           .length *
       5;
-  return records.length * 10 + recycled * 5 + categories * 10 + bonus;
+  final firstScanReward = records.isEmpty ? 0 : 60;
+  return firstScanReward + records.length * 10 + recycled * 5 + categories * 10 + bonus;
 }
 
 String achievementLevel(int points) {

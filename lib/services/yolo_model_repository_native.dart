@@ -25,20 +25,20 @@ class _SupabaseModelRepository implements YoloModelRepositoryPlatform {
       if (client.auth.currentUser == null) return null;
       final platformName = Platform.isAndroid ? 'android' : 'ios';
       final rows = await client
-          .from('ecoscan_model_releases')
-          .select('version,bucket_id,object_path,sha256,byte_size,created_at')
-          .eq('platform', platformName)
-          .eq('is_active', true)
-          .order('created_at', ascending: false)
+          .from('versoes_modelo')
+          .select('versao,id_bucket,caminho_arquivo,hash_sha256,tamanho_bytes,criado_em')
+          .eq('plataforma', platformName)
+          .eq('ativa', true)
+          .order('criado_em', ascending: false)
           .limit(1)
           .timeout(const Duration(seconds: 15));
       if (rows.isEmpty) return null;
       final release = Map<String, dynamic>.from(rows.first);
-      final bucket = release['bucket_id']?.toString() ?? 'ecoscan-models';
-      final objectPath = release['object_path']?.toString() ?? '';
-      final expectedHash = release['sha256']?.toString().toLowerCase() ?? '';
-      final expectedSize = (release['byte_size'] as num?)?.toInt();
-      final version = _safeSegment(release['version']?.toString() ?? 'active');
+      final bucket = release['id_bucket']?.toString() ?? 'ecoscan-models';
+      final objectPath = release['caminho_arquivo']?.toString() ?? '';
+      final expectedHash = release['hash_sha256']?.toString().toLowerCase() ?? '';
+      final expectedSize = (release['tamanho_bytes'] as num?)?.toInt();
+      final version = _safeSegment(release['versao']?.toString() ?? 'ativa');
       final fileName = p.basename(objectPath);
       if (objectPath.isEmpty ||
           fileName.isEmpty ||

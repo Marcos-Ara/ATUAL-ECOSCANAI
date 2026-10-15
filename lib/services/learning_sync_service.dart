@@ -37,7 +37,7 @@ class LearningSyncService {
           throw StateError(
             'O bucket privado ecoscan-training não existe no projeto Supabase '
             'conectado ao app. No SQL Editor desse mesmo projeto, execute '
-            'supabase/migrations/202610080001_learning_reports.sql e tente '
+            'supabase/ECOSCAN_SUPABASE_NOVO.sql e tente '
             'enviar novamente. As amostras continuam salvas neste aparelho.',
           );
         }
@@ -46,31 +46,31 @@ class LearningSyncService {
         );
       }
       try {
-        await _client.from('ecoscan_training_samples').upsert(
+        await _client.from('amostras_treinamento').upsert(
           {
-            'user_id': user.id,
-            'client_sample_id': sample.id,
-            'storage_path': path,
-            'source': sample.source,
-            'detector': sample.detector,
-            'detections': sample.detections,
-            'status': 'pending',
-            'verified_label': null,
-            'annotations': const <Map<String, dynamic>>[],
-            'user_reported_label': sample.reportedLabel,
-            'user_reported_bin': sample.reportedBin,
-            'report_note': sample.reportNote,
-            'ai_detected': sample.aiDetected,
-            'original_label': sample.originalLabel,
-            'original_confidence': sample.originalConfidence,
-            'consented_at': DateTime.now().toUtc().toIso8601String(),
+            'usuario_id': user.id,
+            'id_amostra_cliente': sample.id,
+            'caminho_arquivo': path,
+            'origem': sample.source,
+            'mecanismo_deteccao': sample.detector,
+            'deteccoes': sample.detections,
+            'situacao': 'pendente',
+            'rotulo_confirmado': null,
+            'anotacoes': const <Map<String, dynamic>>[],
+            'rotulo_informado_usuario': sample.reportedLabel,
+            'lixeira_informada_usuario': sample.reportedBin,
+            'observacao': sample.reportNote,
+            'detectado_por_ia': sample.aiDetected,
+            'rotulo_original': sample.originalLabel,
+            'confianca_original': sample.originalConfidence,
+            'consentido_em': DateTime.now().toUtc().toIso8601String(),
           },
-          onConflict: 'user_id,client_sample_id',
+          onConflict: 'usuario_id,id_amostra_cliente',
         );
       } catch (error) {
         throw StateError(
           'A imagem chegou ao bucket, mas o banco recusou o registro. '
-          'Confira a migração SQL learning_reports: ${_safeError(error)}',
+          'Confira se a instalação do banco em português terminou: ${_safeError(error)}',
         );
       }
       uploaded.add(sample.id);

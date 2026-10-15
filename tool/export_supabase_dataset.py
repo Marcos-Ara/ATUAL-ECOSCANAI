@@ -39,10 +39,10 @@ def fetch(url: str, key: str) -> bytes:
 
 def valid_box(annotation: dict[str, object]) -> tuple[float, float, float, float] | None:
     try:
-        left = float(annotation["left"])
-        top = float(annotation["top"])
-        right = float(annotation["right"])
-        bottom = float(annotation["bottom"])
+        left = float(annotation.get("esquerda", annotation.get("left")))
+        top = float(annotation.get("topo", annotation.get("top")))
+        right = float(annotation.get("direita", annotation.get("right")))
+        bottom = float(annotation.get("base", annotation.get("bottom")))
     except (KeyError, TypeError, ValueError):
         return None
     if not (0 <= left < right <= 1 and 0 <= top < bottom <= 1):
@@ -63,26 +63,28 @@ def main() -> None:
     query = urlencode(
         {
             "select": (
-                "user_id,client_sample_id,storage_path,verified_label,annotations"
+                "usuario_id,id_amostra_cliente,caminho_arquivo,rotulo_confirmado,anotacoes"
             ),
-            "status": "eq.approved",
-            "verified_label": "not.is.null",
+            "situacao": "eq.aprovada",
+            "rotulo_confirmado": "not.is.null",
         }
     )
     rows = json.loads(
-        fetch(f"{base_url}/rest/v1/ecoscan_training_samples?{query}", key)
+        fetch(f"{base_url}/rest/v1/amostras_treinamento?{query}", key)
     )
     prepared: list[tuple[dict[str, object], list[tuple[str, tuple[float, ...]]]]] = []
     class_names: set[str] = set()
     for row in rows:
-        annotations = row.get("annotations")
+        annotations = row.get("anotacoes")
         if not isinstance(annotations, list):
             continue
         parsed = []
         for raw in annotations:
             if not isinstance(raw, dict):
                 continue
-            label = str(raw.get("label") or row.get("verified_label") or "").strip()
+            label = str(
+                raw.get("rotulo") or raw.get("label") or row.get("rotulo_confirmado") or ""
+            ).strip()
             box = valid_box(raw)
             if label and box:
                 parsed.append((label, box))
@@ -91,7 +93,7 @@ def main() -> None:
             prepared.append((row, parsed))
     if not prepared:
         raise RuntimeError(
-            "Nenhuma amostra aprovada possui annotations com caixas normalizadas."
+            "Nenhuma amostra aprovada possui anotacoes com caixas normalizadas."
         )
 
     classes = sorted(class_names)
@@ -103,16 +105,16 @@ def main() -> None:
 
     manifest = []
     for index, (row, annotations) in enumerate(prepared):
-        identity = f"{row['user_id']}:{row['client_sample_id']}"
+        identity = f"{row['usuario_id']}:{row['id_amostra_cliente']}"
         split = "val" if int(hashlib.sha256(identity.encode()).hexdigest()[:8], 16) % 5 == 0 else "train"
         if len(prepared) > 1 and index == len(prepared) - 1:
             existing_val = any(item["split"] == "val" for item in manifest)
             if not existing_val:
                 split = "val"
         file_stem = safe_name(
-            f"{str(row['user_id'])[:8]}_{row['client_sample_id']}"
+            f"{str(row['usuario_id'])[:8]}_{row['id_amostra_cliente']}"
         )
-        storage_path = str(row["storage_path"])
+        storage_path = str(row["caminho_arquivo"])
         image_url = (
             f"{base_url}/storage/v1/object/authenticated/ecoscan-training/"
             f"{quote(storage_path, safe='/')}"
@@ -129,9 +131,9 @@ def main() -> None:
         )
         manifest.append(
             {
-                "client_sample_id": row["client_sample_id"],
+                "id_amostra_cliente": row["id_amostra_cliente"],
                 "split": split,
-                "labels": [label for label, _ in annotations],
+                "rotulos": [label for label, _ in annotations],
             }
         )
 

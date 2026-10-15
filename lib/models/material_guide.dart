@@ -93,15 +93,15 @@ class MaterialGuide {
   }
 
   static MaterialGuide? fromDatabase(Map<String, dynamic> row) {
-    final special = row['special_waste'];
+    final special = row['residuos_especiais'] ?? row['special_waste'];
     if (special is List && special.isNotEmpty) {
       final text = special.toString().toLowerCase();
       return byId(text.contains('eletr') ? 'electronic' : 'special');
     }
     final text = [
-      row['category_name'],
-      row['material_name'],
-      row['bin_name'],
+      row['categoria'] ?? row['category_name'],
+      row['nome_material'] ?? row['material_name'],
+      row['cor_lixeira'] ?? row['bin_name'],
     ].join(' ').toLowerCase();
     if (text.contains('eletr') || text.contains('bateria')) {
       return byId('electronic');

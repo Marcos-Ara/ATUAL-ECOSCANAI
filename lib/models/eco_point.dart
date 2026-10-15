@@ -105,7 +105,7 @@ class EcoPoint {
       id: json['id']?.toString() ?? '',
       name: json['name']?.toString() ?? 'EcoPonto',
       type: json['type']?.toString() ?? 'Ponto de descarte',
-      category: json['category'] == EcoPointCategory.disposal.name
+      category: const ['descarte', 'disposal'].contains(json['category'])
           ? EcoPointCategory.disposal
           : EcoPointCategory.recycling,
       latitude: (json['latitude'] as num).toDouble(),

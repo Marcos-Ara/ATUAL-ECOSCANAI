@@ -5,7 +5,7 @@ import '../state/ecoscan_store.dart';
 
 /// Registra no Supabase as análises que o usuário salvou no histórico.
 ///
-/// O app usa apenas a chave pública. A tabela `fato_scan` aplica RLS e aceita
+/// O app usa apenas a chave pública. A tabela `leituras_scan` aplica RLS e aceita
 /// somente registros do próprio usuário autenticado.
 class ScanSyncService {
   ScanSyncService({SupabaseClient? client})
@@ -36,9 +36,9 @@ class ScanSyncService {
     final user = _client.auth.currentUser;
     if (user == null) return;
 
-    await _client.from('fato_scan').upsert(
+    await _client.from('leituras_scan').upsert(
       _payload(user.id, record),
-      onConflict: 'user_id,client_scan_id',
+      onConflict: 'usuario_id,id_leitura_cliente',
     );
   }
 
@@ -57,9 +57,9 @@ class ScanSyncService {
           .map((record) => _payload(user.id, record))
           .toList(growable: false);
       if (batch.isEmpty) continue;
-      await _client.from('fato_scan').upsert(
+      await _client.from('leituras_scan').upsert(
         batch,
-        onConflict: 'user_id,client_scan_id',
+        onConflict: 'usuario_id,id_leitura_cliente',
       );
     }
   }
@@ -71,13 +71,13 @@ class ScanSyncService {
     final ids = <String>{};
     for (var start = 0; ; start += pageSize) {
       final rows = await _client
-          .from('fato_scan_deletions')
-          .select('client_scan_id')
-          .order('client_scan_id', ascending: true)
+          .from('exclusoes_leitura')
+          .select('id_leitura_cliente')
+          .order('id_leitura_cliente', ascending: true)
           .range(start, start + pageSize - 1);
       for (final raw in rows) {
-        if (raw is Map && raw['client_scan_id'] != null) {
-          ids.add(raw['client_scan_id'].toString());
+        if (raw['id_leitura_cliente'] != null) {
+          ids.add(raw['id_leitura_cliente'].toString());
         }
       }
       if (rows.length < pageSize) break;
@@ -96,16 +96,20 @@ class ScanSyncService {
         'user_id': user.id,
         'client_scan_id': id,
         'deleted_at': DateTime.now().toUtc().toIso8601String(),
+      }).map((row) => {
+        'usuario_id': row['user_id'],
+        'id_leitura_cliente': row['client_scan_id'],
+        'excluido_em': row['deleted_at'],
       }).toList(growable: false);
-      await _client.from('fato_scan_deletions').upsert(
+      await _client.from('exclusoes_leitura').upsert(
         batch,
-        onConflict: 'user_id,client_scan_id',
+        onConflict: 'usuario_id,id_leitura_cliente',
       );
       await _client
-          .from('fato_scan')
+          .from('leituras_scan')
           .delete()
-          .eq('user_id', user.id)
-          .inFilter('client_scan_id', ids.sublist(start, end));
+          .eq('usuario_id', user.id)
+          .inFilter('id_leitura_cliente', ids.sublist(start, end));
     }
   }
 
@@ -118,39 +122,38 @@ class ScanSyncService {
     final records = <DetectionRecord>[];
     for (var start = 0; ; start += pageSize) {
       final rows = await _client
-          .from('ecoscan_user_history')
+          .from('historico_leituras_usuario')
           .select(
-            'client_scan_id,object_name,material_name,category_name,bin_name,'
-            'destination,confidence,source,detector,detected_at,object_id,'
-            'variant_id,detection_label,class_index,confirmed_by_user',
+            'id_leitura_cliente,nome_objeto,nome_material,categoria,cor_lixeira,'
+            'destino,confianca,origem,mecanismo_deteccao,analisado_em,objeto_id,'
+            'variante_id,rotulo_detectado,indice_classe,confirmado_pelo_usuario',
           )
-          .order('detected_at', ascending: false)
-          .order('client_scan_id', ascending: true)
+          .order('analisado_em', ascending: false)
+          .order('id_leitura_cliente', ascending: true)
           .range(start, start + pageSize - 1);
 
       for (final raw in rows) {
-        if (raw is! Map) continue;
-        final row = Map<String, dynamic>.from(raw);
+        final row = raw;
         records.add(
           DetectionRecord(
-            id: row['client_scan_id']?.toString() ?? '',
-            name: row['material_name']?.toString() ?? '',
-            category: row['category_name']?.toString() ?? '',
-            bin: row['bin_name']?.toString() ?? '',
-            destination: row['destination']?.toString() ?? '',
-            confidence: (row['confidence'] as num?)?.toDouble() ?? 0,
+            id: row['id_leitura_cliente']?.toString() ?? '',
+            name: row['nome_material']?.toString() ?? '',
+            category: row['categoria']?.toString() ?? '',
+            bin: row['cor_lixeira']?.toString() ?? '',
+            destination: row['destino']?.toString() ?? '',
+            confidence: (row['confianca'] as num?)?.toDouble() ?? 0,
             imagePath: '',
             detectedAt:
-                DateTime.tryParse(row['detected_at']?.toString() ?? '') ??
+                DateTime.tryParse(row['analisado_em']?.toString() ?? '') ??
                 DateTime.fromMillisecondsSinceEpoch(0),
-            source: row['source']?.toString() ?? 'camera',
-            confirmedByUser: row['confirmed_by_user'] == true,
-            detectedObject: row['object_name']?.toString(),
-            detector: row['detector']?.toString(),
-            objectId: row['object_id']?.toString(),
-            variantId: row['variant_id']?.toString(),
-            detectionLabel: row['detection_label']?.toString(),
-            classIndex: (row['class_index'] as num?)?.toInt(),
+            source: row['origem']?.toString() ?? 'camera',
+            confirmedByUser: row['confirmado_pelo_usuario'] == true,
+            detectedObject: row['nome_objeto']?.toString(),
+            detector: row['mecanismo_deteccao']?.toString(),
+            objectId: row['objeto_id']?.toString(),
+            variantId: row['variante_id']?.toString(),
+            detectionLabel: row['rotulo_detectado']?.toString(),
+            classIndex: (row['indice_classe'] as num?)?.toInt(),
           ),
         );
       }
@@ -163,30 +166,44 @@ class ScanSyncService {
     String userId,
     DetectionRecord record,
   ) => <String, dynamic>{
-    'user_id': userId,
-    'client_scan_id': record.id,
-    'object_name': record.detectedObject,
-    'material_name': record.name,
-    'category_name': record.category,
-    'bin_name': record.bin,
-    'destination': record.destination,
-    'confidence': record.confidence,
-    'source': record.source,
-    'detector': record.detector,
-    'detected_at': record.detectedAt.toUtc().toIso8601String(),
+    'usuario_id': userId,
+    'id_leitura_cliente': record.id,
+    'nome_objeto': record.detectedObject,
+    'nome_material': record.name,
+    'categoria': record.category,
+    'cor_lixeira': record.bin,
+    'destino': record.destination,
+    'confianca': record.confidence,
+    'origem': record.source,
+    'mecanismo_deteccao': record.detector,
+    'analisado_em': record.detectedAt.toUtc().toIso8601String(),
     // Scan location is device-local; it is not part of account history sync.
     'latitude': null,
     'longitude': null,
     // A manual material correction may describe a different object than the
     // detector linked. Keep the corrected label, but drop that old relation.
-    'object_id': record.confirmedByUser
+    'objeto_id': record.confirmedByUser
         ? null
         : int.tryParse(record.objectId ?? ''),
-    'variant_id': record.confirmedByUser
+    'variante_id': record.confirmedByUser
         ? null
         : int.tryParse(record.variantId ?? ''),
-    'detection_label': record.detectionLabel,
-    'class_index': record.classIndex,
-    'confirmed_by_user': record.confirmedByUser,
+    'rotulo_detectado': record.detectionLabel,
+    'indice_classe': record.classIndex,
+    'confirmado_pelo_usuario': record.confirmedByUser,
+    'material_id': _materialId(record.category),
+  };
+
+  static String? _materialId(String category) => switch (category.trim()) {
+    'Plástico' => 'plastico',
+    'Papel' => 'papel',
+    'Papelão' => 'papelao',
+    'Vidro' => 'vidro',
+    'Metal' => 'metal',
+    'Orgânico' => 'organico',
+    'Rejeito' => 'rejeito',
+    'Eletrônico' => 'eletronico',
+    'Descarte especial' => 'especial',
+    _ => null,
   };
 }

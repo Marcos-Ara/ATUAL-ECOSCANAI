@@ -10,7 +10,7 @@ if ($migrations.Count -eq 0) {
 }
 
 $builder = [System.Text.StringBuilder]::new()
-[void]$builder.AppendLine('-- EcoScan AI: instalação inicial consolidada do banco Supabase.')
+[void]$builder.AppendLine('-- EcoScan AI: instalação inicial consolidada do banco Supabase, em português.')
 [void]$builder.AppendLine('-- Execute este arquivo uma vez em um projeto sem tabelas do EcoScan.')
 [void]$builder.AppendLine('-- Não execute também as migrações individuais desta pasta.')
 [void]$builder.AppendLine('begin;')
@@ -30,12 +30,14 @@ foreach ($migration in $migrations) {
 
 [void]$builder.AppendLine('commit;')
 [void]$builder.AppendLine('')
-[void]$builder.AppendLine("select 'objects' as dataset, count(*) as rows from public.objects;")
-[void]$builder.AppendLine("select 'variants' as dataset, count(*) as rows from public.object_variants;")
-[void]$builder.AppendLine("select 'aliases' as dataset, count(*) as rows from public.object_aliases where is_active;")
-[void]$builder.AppendLine("select 'yoloe_prompts' as dataset, count(*) as rows from public.objects where object_id >= 10000;")
-[void]$builder.AppendLine("select 'geosampa_ecopoints' as dataset, count(*) as rows from public.ecopoints where source = 'geosampa' and is_active;")
-[void]$builder.AppendLine("select public.find_ecoscan_object('bottle') is null as generic_bottle_not_auto_classified;")
+[void]$builder.AppendLine("select 'objetos' as conjunto, count(*) as quantidade from public.objetos;")
+[void]$builder.AppendLine("select 'materiais' as conjunto, count(*) as quantidade from public.materiais where ativo;")
+[void]$builder.AppendLine("select 'variantes' as conjunto, count(*) as quantidade from public.variantes_objeto;")
+[void]$builder.AppendLine("select 'sinonimos' as conjunto, count(*) as quantidade from public.sinonimos_objeto where ativo;")
+[void]$builder.AppendLine("select 'classes_yoloe' as conjunto, count(*) as quantidade from public.classes_yoloe;")
+[void]$builder.AppendLine("select 'pontos_ecologicos_geosampa' as conjunto, count(*) as quantidade from public.pontos_ecologicos where fonte = 'geosampa' and ativo;")
+[void]$builder.AppendLine("select 'aceites_de_materiais' as conjunto, count(*) as quantidade from public.materiais_ponto_ecologico;")
+[void]$builder.AppendLine("select public.buscar_objeto_ecoscan('bottle') is null as classe_ambigua_nao_classificada_sozinha;")
 
 [System.IO.File]::WriteAllText(
     $outputPath,

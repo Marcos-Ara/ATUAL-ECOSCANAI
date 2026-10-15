@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/detection_record.dart';
 import '../models/eco_point.dart';
@@ -100,22 +101,84 @@ class EcoScanStore extends ChangeNotifier {
   Future<void> setDarkMode(bool value) async {
     await _preferences.setBool('ecoscan.dark', value);
     notifyListeners();
+    await _syncCloudSettings();
   }
 
   Future<void> setSounds(bool value) async {
     await _preferences.setBool('ecoscan.sounds', value);
     notifyListeners();
+    await _syncCloudSettings();
   }
 
   Future<void> setNotifications(bool value) async {
     await _preferences.setBool('ecoscan.notices', value);
     notifyListeners();
+    await _syncCloudSettings();
   }
 
   Future<void> markMapExplored() async {
     if (userId == null) return;
     await _preferences.setBool('ecoscan.map.${userId!}', true);
     notifyListeners();
+    await _syncCloudSettings();
+  }
+
+  /// Restaura as preferências da conta no login. Se ainda não houver registro
+  /// remoto, envia as preferências já salvas neste aparelho.
+  Future<void> syncAccountSettings() async {
+    final owner = userId;
+    if (owner == null) return;
+    try {
+      final client = Supabase.instance.client;
+      if (client.auth.currentUser?.id != owner) return;
+      final row = await client
+          .from('configuracoes_usuario')
+          .select('tema,sons_ativos,avisos_ativos,mapa_explorado')
+          .eq('usuario_id', owner)
+          .maybeSingle();
+      if (row == null) {
+        await _syncCloudSettings();
+        return;
+      }
+      await _preferences.setBool('ecoscan.dark', row['tema'] == 'escuro');
+      await _preferences.setBool(
+        'ecoscan.sounds',
+        row['sons_ativos'] == true,
+      );
+      await _preferences.setBool(
+        'ecoscan.notices',
+        row['avisos_ativos'] == true,
+      );
+      await _preferences.setBool(
+        'ecoscan.map.$owner',
+        row['mapa_explorado'] == true,
+      );
+      if (userId == owner) notifyListeners();
+    } catch (_) {
+      // Preferências locais continuam disponíveis quando a nuvem está offline.
+    }
+  }
+
+  Future<void> _syncCloudSettings() async {
+    final owner = userId;
+    if (owner == null) return;
+    try {
+      final client = Supabase.instance.client;
+      if (client.auth.currentUser?.id != owner) return;
+      await client.from('configuracoes_usuario').upsert(
+        {
+          'usuario_id': owner,
+          'tema': darkMode ? 'escuro' : 'claro',
+          'sons_ativos': sounds,
+          'avisos_ativos': notifications,
+          'mapa_explorado': exploredMap,
+          'atualizado_em': DateTime.now().toUtc().toIso8601String(),
+        },
+        onConflict: 'usuario_id',
+      );
+    } catch (_) {
+      // A sincronização de preferências será tentada novamente no próximo login.
+    }
   }
 
   Future<void> setProfilePhoto(String path) async {

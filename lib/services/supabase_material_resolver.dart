@@ -5,7 +5,7 @@ import 'waste_classifier.dart';
 
 /// Resolves detector labels against the EcoScan knowledge base in Supabase.
 ///
-/// The RPC already created for this project accepts `p_alias text`.
+/// A função do projeto recebe o parâmetro `p_rotulo`.
 /// ScanService resolves against the bundled catalog first for speed/offline use
 /// and calls this resolver only when the local result is still unresolved.
 class SupabaseMaterialResolver {
@@ -34,20 +34,20 @@ class SupabaseMaterialResolver {
       try {
         final client = _client ?? Supabase.instance.client;
         final data = await client.rpc(
-          'find_ecoscan_object',
-          params: {'p_alias': alias},
+          'buscar_objeto_ecoscan',
+          params: {'p_rotulo': alias},
         );
         final row = _firstRow(data);
         if (row == null) continue;
         final material = MaterialGuide.fromDatabase(row);
         if (material == null) continue;
-        final objectName = (row['object_name'] ?? row['variant_name'] ?? '')
+        final objectName = (row['nome'] ?? row['nome_objeto'] ?? '')
             .toString()
             .trim();
         final instruction =
-            (row['preparation_instructions'] ??
-                    row['recommendation'] ??
-                    row['destination'])
+            (row['instrucoes_preparo'] ??
+                    row['recomendacao'] ??
+                    row['destino'])
                 ?.toString()
                 .trim();
         return WasteClassification(

@@ -28,13 +28,16 @@ class EcoPointService {
     // Explicit pagination avoids silently losing records if the dataset grows.
     const pageSize = 500;
     for (var offset = 0; ; offset += pageSize) {
-      final uri = Uri.parse('${BackendConfig.supabaseUrl}/rest/v1/ecopoints')
+      final uri = Uri.parse('${BackendConfig.supabaseUrl}/rest/v1/pontos_ecologicos')
           .replace(
             queryParameters: {
-              'select': '*',
-              'source': 'eq.geosampa',
-              'is_active': 'eq.true',
-              'order': 'id.asc',
+              'select': 'ponto_id,nome,tipo,categoria,latitude,longitude,'
+                  'endereco,horario_atendimento,descricao_materiais_aceitos,'
+                  'distrito,subprefeitura,fonte,url_fonte,'
+                  'materiais_ponto_ecologico(material_id)',
+              'fonte': 'eq.geosampa',
+              'ativo': 'eq.true',
+              'order': 'ponto_id.asc',
               'offset': '$offset',
               'limit': '$pageSize',
             },
@@ -58,17 +61,30 @@ class EcoPointService {
         final latitude = _toDouble(row['latitude']);
         final longitude = _toDouble(row['longitude']);
         if (!_validCoordinates(latitude, longitude)) continue;
+        final linkedMaterials = row['materiais_ponto_ecologico'];
+        final acceptedMaterialIds = linkedMaterials is List
+            ? linkedMaterials
+                  .whereType<Map>()
+                  .map((item) => _appMaterialId(item['material_id']?.toString() ?? ''))
+                  .where((id) => id.isNotEmpty)
+                  .toList(growable: false)
+            : const <String>[];
         points.add(
           EcoPoint.fromJson({
-            ...row,
+            'id': row['ponto_id'],
+            'name': row['nome'],
+            'type': row['tipo'],
+            'category': row['categoria'] == 'descarte' ? 'descarte' : 'reciclagem',
             'latitude': latitude,
             'longitude': longitude,
-            'openingHours': row['opening_hours'],
-            'acceptedMaterialIds': row['accepted_material_ids'],
-            'acceptedMaterialsDescription':
-                row['accepted_materials_description'],
-            'administrativeArea': row['administrative_area'],
-            'sourceUrl': row['source_url'],
+            'address': row['endereco'],
+            'openingHours': row['horario_atendimento'],
+            'acceptedMaterialIds': acceptedMaterialIds,
+            'acceptedMaterialsDescription': row['descricao_materiais_aceitos'],
+            'district': row['distrito'],
+            'administrativeArea': row['subprefeitura'],
+            'source': row['fonte'],
+            'sourceUrl': row['url_fonte'],
           }),
         );
       }
@@ -189,6 +205,20 @@ class EcoPointService {
   static double? _toDouble(Object? value) => value is num
       ? value.toDouble()
       : double.tryParse(value?.toString() ?? '');
+
+  static String _appMaterialId(String databaseId) => switch (databaseId) {
+    'plastico' => 'plastic',
+    'papel' => 'paper',
+    'vidro' => 'glass',
+    'metal' => 'metal',
+    'papelao' => 'cardboard',
+    'organico' => 'organic',
+    'rejeito' => 'reject',
+    'eletronico' => 'electronic',
+    'especial' => 'special',
+    'pilhas_baterias' => 'battery',
+    _ => databaseId,
+  };
 
   void dispose() => _client.close();
 }

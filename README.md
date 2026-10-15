@@ -1,119 +1,67 @@
-# EcoScan AI — Flutter + Supabase 3.4.9
+# EcoScan AI — base Flutter e Supabase
 
-Base completa do projeto enviado, com YOLOE-26n LiteRT incluído para Android, 57 prompts de objetos, scanner ao vivo ajustado, catálogo offline atualizado e os 128 EcoPontos oficiais GeoSampa.
+Este pacote contém o app, o catálogo de materiais, as classes YOLO-E, os EcoPontos GeoSampa e a instalação inicial do banco em português.
 
-## Começar no Windows / VS Code
+## Abrir e executar no Windows
 
-1. Extraia o ZIP e abra **ATUAL ECOSCANAI**, a pasta que contém `pubspec.yaml`.
-2. Rode no terminal:
-
-```powershell
-flutter pub get
-flutter run -d chrome --web-hostname localhost --web-port 7357 --dart-define-from-file=config/mobile.json
-```
-
-O projeto vem configurado para `https://kekcfxoiyufskltnzlie.supabase.co`, com a publishable key fornecida. Não há referência ao projeto Supabase antigo na configuração ou nos guias. Firebase não é utilizado.
-
-Para testar o mapa antes de configurar login, clique em **Continuar sem conta**, depois **Mapa**.
-
-## Comportamento dos EcoPontos
-
-- **Mapa:** todos os 128 pontos oficiais de São Paulo continuam carregados. Quando a localização do usuário é encontrada, o mapa centraliza automaticamente nela com zoom 16; o botão **Ver todos** continua disponível para mostrar o catálogo completo.
-- O botão **Ver todos** ajusta o enquadramento ao catálogo completo.
-- **Barra inferior:** até 10 pontos mais próximos, ordenados por distância, dentro de 5, 10 ou 25 km. O raio inicial é 5 km.
-- Com localização autorizada, a distância é relativa ao usuário, mesmo se ele mover o mapa.
-- Sem localização, a lista usa o centro do mapa e muda quando o mapa se move. A interface identifica essa referência.
-- Texto e material filtram a barra; não removem os marcadores do mapa.
-- Nenhum resultado dentro do raio mostra uma mensagem para ampliar a distância ou limpar a busca. O app não inventa destinos para materiais não informados pela fonte.
-- Nome, endereço, distrito, subprefeitura, horário e materiais recebidos vêm do GeoSampa. Restos de poda não são tratados como autorização para resíduos alimentares ou compostagem.
-- O arquivo original usa **SIRGAS 2000 / UTM 23S (EPSG:31983)**. As coordenadas foram convertidas para **WGS84 (longitude/latitude)** antes da inclusão. Ex.: Bresser = `-23.54340338, -46.60646234`.
-- Os pontos são carregados de `assets/data/ecopoints_geosampa.geojson`. A abertura do mapa não depende de GPS, API key, WFS, Edge Function ou importação no Supabase.
-- Após instalar o banco, o botão atualizar consulta `public.ecopoints`; a cópia local/cache continua disponível offline.
-- O renderizador Web CanvasKit é carregado dos arquivos da própria publicação.
-- A imagem do mapa (ruas/satélite) e as rotas externas continuam exigindo internet. O catálogo de pontos está dentro do app.
-
-**Cobertura:** o arquivo enviado contém pontos do município de São Paulo. Estar em outra cidade não impede carregar/ver esses 128 pontos, mas não cria um catálogo de ecopontos de outros municípios.
-
-## Banco Supabase
-
-O banco inicial está consolidado em `supabase/ECOSCAN_SUPABASE_NOVO.sql`. Para começar do zero, siga `supabase/INSTALAR_BANCO_DO_ZERO.md` e execute o arquivo agregado uma vez no SQL Editor. Não rode o arquivo agregado junto com as migrações individuais.
-
-Depois da instalação, o app sincroniza análises salvas por conta, restaura o histórico em outro aparelho e replica exclusões; também atualiza os EcoPontos pelo banco. O catálogo remoto de materiais é fallback para rótulos sem correspondência no snapshot local. O modo offline continua usando os dados locais. Coordenadas e fotos das análises não são enviadas. Fotos de correção só são enviadas após consentimento explícito; elas ficam pendentes de revisão e não atualizam o modelo automaticamente.
-
-`ECOSCAN_USE_SUPABASE_MODEL` continua desligado. Os outros três controles em `config/mobile.json` estão ligados e passam a usar o banco após a migração. Antes da instalação, as consultas remotas podem falhar e o app usa a cópia local.
-
-## Login e Google no projeto novo
-
-E-mail, senha, cadastro, recuperação e Google usam exclusivamente Supabase Auth.
-
-Configure **Authentication → URL Configuration**:
-
-- Site URL de desenvolvimento: `http://localhost:7357`.
-- Redirect permitido para Web: `http://localhost:7357`.
-- Redirect para Android/iOS: `ecoscan://login-callback/`.
-- O projeto usa o manipulador de links do `supabase_flutter`/`app_links`; por isso o deep linking padrão do Flutter fica desativado no Android/iOS para evitar conflito.
-- Quando publicar a Web, inclua a URL real da publicação nas configurações.
-
-Habilite o provedor **Google** no Supabase e preencha Client ID e Client Secret do Google Cloud. No Google Cloud, o callback autorizado do novo projeto é:
-
-`https://kekcfxoiyufskltnzlie.supabase.co/auth/v1/callback`
-
-O Client ID atualizado é `980630728564-c2uvaqelhr3ekmdn90mc9rmrtrkaccqh.apps.googleusercontent.com`. As origens JavaScript autorizadas são `http://localhost:7357` e `https://ecoscan-ai-e961f.web.app`. No Google Cloud, mantenha também o callback acima como URI de redirecionamento autorizado. Use o Client Secret atual do arquivo JSON do Google Cloud para atualizar o campo **Client Secret** do provedor Google no Supabase.
-
-Não coloque Client Secret ou service-role no Flutter, em `config/mobile.json` ou neste ZIP. O segredo do Google é usado pelo Supabase no servidor e deve permanecer somente nas configurações do provedor. Contas do projeto antigo não passam automaticamente para o projeto novo: cadastre novamente uma conta para testar. O modo visitante não cria usuário remoto.
-
-## Aba de download do APK
-
-Na versão Web, a navegação inclui a aba **Baixar** com um botão de download do APK. Para publicar uma nova versão, cole o link HTTPS direto para o arquivo no campo `ECOSCAN_APK_DOWNLOAD_URL` de `config/mobile.json` e publique novamente o site. Enquanto o campo estiver vazio, o botão aparece como **APK em breve** e fica desativado. O link não contém credenciais e pode ser alterado a cada lançamento.
-
-## Scanner e dados locais
-
-**Android:** o scan ao vivo usa `YOLOView` do pacote oficial `ultralytics_yolo 0.6.15`, com o modelo local `assets/models/ecoscan_yoloe26n_w8a32.tflite`. A câmera envia frames diretamente ao runtime nativo; não existe mais o ciclo `Timer → takePicture() → JPG → predict()` no Android. O callback `onResult` entrega as detecções em tempo real e o EcoScan faz seleção, estabilização e objeto → material → lixeira localmente.
-
-Configuração inicial do ao vivo:
-
-- confiança de entrada do YOLOView: **0,25**;
-- IoU: **0,50**;
-- GPU habilitada com fallback do runtime quando necessário;
-- câmera traseira em **720p**;
-- moldura útil ampla, sem exigir alinhamento milimétrico;
-- estabilizador: janela de 4 leituras, **2 confirmações** antes de assumir o objeto;
-- diagnóstico temporário na tela: **YOLO-E ativo, FPS, inferência, objeto/confiança e índice de classe**.
-
-A confiança 0,25 apenas permite que um candidato entre no pipeline. O catálogo ainda aplica o piso de confiança específico de cada prompt (em geral 0,35), além de estabilidade e mapeamento local, para reduzir falso positivo. O scan ao vivo não faz RPC nem consulta Supabase por frame.
-
-**Foto/Galeria:** continuam separadas do vídeo. Uma foto usa o caminho de inferência única (`YOLO.predict`) e depois a mesma resolução de objeto → material → lixeira. Ao fotografar a partir do scanner ao vivo, o frame é capturado pelo próprio `YOLOView`; o stream é pausado enquanto a análise única roda, evitando duas câmeras concorrentes.
-
-**Web:** continua usando a ponte Web existente (COCO-SSD/MobileNet) e não importa `YOLOView`, preservando o build Web. **iOS:** continua no fluxo anterior por enquanto, pois esta base inclui o modelo LiteRT/TFLite do Android; o equivalente Core ML será tratado separadamente.
-
-Os 57 prompts YOLO-E continuam ligados ao catálogo local, que possui 190 objetos, 261 sinônimos e 9 variações. O resultado agora também pode carregar `objectId`, `variantId`, `detectionLabel` e `classIndex`, preparando o futuro `FATO_SCAN` sem depender do banco nesta fase.
-
-Os 128 EcoPontos GeoSampa são importados na base inicial e o app atualiza o cache pelo Supabase quando online. O histórico de análises permanece local como fonte offline e sincroniza com a conta depois que o banco for instalado. O perfil Auth continua sincronizado pelo Supabase.
-
-## Validar e gerar APK de teste
+1. Extraia o ZIP e abra no VS Code a pasta `ATUAL-ECOSCANAI`, que contém `pubspec.yaml`.
+2. No PowerShell, entre nessa pasta e rode:
 
 ```powershell
-flutter analyze
-flutter test
-node --test test/web_bridges_test.cjs
-flutter build web --release --no-web-resources-cdn --dart-define-from-file=config/mobile.json
-flutter build apk --release --dart-define-from-file=config/mobile.json
+$env:FLUTTER_ROOT = 'C:\Users\ANHANGUERA\develop\flutter'
+$flutter = Join-Path $env:FLUTTER_ROOT 'bin\flutter.bat'
+& $flutter pub get
+& $flutter run -d chrome --web-hostname localhost --web-port 7357 --dart-define-from-file=config/mobile.json
 ```
 
-O APK de teste fica em `build/app/outputs/flutter-apk/app-release.apk`. Compilar Android requer Android SDK e JDK configurados. A geração de APK não foi realizada nesta entrega.
+Use o Flutter que existe no seu computador; ajuste `FLUTTER_ROOT` se o caminho for diferente. Para desenvolvimento, abra o terminal na pasta do projeto, não na pasta acima.
 
-Para executar o roteiro completo com Flutter:
+## Instalar o banco do zero
+
+O banco e a autenticação ficam no **Supabase**. O Firebase é usado somente para hospedar o site Web.
+
+1. Siga `supabase/INSTALAR_BANCO_DO_ZERO.md`.
+2. Execute o arquivo `supabase/ECOSCAN_SUPABASE_NOVO.sql` uma vez no SQL Editor do projeto Supabase configurado em `config/mobile.json`.
+3. Gere e publique a Web/APK com esta mesma base. Uma versão antiga do app usa os nomes antigos das tabelas e não funcionará com o esquema final em português.
+
+O arquivo SQL consolidado instala as tabelas, dados de catálogo, políticas de acesso e buckets privados. Não rode também todas as migrações individuais. Se o projeto já recebeu um SQL anterior, não repita a instalação inicial por cima.
+
+## O que sincroniza
+
+- O Auth mantém `perfis` atualizado com nome e e-mail da conta.
+- Leituras salvas, exclusões e preferências de tema, sons, avisos e mapa sincronizam por conta. O app mantém uma cópia local para funcionar sem rede.
+- `eventos_pontos`, `conquistas_usuario` e `estatisticas_usuario` são calculados pelo banco; o app não pode gravar pontuação diretamente.
+- O mapa atualiza os EcoPontos pelo Supabase e conserva um cache local.
+- O app tenta o catálogo remoto quando o catálogo instalado não resolve um rótulo. O resolvedor não escolhe material para um rótulo ambíguo sem variante específica.
+- Correções e fotos só são enviadas após consentimento. As amostras ficam no bucket privado `ecoscan-training` para revisão humana.
+
+A detecção é feita pelo modelo local no aparelho. O banco não consegue comprovar que um cliente não modificado enviou uma identificação verdadeira. Aprovar uma amostra não treina nem troca o modelo automaticamente. Veja `supabase/REVISAR_AMOSTRAS.md`.
+
+Os IDs `ecoscan-training` e `ecoscan-models` são nomes técnicos de buckets usados pelo app; mantenha-os exatamente assim. Os rótulos em inglês definidos pelo YOLO também precisam continuar iguais aos do modelo.
+
+## Atualizar dados mais tarde
+
+- Catálogo YOLO-E: ajuste os arquivos de dados e use `tool/sync_yoloe_catalog.py`; ele prepara uma migração incremental para o esquema atual.
+- EcoPontos: atualize a exportação GeoSampa com `tool/import_geosampa.py`; o arquivo prepara uma migração incremental em português e atualiza o pacote de instalação inicial.
+- Depois, aplique somente a nova migração no SQL Editor. O app busca a nova lista remota ao atualizar o mapa.
+- Atualização de modelo YOLO exige revisão, avaliação, arquivo válido e publicação manual. A opção de baixar pesos do Supabase permanece desligada por padrão.
+
+## Gerar a Web e o APK
+
+Dentro da pasta do projeto:
 
 ```powershell
-.\tool\verify_base.ps1
-.\tool\verify_base.ps1 -BuildReleaseApk
+$env:FLUTTER_ROOT = 'C:\Users\ANHANGUERA\develop\flutter'
+$flutter = Join-Path $env:FLUTTER_ROOT 'bin\flutter.bat'
+& $flutter pub get
+& $flutter build web --release --no-web-resources-cdn --dart-define-from-file=config/mobile.json
+& $flutter build apk --release --dart-define-from-file=config/mobile.json
 ```
 
-## Atualizar a exportação GeoSampa no futuro
+O site compilado fica em `build/web`; o APK em `build/app/outputs/flutter-apk/app-release.apk`. Para publicar o site, rode `firebase.cmd deploy --only hosting` na raiz do projeto depois que a compilação Web terminar.
 
-```powershell
-python -m pip install pyproj
-python tool/import_geosampa.py "C:\caminho\geoportal_ecoponto.geojson"
-```
+Na aba **Baixar** do site, o botão usa a URL HTTPS de `ECOSCAN_APK_DOWNLOAD_URL` em `config/mobile.json`. Troque apenas esse link ao publicar uma nova versão do APK e gere/publique a Web novamente.
 
-O script converte/valida o GeoJSON e atualiza os dados locais e a migração de seed. Para um banco já instalado, aplique apenas essa migração atualizada; para um banco vazio, regenere o agregado com `tool/build_supabase_bundle.ps1`. Não há sincronização WFS periódica automática nesta versão.
+## Credenciais
+
+O app usa somente a chave pública configurada no projeto. Nunca coloque `service_role` ou o segredo do cliente OAuth em `config/mobile.json`, código Flutter ou no ZIP. O segredo OAuth deve ficar apenas no painel do Supabase, na configuração do provedor Google.
