@@ -1,4 +1,4 @@
-# Validação da base EcoScan 3.4.8 — análise da foto e diagnóstico Supabase
+# Validação da base EcoScan 3.4.9 — análise da foto e diagnóstico Supabase
 
 ## Objetivo desta entrega
 
@@ -6,7 +6,7 @@ Esta versão mantém o scanner e adiciona um formulário para relatar identifica
 
 - As imagens e correções ficam no aparelho até a pessoa confirmar o envio em Configurações.
 - O envio requer uma conta conectada ao Supabase e usa o bucket privado `ecoscan-training`.
-- Para uma base Supabase já existente, execute `supabase/migrations/202610080001_learning_reports.sql` antes do primeiro envio.
+- Para um projeto Supabase vazio, execute `supabase/ECOSCAN_SUPABASE_NOVO.sql` uma vez antes de gerar/publicar esta versão. Em um banco que já aplicou as migrações anteriores, aplique somente as migrações ainda pendentes.
 - As correções entram como relatos pendentes de revisão. Elas não treinam nem atualizam o YOLO-E automaticamente.
 - A migração SQL agora também cria (ou repara) o bucket privado `ecoscan-training`, que faltava no erro 404 mostrado.
 - Tocar novamente na aba Scan ou no botão de retorno limpa a foto e abre o scanner ao vivo. Se uma operação estiver em andamento, o retorno é aplicado assim que ela terminar.
@@ -54,11 +54,19 @@ O resultado local agora preserva também `objectId`, `variantId`, `detectionLabe
 `config/mobile.json` contém:
 
 - `ECOSCAN_USE_SUPABASE_MODEL=false`
-- `ECOSCAN_USE_SUPABASE_CATALOG=false`
-- `ECOSCAN_USE_SUPABASE_ECOPOINTS=false`
-- `ECOSCAN_SYNC_SUPABASE_HISTORY=false`
+- `ECOSCAN_USE_SUPABASE_CATALOG=true`
+- `ECOSCAN_USE_SUPABASE_ECOPOINTS=true`
+- `ECOSCAN_SYNC_SUPABASE_HISTORY=true`
 
-Essas opções controlam modelo, catálogo, EcoPontos e histórico; o envio de correções usa o bucket e a tabela de treinamento descritos acima.
+O modelo continua local. Catálogo, EcoPontos e histórico passam a usar a base remota depois que `supabase/ECOSCAN_SUPABASE_NOVO.sql` for executado; antes disso, catálogo e mapa mantêm o fallback local e o histórico continua salvo no aparelho. O envio de correções continua usando o bucket e a tabela privada descritos acima, sempre após consentimento.
+
+## Banco automático — primeira etapa
+
+A migração `202610150001_automatic_database.sql` acrescenta ao histórico os IDs confiáveis do catálogo, o rótulo YOLO-E, índice de classe e confirmação manual. O resolvedor remoto agora devolve resultado apenas quando a melhor correspondência é única; rótulos genéricos ambíguos, como `bottle`, não escolhem plástico, vidro ou metal automaticamente. Uma correção manual preserva o rótulo original para auditoria, mas não grava o vínculo do objeto detectado como se fosse confirmado.
+
+Depois de instalar o SQL agregado, o histórico sincroniza ao salvar uma análise, ao entrar na conta e ao retornar o app para primeiro plano; ao entrar em outro aparelho, as linhas da conta são combinadas com o histórico local. Fotos e coordenadas não são enviadas. `ecoscan_user_stats` calcula contagem, materiais e pontos a partir das linhas protegidas por RLS. A instalação e os limites desta etapa estão detalhados em `supabase/INSTALAR_BANCO_DO_ZERO.md`.
+
+Esta atualização preparou os arquivos locais. O SQL ainda precisa ser executado no projeto Supabase e não foi aplicado ao servidor por este ambiente.
 
 ## Verificações desta entrega
 

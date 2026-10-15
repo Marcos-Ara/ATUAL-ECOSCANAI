@@ -1,4 +1,4 @@
-# EcoScan AI — Flutter + Supabase 3.4.3
+# EcoScan AI — Flutter + Supabase 3.4.9
 
 Base completa do projeto enviado, com YOLOE-26n LiteRT incluído para Android, 57 prompts de objetos, scanner ao vivo ajustado, catálogo offline atualizado e os 128 EcoPontos oficiais GeoSampa.
 
@@ -9,12 +9,6 @@ Base completa do projeto enviado, com YOLOE-26n LiteRT incluído para Android, 5
 
 ```powershell
 flutter pub get
-flutter run -d chrome --web-hostname localhost --web-port 7357
-```
-
-`config/mobile.json` já está incluído. Também funciona o comando anterior:
-
-```powershell
 flutter run -d chrome --web-hostname localhost --web-port 7357 --dart-define-from-file=config/mobile.json
 ```
 
@@ -34,24 +28,19 @@ Para testar o mapa antes de configurar login, clique em **Continuar sem conta**,
 - Nome, endereço, distrito, subprefeitura, horário e materiais recebidos vêm do GeoSampa. Restos de poda não são tratados como autorização para resíduos alimentares ou compostagem.
 - O arquivo original usa **SIRGAS 2000 / UTM 23S (EPSG:31983)**. As coordenadas foram convertidas para **WGS84 (longitude/latitude)** antes da inclusão. Ex.: Bresser = `-23.54340338, -46.60646234`.
 - Os pontos são carregados de `assets/data/ecopoints_geosampa.geojson`. A abertura do mapa não depende de GPS, API key, WFS, Edge Function ou importação no Supabase.
-- Nesta fase o catálogo remoto está desligado; o botão atualizar mantém/recarrega a cópia local. A sincronização com `public.ecopoints` será reativada somente depois da validação do scanner e da criação do banco definitivo.
+- Após instalar o banco, o botão atualizar consulta `public.ecopoints`; a cópia local/cache continua disponível offline.
 - O renderizador Web CanvasKit é carregado dos arquivos da própria publicação.
 - A imagem do mapa (ruas/satélite) e as rotas externas continuam exigindo internet. O catálogo de pontos está dentro do app.
 
 **Cobertura:** o arquivo enviado contém pontos do município de São Paulo. Estar em outra cidade não impede carregar/ver esses 128 pontos, mas não cria um catálogo de ecopontos de outros municípios.
 
-## Supabase nesta fase de validação
+## Banco Supabase
 
-**Não execute os SQLs do banco ainda.** Nesta 3.4.3, o Supabase fica ativo apenas para **Auth** (cadastro, login, Google, confirmação e recuperação). O scanner, catálogo, EcoPontos, histórico e modelo usam a base local enquanto validamos o YOLO-E no Android.
+O banco inicial está consolidado em `supabase/ECOSCAN_SUPABASE_NOVO.sql`. Para começar do zero, siga `supabase/INSTALAR_BANCO_DO_ZERO.md` e execute o arquivo agregado uma vez no SQL Editor. Não rode o arquivo agregado junto com as migrações individuais.
 
-Os arquivos SQL e migrations continuam preservados no projeto para a próxima etapa, mas `config/mobile.json` deixa desativados:
+Depois da instalação, o app sincroniza análises salvas por conta, restaura o histórico em outro aparelho e replica exclusões; também atualiza os EcoPontos pelo banco. O catálogo remoto de materiais é fallback para rótulos sem correspondência no snapshot local. O modo offline continua usando os dados locais. Coordenadas e fotos das análises não são enviadas. Fotos de correção só são enviadas após consentimento explícito; elas ficam pendentes de revisão e não atualizam o modelo automaticamente.
 
-- `ECOSCAN_USE_SUPABASE_MODEL`
-- `ECOSCAN_USE_SUPABASE_CATALOG`
-- `ECOSCAN_USE_SUPABASE_ECOPOINTS`
-- `ECOSCAN_SYNC_SUPABASE_HISTORY`
-
-Depois que os testes do scanner passarem no aparelho, o schema definitivo será montado a partir do Supabase vazio e os dados locais serão importados automaticamente. Isso evita misturar erro de câmera/modelo com erro de banco.
+`ECOSCAN_USE_SUPABASE_MODEL` continua desligado. Os outros três controles em `config/mobile.json` estão ligados e passam a usar o banco após a migração. Antes da instalação, as consultas remotas podem falhar e o app usa a cópia local.
 
 ## Login e Google no projeto novo
 
@@ -99,7 +88,7 @@ A confiança 0,25 apenas permite que um candidato entre no pipeline. O catálogo
 
 Os 57 prompts YOLO-E continuam ligados ao catálogo local, que possui 190 objetos, 261 sinônimos e 9 variações. O resultado agora também pode carregar `objectId`, `variantId`, `detectionLabel` e `classIndex`, preparando o futuro `FATO_SCAN` sem depender do banco nesta fase.
 
-Os EcoPontos continuam usando os 128 registros do GeoSampa local. O histórico continua local nesta fase. Supabase continua somente no login.
+Os 128 EcoPontos GeoSampa são importados na base inicial e o app atualiza o cache pelo Supabase quando online. O histórico de análises permanece local como fonte offline e sincroniza com a conta depois que o banco for instalado. O perfil Auth continua sincronizado pelo Supabase.
 
 ## Validar e gerar APK de teste
 
@@ -127,4 +116,4 @@ python -m pip install pyproj
 python tool/import_geosampa.py "C:\caminho\geoportal_ecoponto.geojson"
 ```
 
-O script converte/valida o GeoJSON e atualiza os arquivos locais/SQL preparados. Enquanto o banco remoto estiver desligado, apenas reconstrua o app; a aplicação do SQL no Supabase fica para a etapa posterior. Não há sincronização WFS periódica automática nesta versão.
+O script converte/valida o GeoJSON e atualiza os dados locais e a migração de seed. Para um banco já instalado, aplique apenas essa migração atualizada; para um banco vazio, regenere o agregado com `tool/build_supabase_bundle.ps1`. Não há sincronização WFS periódica automática nesta versão.

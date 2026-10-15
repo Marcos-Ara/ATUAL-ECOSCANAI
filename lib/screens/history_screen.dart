@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../core/app_config.dart';
 import '../models/detection_record.dart';
 import '../models/material_guide.dart';
+import '../services/scan_sync_service.dart';
 import '../state/ecoscan_store.dart';
 import '../widgets/app_image.dart';
 
@@ -87,7 +91,10 @@ class HistoryScreen extends StatelessWidget {
                     isThreeLine: true,
                     trailing: IconButton(
                       tooltip: 'Excluir análise',
-                      onPressed: () => store.removeDetection(record),
+                      onPressed: () async {
+                        await store.removeDetection(record);
+                        _syncPendingDeletions(store);
+                      },
                       icon: const Icon(Icons.delete_outline),
                     ),
                   ),
@@ -103,7 +110,7 @@ class HistoryScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const Text('Limpar histórico?'),
         content: const Text(
-          'As análises e fotos desta conta serão removidas deste aparelho.',
+          'As análises serão removidas deste aparelho e, quando houver conexão, da conta e dos outros aparelhos. As fotos locais também serão apagadas.',
         ),
         actions: [
           TextButton(
@@ -117,7 +124,15 @@ class HistoryScreen extends StatelessWidget {
         ],
       ),
     );
-    if (approved == true) await store.clearHistory();
+    if (approved == true) {
+      await store.clearHistory();
+      _syncPendingDeletions(store);
+    }
+  }
+
+  static void _syncPendingDeletions(EcoScanStore store) {
+    if (!AppConfig.syncSupabaseHistory) return;
+    unawaited(ScanSyncService().reconcileDeletions(store).catchError((_) {}));
   }
 }
 
@@ -206,7 +221,9 @@ class DetectionDetailScreen extends StatelessWidget {
             icon: const Icon(Icons.delete_outline),
             label: const Text('Excluir análise'),
             onPressed: () async {
-              await context.read<EcoScanStore>().removeDetection(record);
+              final store = context.read<EcoScanStore>();
+              await store.removeDetection(record);
+              HistoryScreen._syncPendingDeletions(store);
               if (context.mounted) Navigator.pop(context);
             },
           ),

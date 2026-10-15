@@ -127,11 +127,11 @@ test('YOLOView native fica isolado do build web',()=>{
   assert.ok(scanner.includes('if (_useNativeYoloView) return;'));
 });
 
-test('fase de validação mantém dados remotos desligados e Auth separado',()=>{
+test('fase inicial do banco ativa catálogo, EcoPontos e histórico; YOLO fica local',()=>{
   const config=JSON.parse(fs.readFileSync(path.join(root,'config/mobile.json'),'utf8'));
   assert.equal(config.ECOSCAN_USE_SUPABASE_MODEL,false);
-  assert.equal(config.ECOSCAN_USE_SUPABASE_CATALOG,false);
-  assert.equal(config.ECOSCAN_USE_SUPABASE_ECOPOINTS,false);
-  assert.equal(config.ECOSCAN_SYNC_SUPABASE_HISTORY,false);
+  assert.equal(config.ECOSCAN_USE_SUPABASE_CATALOG,true);
+  assert.equal(config.ECOSCAN_USE_SUPABASE_ECOPOINTS,true);
+  assert.equal(config.ECOSCAN_SYNC_SUPABASE_HISTORY,true);
   assert.ok(config.SUPABASE_URL.startsWith('https://'));
 });

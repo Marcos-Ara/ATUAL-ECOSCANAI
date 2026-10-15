@@ -5,7 +5,7 @@
   "ECOSCAN_APK_DOWNLOAD_URL": "https://drive.google.com/file/d/19wnJNj8UJBqaZPVspGIJxd0mtTFfBQbn/view?usp=sharing",
   "ECOSCAN_USE_SUPABASE_MODEL": false,
   "ECOSCAN_YOLO_MODEL": "assets/models/ecoscan_yoloe26n_w8a32.tflite",
-  "ECOSCAN_USE_SUPABASE_CATALOG": false,
-  "ECOSCAN_USE_SUPABASE_ECOPOINTS": false,
-  "ECOSCAN_SYNC_SUPABASE_HISTORY": false
+  "ECOSCAN_USE_SUPABASE_CATALOG": true,
+  "ECOSCAN_USE_SUPABASE_ECOPOINTS": true,
+  "ECOSCAN_SYNC_SUPABASE_HISTORY": true
 }

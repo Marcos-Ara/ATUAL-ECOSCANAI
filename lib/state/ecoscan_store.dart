@@ -21,8 +21,28 @@ class EcoScanStore extends ChangeNotifier {
       List.unmodifiable(_learningSamples);
   int get learningSampleCount => _learningSamples.length;
   int get scanCount => _detections.length;
-  String get _detectionsKey =>
-      'ecoscan.detections.v2.${userId ?? 'signed-out'}';
+  String _detectionsKeyFor(String? uid) =>
+      'ecoscan.detections.v2.${uid ?? 'signed-out'}';
+  String get _detectionsKey => _detectionsKeyFor(userId);
+  String _scanDeletionsKeyFor(String uid) => 'ecoscan.deleted_scans.v1.$uid';
+  List<String> _pendingScanDeletionsFor(String uid) {
+    try {
+      final decoded = jsonDecode(
+        _preferences.getString(_scanDeletionsKeyFor(uid)) ?? '[]',
+      );
+      if (decoded is List) {
+        return decoded
+            .map((value) => value.toString())
+            .where((id) => id.isNotEmpty)
+            .toSet()
+            .toList(growable: true);
+      }
+    } catch (_) {}
+    return <String>[];
+  }
+  List<String> get pendingScanDeletionIds => userId == null
+      ? const []
+      : _pendingScanDeletionsFor(userId!);
   String get _photoKey => 'ecoscan.profile.v2.${userId ?? 'signed-out'}';
   String get _learningKey =>
       'ecoscan.learning.v1.${userId ?? 'signed-out'}';
@@ -120,15 +140,48 @@ class EcoScanStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removeDetection(DetectionRecord record) async {
+  /// Merges cloud history into this account while keeping local image files.
+  Future<void> mergeCloudDetections(Iterable<DetectionRecord> incoming) async {
     if (userId == null) return;
     final owner = userId;
-    final next = _detections.where((d) => d.id != record.id).toList();
+    final byId = <String, DetectionRecord>{
+      for (final record in _detections)
+        if (record.id.isNotEmpty) record.id: record,
+    };
+    for (final record in incoming) {
+      if (record.id.isNotEmpty) byId.putIfAbsent(record.id, () => record);
+    }
+    final merged = byId.values.toList()
+      ..sort((a, b) => b.detectedAt.compareTo(a.detectedAt));
     final success = await _preferences.setString(
-      _detectionsKey,
+      _detectionsKeyFor(owner),
+      jsonEncode(merged.map((record) => record.toJson()).toList()),
+    );
+    if (!success) throw StateError('Não foi possível restaurar o histórico.');
+    if (userId != owner) return;
+    _detections
+      ..clear()
+      ..addAll(merged);
+    notifyListeners();
+  }
+
+  Future<void> removeDetection(DetectionRecord record) async {
+    if (userId == null) return;
+    final owner = userId!;
+    final next = _detections.where((d) => d.id != record.id).toList();
+    if (record.id.isNotEmpty) {
+      await _rememberScanDeletions(owner, [record.id]);
+    }
+    final success = await _preferences.setString(
+      _detectionsKeyFor(owner),
       jsonEncode(next.map((d) => d.toJson()).toList()),
     );
-    if (!success) throw StateError('Não foi possível excluir a análise.');
+    if (!success) {
+      if (record.id.isNotEmpty) {
+        await acknowledgeScanDeletions([record.id], userIdOverride: owner);
+      }
+      throw StateError('Não foi possível excluir a análise.');
+    }
     if (userId == owner) {
       _detections
         ..clear()
@@ -140,9 +193,16 @@ class EcoScanStore extends ChangeNotifier {
 
   Future<void> clearHistory() async {
     if (userId == null) return;
-    final owner = userId;
-    final images = _detections.map((d) => d.imagePath).toList();
-    if (!await _preferences.remove(_detectionsKey)) {
+    final owner = userId!;
+    final records = List<DetectionRecord>.of(_detections);
+    final deletedIds = records
+        .map((record) => record.id)
+        .where((id) => id.isNotEmpty)
+        .toList(growable: false);
+    await _rememberScanDeletions(owner, deletedIds);
+    final images = records.map((d) => d.imagePath).toList();
+    if (!await _preferences.remove(_detectionsKeyFor(owner))) {
+      await acknowledgeScanDeletions(deletedIds, userIdOverride: owner);
       throw StateError('Não foi possível limpar o histórico.');
     }
     if (userId == owner) {
@@ -151,6 +211,66 @@ class EcoScanStore extends ChangeNotifier {
     }
     for (final image in images) {
       await _deleteImage(image);
+    }
+  }
+
+  Future<void> _rememberScanDeletions(
+    String owner,
+    Iterable<String> ids,
+  ) async {
+    final pending = _pendingScanDeletionsFor(owner)..addAll(ids);
+    if (!await _preferences.setString(
+      _scanDeletionsKeyFor(owner),
+      jsonEncode(pending.toSet().toList()),
+    )) {
+      throw StateError('Não foi possível guardar a exclusão pendente.');
+    }
+  }
+
+  Future<void> acknowledgeScanDeletions(
+    Iterable<String> ids, {
+    String? userIdOverride,
+  }) async {
+    final owner = userIdOverride ?? userId;
+    if (owner == null) return;
+    final acknowledged = ids.toSet();
+    if (acknowledged.isEmpty) return;
+    final pending = _pendingScanDeletionsFor(owner)
+      ..removeWhere(acknowledged.contains);
+    if (!await _preferences.setString(
+      _scanDeletionsKeyFor(owner),
+      jsonEncode(pending),
+    )) {
+      throw StateError('Não foi possível confirmar a sincronização.');
+    }
+  }
+
+  Future<void> applyCloudScanDeletions(Iterable<String> ids) async {
+    if (userId == null) return;
+    final owner = userId!;
+    final deleted = ids.toSet();
+    if (deleted.isEmpty) return;
+    final removed = _detections
+        .where((record) => deleted.contains(record.id))
+        .toList(growable: false);
+    final remaining = _detections
+        .where((record) => !deleted.contains(record.id))
+        .toList(growable: false);
+    if (removed.isNotEmpty) {
+      final success = await _preferences.setString(
+        _detectionsKeyFor(owner),
+        jsonEncode(remaining.map((record) => record.toJson()).toList()),
+      );
+      if (!success) throw StateError('Não foi possível atualizar o histórico.');
+    }
+    await acknowledgeScanDeletions(deleted, userIdOverride: owner);
+    if (userId != owner) return;
+    _detections
+      ..clear()
+      ..addAll(remaining);
+    notifyListeners();
+    for (final record in removed) {
+      await _deleteImage(record.imagePath);
     }
   }
 

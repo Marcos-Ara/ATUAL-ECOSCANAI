@@ -19,13 +19,15 @@ class SessionGate extends StatefulWidget {
 }
 
 class _SessionGateState extends State<SessionGate>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController _animation;
   Timer? _timer;
   bool _introComplete = false;
+  bool _syncingAccount = false;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _animation = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -40,9 +42,54 @@ class _SessionGateState extends State<SessionGate>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
     _animation.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed ||
+        !mounted ||
+        !AppConfig.syncSupabaseHistory) {
+      return;
+    }
+    final auth = context.read<AuthSession>();
+    final userId = auth.account?.uid;
+    if (auth.isGuest || userId == null) return;
+    final store = context.read<EcoScanStore>();
+    if (store.userId == userId) unawaited(_syncAccount(store, userId));
+  }
+
+  Future<void> _syncAccount(EcoScanStore store, String userId) async {
+    if (_syncingAccount || store.userId != userId) return;
+    _syncingAccount = true;
+    try {
+      final sync = ScanSyncService();
+      await sync.reconcileDeletions(store);
+      if (!mounted || store.userId != userId) return;
+      await sync.syncAll(store.detections);
+      if (!mounted || store.userId != userId) return;
+      final cloudRecords = await sync.fetchAll();
+      if (!mounted || store.userId != userId) return;
+      await store.mergeCloudDetections(cloudRecords);
+    } catch (_) {
+      // The local history remains usable and will retry on the next resume.
+    } finally {
+      _syncingAccount = false;
+      if (mounted && AppConfig.syncSupabaseHistory) {
+        final auth = context.read<AuthSession>();
+        final currentUserId = auth.account?.uid;
+        final currentStore = context.read<EcoScanStore>();
+        if (!auth.isGuest &&
+            currentUserId != null &&
+            currentUserId != userId &&
+            currentStore.userId == currentUserId) {
+          unawaited(_syncAccount(currentStore, currentUserId));
+        }
+      }
+    }
   }
 
   @override
@@ -131,7 +178,7 @@ class _SessionGateState extends State<SessionGate>
         if (!mounted) return;
         store.switchUser(sessionUserId);
         if (!auth.isGuest && AppConfig.syncSupabaseHistory) {
-          unawaited(ScanSyncService().syncAll(store.detections));
+          unawaited(_syncAccount(store, sessionUserId));
         }
       });
       return const Scaffold(body: Center(child: CircularProgressIndicator()));

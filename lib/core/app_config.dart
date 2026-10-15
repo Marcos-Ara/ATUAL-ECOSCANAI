@@ -10,9 +10,9 @@ abstract final class AppConfig {
   static const defaultLongitude = -46.6333;
   static const requestTimeout = Duration(seconds: 9);
 
-  // Durante a validação do scanner, Supabase fica somente para autenticação.
-  // Os recursos abaixo continuam prontos para serem reativados depois que o
-  // banco definitivo for criado.
+  // O catálogo, os EcoPontos e o histórico usam o Supabase depois que as
+  // migrações em supabase/ forem aplicadas. O modelo continua local até haver
+  // uma publicação revisada e assinada no banco.
   static const useSupabaseModel = bool.fromEnvironment(
     'ECOSCAN_USE_SUPABASE_MODEL',
     defaultValue: false,
