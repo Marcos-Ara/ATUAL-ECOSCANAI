@@ -4,8 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../core/app_config.dart';
 import '../services/auth_session.dart';
-import '../services/learning_sync_service.dart';
 import '../state/ecoscan_store.dart';
+import 'learning_samples_review_screen.dart';
 import 'profile_screen.dart';
 import 'community_screens.dart';
 
@@ -112,12 +112,18 @@ class SettingsScreen extends StatelessWidget {
                   FilledButton.icon(
                     onPressed: auth.isGuest
                         ? null
-                        : () => _uploadLearning(context, store),
-                    icon: const Icon(Icons.cloud_upload_outlined),
+                        : () => Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (_) =>
+                                  const LearningSamplesReviewScreen(),
+                            ),
+                          ),
+                    icon: const Icon(Icons.fact_check_outlined),
                     label: Text(
                       auth.isGuest
                           ? 'Entre para enviar'
-                          : 'Enviar com consentimento',
+                          : 'Revisar e escolher amostras',
                     ),
                   ),
                   OutlinedButton.icon(
@@ -184,64 +190,4 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  static Future<void> _uploadLearning(
-    BuildContext context,
-    EcoScanStore store,
-  ) async {
-    final approved = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Enviar para revisão?'),
-        content: const Text(
-          'As fotos reduzidas, suas correções e as sugestões do YOLO-E serão '
-          'enviadas ao Supabase para revisão. O envio não atualiza o modelo '
-          'automaticamente. As correções locais só serão removidas após a '
-          'confirmação do Supabase.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Concordo e enviar'),
-          ),
-        ],
-      ),
-    );
-    if (approved != true || !context.mounted) return;
-    try {
-      final uploaded = await LearningSyncService().uploadWithConsent(
-        List.of(store.learningSamples),
-      );
-      await store.removeLearningSamples(uploaded);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '${uploaded.length} amostras enviadas para revisão.',
-            ),
-          ),
-        );
-      }
-    } catch (error) {
-      if (context.mounted) {
-        final detail = error.toString().replaceFirst('Bad state: ', '').trim();
-        final message = detail.isEmpty
-            ? 'Falha no envio. As amostras continuam salvas no aparelho.'
-            : 'Falha no envio; as amostras continuam salvas. $detail';
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(seconds: 8),
-            content: Text(
-              message.length > 300
-                  ? '${message.substring(0, 300)}…'
-                  : message,
-            ),
-          ),
-        );
-      }
-    }
-  }
 }

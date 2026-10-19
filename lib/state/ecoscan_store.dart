@@ -365,6 +365,25 @@ class EcoScanStore extends ChangeNotifier {
     }
   }
 
+  Future<void> updateLearningSample(LearningSample updated) async {
+    if (userId == null) return;
+    final owner = userId;
+    final index = _learningSamples.indexWhere((item) => item.id == updated.id);
+    if (index < 0) return;
+    final next = List<LearningSample>.of(_learningSamples)..[index] = updated;
+    final success = await _preferences.setString(
+      _learningKey,
+      jsonEncode(next.map((item) => item.toJson()).toList()),
+    );
+    if (!success) throw StateError('Não foi possível salvar a edição local.');
+    if (userId == owner) {
+      _learningSamples
+        ..clear()
+        ..addAll(next);
+      notifyListeners();
+    }
+  }
+
   Future<void> removeLearningSamples(Iterable<String> sampleIds) async {
     if (userId == null) return;
     final ids = sampleIds.toSet();

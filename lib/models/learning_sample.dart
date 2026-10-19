@@ -27,6 +27,32 @@ class LearningSample {
   final String? originalLabel;
   final double? originalConfidence;
 
+  LearningSample copyWith({
+    String? reportedLabel,
+    String? reportedBin,
+    String? reportNote,
+    bool? aiDetected,
+    bool clearReportedLabel = false,
+    bool clearReportedBin = false,
+    bool clearReportNote = false,
+  }) =>
+      LearningSample(
+        id: id,
+        createdAt: createdAt,
+        source: source,
+        detector: detector,
+        thumbnailDataUrl: thumbnailDataUrl,
+        detections: detections,
+        reportedLabel: clearReportedLabel
+            ? null
+            : reportedLabel ?? this.reportedLabel,
+        reportedBin: clearReportedBin ? null : reportedBin ?? this.reportedBin,
+        reportNote: clearReportNote ? null : reportNote ?? this.reportNote,
+        aiDetected: aiDetected ?? this.aiDetected,
+        originalLabel: originalLabel,
+        originalConfidence: originalConfidence,
+      );
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'createdAt': createdAt.toIso8601String(),

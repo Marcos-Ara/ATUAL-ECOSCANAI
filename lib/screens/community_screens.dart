@@ -309,6 +309,17 @@ class CreatorsScreen extends StatelessWidget {
             ],
           ),
         ),
+        const Divider(height: 28),
+        const ListTile(
+          leading: CircleAvatar(child: Text('JR')),
+          title: Text('Julio Cesar Ribeiro Duarte'),
+          subtitle: Text('RGM 33892920 · Beta Tester'),
+        ),
+        const ListTile(
+          leading: CircleAvatar(child: Text('MT')),
+          title: Text('Matheus Targino Ferreira'),
+          subtitle: Text('RGM 34185291 · Analisador'),
+        ),
         const SizedBox(height: 20),
         const Text(
           'EcoScan AI\nEscaneie. Descubra. Descarte melhor.',

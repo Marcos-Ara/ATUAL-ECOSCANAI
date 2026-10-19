@@ -194,7 +194,7 @@ class ScanService {
     await file.writeAsBytes(prepared, flush: true);
     try {
       final yolo = await _yolo.detect(prepared, live: live);
-      final native = await _nativeCandidates(file, prepared, yolo);
+      final native = await _nativeCandidates(file, prepared, yolo, live);
       var result = await _resolveCandidates(native.candidates, live: live);
       final selected = native.selected;
       if (selected != null) {
@@ -223,10 +223,11 @@ class ScanService {
     File fullImage,
     Uint8List prepared,
     YoloDetectionResult? yolo,
+    bool live,
   ) async {
-    if (yolo != null) {
-      // An available YOLO owns this frame. Pending stabilization or an empty
-      // frame must not trigger a second model which invents a replacement.
+    if (yolo != null && live) {
+      // Na captura automática, preservamos o comportamento ao vivo: um YOLO
+      // disponível continua sendo a única fonte para evitar troca de classe.
       final target = yolo.selected;
       return _NativeAnalysis(
         candidates: target == null
@@ -244,7 +245,13 @@ class ScanService {
     final merged = <String, LabelCandidate>{};
     var detections = yolo?.detections ?? const <ObjectDetection>[];
     var selected = yolo?.selected;
-    var detector = selected?.backend ?? 'mlkit';
+    var detector = yolo == null
+        ? 'mlkit'
+        : (selected?.backend ??
+              (yolo.modelName.toLowerCase().contains('yoloe')
+                  ? 'yoloe-26n'
+                  : 'yolo26n'));
+    if (yolo != null) detector = '$detector+mlkit-gallery';
 
     void addLabels(Iterable<ImageLabel> labels) {
       for (final label in labels) {
@@ -309,7 +316,10 @@ class ScanService {
       0,
       (best, value) => value.confidence > best ? value.confidence : best,
     );
-    if (merged.isEmpty || bestCropConfidence < 0.40) {
+    // Fotos estáticas têm tempo e resolução para combinar YOLO com os rótulos
+    // do recorte e da imagem inteira. Isso recupera objetos de uso diário que
+    // não pertencem às classes de resíduos mais comuns do modelo.
+    if (!live || merged.isEmpty || bestCropConfidence < 0.40) {
       final fullLabels = await _nativeLabeler.processImage(
         InputImage.fromFilePath(fullImage.path),
       );

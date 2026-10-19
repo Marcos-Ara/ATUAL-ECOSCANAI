@@ -476,7 +476,7 @@ class ScannerScreenState extends State<ScannerScreen>
   Future<void> _showCaptureResult(ScanResult analysis) async {
     if (!mounted) return;
     final result = analysis.classification;
-    await showDialog<void>(
+    final correct = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(
@@ -507,7 +507,7 @@ class ScannerScreenState extends State<ScannerScreen>
                 _MaterialResult(result: result),
                 const SizedBox(height: 12),
                 const Text(
-                  'Ao continuar, você volta para a leitura ao vivo.',
+                  'Confira o resultado. Se a identificação estiver errada, você pode registrar a correção com esta mesma foto.',
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -515,14 +515,22 @@ class ScannerScreenState extends State<ScannerScreen>
           ),
         ),
         actions: [
+          TextButton.icon(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            icon: const Icon(Icons.edit_outlined),
+            label: const Text('Objeto errado? Corrigir'),
+          ),
           FilledButton.icon(
-            onPressed: () => Navigator.of(dialogContext).pop(),
+            onPressed: () => Navigator.of(dialogContext).pop(false),
             icon: const Icon(Icons.center_focus_strong),
             label: const Text('Continuar escaneando'),
           ),
         ],
       ),
     );
+    if (correct == true && mounted) {
+      await _reportCorrection(analysis: analysis);
+    }
   }
 
   Future<void> _onNativeLiveResults(List<LiveYoloDetection> raw) async {
@@ -773,18 +781,23 @@ class ScannerScreenState extends State<ScannerScreen>
     );
   }
 
-  Future<void> _reportCorrection() async {
-    if (_busy || _saving || _selecting || !mounted) return;
-    final wasLive = _live;
+  Future<void> _reportCorrection({ScanResult? analysis}) async {
+    if ((_busy && analysis == null) || _saving || _selecting || !mounted) {
+      return;
+    }
+    final wasLive = analysis == null && _live;
+    final currentDetections = analysis?.detections ?? _detections;
+    final currentDetector = analysis?.detector ?? _detector;
+    final currentResult = analysis?.classification ?? _result;
     final original =
-        _selectedDetection ??
-        _lastKnownLiveSnapshot?.selectedDetection ??
-        (_detections.isEmpty
+        analysis?.selectedDetection ??
+        (analysis == null ? _selectedDetection : null) ??
+        (analysis == null ? _lastKnownLiveSnapshot?.selectedDetection : null) ??
+        (currentDetections.isEmpty
             ? null
-            : _detections.reduce(
+            : currentDetections.reduce(
                 (a, b) => a.confidence >= b.confidence ? a : b,
               ));
-    final currentResult = _result;
     Uint8List? imageBytes;
     String? temporaryPhotoPath;
     setState(() {
@@ -793,7 +806,9 @@ class ScannerScreenState extends State<ScannerScreen>
     });
     _liveTimer?.cancel();
     try {
-      if (!wasLive && _photoBytes != null) {
+      if (analysis != null) {
+        imageBytes = analysis.imageBytes;
+      } else if (!wasLive && _photoBytes != null) {
         imageBytes = _photoBytes;
       } else if (_useNativeYoloView) {
         imageBytes = await _liveYoloController.capturePhoto(withOverlays: false);
@@ -845,9 +860,9 @@ class ScannerScreenState extends State<ScannerScreen>
           id: DateTime.now().microsecondsSinceEpoch.toString(),
           createdAt: DateTime.now(),
           source: wasLive ? 'camera' : _source,
-          detector: _detector,
+          detector: currentDetector,
           thumbnailDataUrl: thumbnail,
-          detections: _detections
+          detections: currentDetections
               .map((item) => <String, dynamic>{
                     'label': item.label,
                     'confidence': item.confidence,
