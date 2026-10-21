@@ -107,27 +107,45 @@ class _LearningSamplesReviewScreenState
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: FilledButton.icon(
-                        onPressed: selectedCount == 0 || !_consent || _sending
-                            ? null
-                            : () => _send(context, samples),
-                        icon: _sending
-                            ? const SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Icon(Icons.cloud_upload_outlined),
-                        label: Text(
-                          _sending
-                              ? 'Enviando para revisão…'
-                              : 'Enviar $selectedCount ${selectedCount == 1 ? 'amostra' : 'amostras'}',
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: selectedCount == 0 || _sending
+                                ? null
+                                : () => _deleteSelected(samples),
+                            icon: const Icon(Icons.delete_outline),
+                            label: Text(
+                              'Excluir $selectedCount ${selectedCount == 1 ? 'leitura' : 'leituras'} selecionadas',
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton.icon(
+                            onPressed: selectedCount == 0 || !_consent || _sending
+                                ? null
+                                : () => _send(context, samples),
+                            icon: _sending
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.cloud_upload_outlined),
+                            label: Text(
+                              _sending
+                                  ? 'Enviando para revisão…'
+                                  : 'Enviar $selectedCount ${selectedCount == 1 ? 'amostra' : 'amostras'}',
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -377,6 +395,55 @@ class _LearningSamplesReviewScreenState
     }
   }
 
+  Future<void> _deleteSelected(List<LearningSample> samples) async {
+    final chosen = samples
+        .where((sample) => _selected.contains(sample.id))
+        .toList(growable: false);
+    if (chosen.isEmpty || _sending) return;
+    final approved = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Excluir leituras selecionadas?'),
+        content: Text(
+          '${chosen.length} ${chosen.length == 1 ? 'amostra será removida' : 'amostras serão removidas'} deste aparelho. Elas não serão enviadas ao Supabase.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton.icon(
+            onPressed: () => Navigator.pop(context, true),
+            icon: const Icon(Icons.delete_outline),
+            label: const Text('Excluir'),
+          ),
+        ],
+      ),
+    );
+    if (approved != true || !mounted) return;
+    setState(() => _sending = true);
+    try {
+      await context.read<EcoScanStore>().removeLearningSamples(
+        chosen.map((sample) => sample.id),
+      );
+      if (!mounted) return;
+      for (final sample in chosen) {
+        _selected.remove(sample.id);
+        _drafts.remove(sample.id)?.dispose();
+      }
+      setState(() => _consent = false);
+      _message(
+        '${chosen.length} ${chosen.length == 1 ? 'leitura excluída' : 'leituras excluídas'} deste aparelho.',
+      );
+    } catch (error) {
+      if (mounted) {
+        _message('Não foi possível excluir as leituras: $error');
+      }
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
+  }
+
   Future<void> _send(
     BuildContext context,
     List<LearningSample> samples,
@@ -404,6 +471,9 @@ class _LearningSamplesReviewScreenState
       }
       final uploaded = await LearningSyncService().uploadWithConsent(updated);
       await store.removeLearningSamples(uploaded);
+      for (final id in uploaded) {
+        _drafts.remove(id)?.dispose();
+      }
       if (!mounted || !context.mounted) return;
       if (uploaded.isEmpty) {
         _message('Nenhuma foto válida foi enviada. As amostras continuam salvas.');

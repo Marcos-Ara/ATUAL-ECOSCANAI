@@ -229,21 +229,36 @@ class EcoScanStore extends ChangeNotifier {
   }
 
   Future<void> removeDetection(DetectionRecord record) async {
-    if (userId == null) return;
-    final owner = userId!;
-    final next = _detections.where((d) => d.id != record.id).toList();
-    if (record.id.isNotEmpty) {
-      await _rememberScanDeletions(owner, [record.id]);
-    }
+    await removeDetections([record]);
+  }
+
+  /// Removes several saved scans in one local write and queues one batch of
+  /// cloud tombstones so deleted scans do not return on the next sync.
+  Future<void> removeDetections(Iterable<DetectionRecord> records) async {
+    final owner = userId;
+    if (owner == null) return;
+    final ids = records
+        .map((record) => record.id)
+        .where((id) => id.isNotEmpty)
+        .toSet();
+    if (ids.isEmpty) return;
+
+    final removed = _detections
+        .where((record) => ids.contains(record.id))
+        .toList(growable: false);
+    if (removed.isEmpty) return;
+    await _rememberScanDeletions(owner, ids);
+
+    final next = _detections
+        .where((record) => !ids.contains(record.id))
+        .toList(growable: false);
     final success = await _preferences.setString(
       _detectionsKeyFor(owner),
-      jsonEncode(next.map((d) => d.toJson()).toList()),
+      jsonEncode(next.map((record) => record.toJson()).toList()),
     );
     if (!success) {
-      if (record.id.isNotEmpty) {
-        await acknowledgeScanDeletions([record.id], userIdOverride: owner);
-      }
-      throw StateError('Não foi possível excluir a análise.');
+      await acknowledgeScanDeletions(ids, userIdOverride: owner);
+      throw StateError('Não foi possível excluir as análises.');
     }
     if (userId == owner) {
       _detections
@@ -251,30 +266,13 @@ class EcoScanStore extends ChangeNotifier {
         ..addAll(next);
       notifyListeners();
     }
-    await _deleteImage(record.imagePath);
+    for (final record in removed) {
+      await _deleteImage(record.imagePath);
+    }
   }
 
   Future<void> clearHistory() async {
-    if (userId == null) return;
-    final owner = userId!;
-    final records = List<DetectionRecord>.of(_detections);
-    final deletedIds = records
-        .map((record) => record.id)
-        .where((id) => id.isNotEmpty)
-        .toList(growable: false);
-    await _rememberScanDeletions(owner, deletedIds);
-    final images = records.map((d) => d.imagePath).toList();
-    if (!await _preferences.remove(_detectionsKeyFor(owner))) {
-      await acknowledgeScanDeletions(deletedIds, userIdOverride: owner);
-      throw StateError('Não foi possível limpar o histórico.');
-    }
-    if (userId == owner) {
-      _detections.clear();
-      notifyListeners();
-    }
-    for (final image in images) {
-      await _deleteImage(image);
-    }
+    await removeDetections(List<DetectionRecord>.of(_detections));
   }
 
   Future<void> _rememberScanDeletions(

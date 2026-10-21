@@ -35,6 +35,33 @@ void main() {
     store.dispose();
   });
 
+  test('exclui várias leituras de uma vez e guarda tombstones', () async {
+    final store = await EcoScanStore.load();
+    store.switchUser('ana');
+    final records = [
+      for (final id in ['scan-1', 'scan-2', 'scan-3'])
+        DetectionRecord(
+          id: id,
+          name: 'Plástico',
+          category: 'Plástico',
+          bin: 'Vermelha',
+          destination: 'Reciclagem',
+          confidence: .9,
+          imagePath: '',
+          detectedAt: DateTime(2026, 10, 19),
+        ),
+    ];
+    for (final record in records) {
+      await store.addDetection(record);
+    }
+
+    await store.removeDetections([records[0], records[2]]);
+
+    expect(store.detections.map((record) => record.id), ['scan-2']);
+    expect(store.pendingScanDeletionIds.toSet(), {'scan-1', 'scan-3'});
+    store.dispose();
+  });
+
   test('fila de amostras é local, separada e não limita a 30', () async {
     final store = await EcoScanStore.load();
     store.switchUser('ana');

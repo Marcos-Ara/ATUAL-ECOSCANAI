@@ -2,6 +2,10 @@
 
 As imagens de correção ficam privadas no bucket `ecoscan-training`. O app só envia uma amostra depois que a pessoa toca em **Enviar com consentimento**. Cada amostra entra como `pendente`; esse envio não inicia o treinamento.
 
+O envio cria uma linha em `public.amostras_treinamento` e envia o JPEG selecionado ao Storage privado. A coluna `caminho_arquivo` aponta para o objeto no bucket. O histórico normal em `public.leituras_scan` guarda metadados e não inclui a imagem. Para revisar uma foto enviada, abra a linha da amostra e use `caminho_arquivo` para encontrá-la em Storage; não é necessária uma tabela adicional para as imagens.
+
+Leituras de correção que ainda estão nesta tela de revisão não foram enviadas. É possível selecionar várias e excluí-las do aparelho; isso não apaga registros já enviados ao Supabase.
+
 ## Conferir se o bucket existe
 
 No Supabase, abra **Storage → Buckets** e confira se existe `ecoscan-training` com acesso privado. Também é possível consultar no SQL Editor:
@@ -13,6 +17,8 @@ where id = 'ecoscan-training';
 ```
 
 O resultado esperado é uma linha com `id = ecoscan-training` e `public = false`. Se o bucket não existir, rode a instalação inicial `supabase/ECOSCAN_SUPABASE_NOVO.sql` somente se esse banco ainda não tiver recebido a instalação. Para um banco já instalado, confira o histórico das migrações antes de aplicar uma correção.
+
+Para conferir também as tabelas, a view usada para restaurar o histórico, RLS e política de upload, execute `supabase/VERIFICAR_SUPABASE.sql` no SQL Editor. Cada item deve aparecer como `OK`.
 
 ## Ver amostras pendentes
 

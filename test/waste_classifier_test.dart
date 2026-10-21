@@ -9,6 +9,34 @@ void main() {
     expect(result.name, 'Plástico');
     expect(result.bin, 'Vermelha');
   });
+  test('copo de vidro é reconhecido como vidro', () {
+    const candidates = [LabelCandidate('drinking glass', .72)];
+    final result = WasteClassifier.finalizeAutomatic(
+      WasteClassifier.classifyCandidates(candidates),
+      candidates,
+    );
+    expect(result.material?.id, 'glass');
+    expect(result.detectedObject, 'Copo de vidro');
+  });
+  test('ML Kit sem confirmação YOLO filtra eletrônico com confiança moderada', () {
+    const candidates = [
+      LabelCandidate('cellular telephone', .62),
+      LabelCandidate('drinking glass', .72),
+    ];
+    final guarded = WasteClassifier.guardMlKitOnlyElectronicCandidates(
+      candidates,
+      yoloConfirmsElectronic: false,
+    );
+    expect(guarded.map((candidate) => candidate.label), ['drinking glass']);
+    expect(WasteClassifier.classifyCandidates(guarded).material?.id, 'glass');
+  });
+  test('YOLO eletrônico específico mantém uma sugestão eletrônica moderada', () {
+    final guarded = WasteClassifier.guardMlKitOnlyElectronicCandidates(
+      const [LabelCandidate('cellular telephone', .62)],
+      yoloConfirmsElectronic: true,
+    );
+    expect(guarded, hasLength(1));
+  });
   test('não confunde trechos de palavras', () {
     for (final word in [
       'candle',

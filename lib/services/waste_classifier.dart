@@ -188,6 +188,8 @@ abstract final class WasteClassifier {
       'glass bottle',
       'glass jar',
       'glass container',
+      'glass cup',
+      'drinking glass',
       'beer bottle',
       'wine bottle',
       'perfume bottle',
@@ -283,6 +285,8 @@ abstract final class WasteClassifier {
     'glass bottle',
     'glass jar',
     'glass container',
+    'glass cup',
+    'drinking glass',
     'beer bottle',
     'wine bottle',
     'perfume bottle',
@@ -301,6 +305,8 @@ abstract final class WasteClassifier {
     'beer bottle': 'Garrafa de vidro',
     'wine bottle': 'Garrafa de vidro',
     'glass bottle': 'Garrafa de vidro',
+    'glass cup': 'Copo de vidro',
+    'drinking glass': 'Copo de vidro',
     'water bottle': 'Garrafa plástica',
     'pop bottle': 'Garrafa plástica',
     'soda bottle': 'Garrafa plástica',
@@ -391,6 +397,21 @@ abstract final class WasteClassifier {
         directLabels['special']!.contains(label) ||
         _specificMaterialLabels.contains(label);
   }
+
+  /// ML Kit's general image labeler can mistake transparent glassware for a
+  /// phone. When no specific YOLO electronic detection corroborates it, require
+  /// stronger evidence before treating an electronic label as certain.
+  static List<LabelCandidate> guardMlKitOnlyElectronicCandidates(
+    Iterable<LabelCandidate> candidates, {
+    required bool yoloConfirmsElectronic,
+  }) => candidates
+      .where((candidate) {
+        if (yoloConfirmsElectronic) return true;
+        final label = normalize(candidate.label);
+        if (!directLabels['electronic']!.contains(label)) return true;
+        return candidate.confidence >= 0.75;
+      })
+      .toList(growable: false);
 
   static LabelCandidate? _bestPhoneCandidate(List<LabelCandidate> candidates) {
     LabelCandidate? best;

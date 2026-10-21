@@ -328,8 +328,19 @@ class ScanService {
 
     final result = merged.values.toList(growable: false)
       ..sort((a, b) => b.confidence.compareTo(a.confidence));
+    final yoloLabel = yolo?.selected?.label;
+    final yoloConfirmsElectronic = yoloLabel != null &&
+        WasteClassifier.directLabels['electronic']!.contains(
+          WasteClassifier.normalize(yoloLabel),
+        );
+    final guardedCandidates = live
+        ? result
+        : WasteClassifier.guardMlKitOnlyElectronicCandidates(
+            result,
+            yoloConfirmsElectronic: yoloConfirmsElectronic,
+          );
     return _NativeAnalysis(
-      candidates: result,
+      candidates: guardedCandidates,
       detections: List.unmodifiable(detections),
       selected: selected,
       detector: detector,
