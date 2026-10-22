@@ -24,6 +24,7 @@ class _SessionGateState extends State<SessionGate>
   Timer? _timer;
   bool _introComplete = false;
   bool _syncingAccount = false;
+  bool _switchingUser = false;
   @override
   void initState() {
     super.initState();
@@ -176,13 +177,29 @@ class _SessionGateState extends State<SessionGate>
         : auth.account!.uid;
     final store = context.watch<EcoScanStore>();
     if (store.userId != sessionUserId) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        store.switchUser(sessionUserId);
-        if (!auth.isGuest && AppConfig.syncSupabaseHistory) {
-          unawaited(_syncAccount(store, sessionUserId));
-        }
-      });
+      if (!_switchingUser) {
+        _switchingUser = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          unawaited(() async {
+            try {
+              await store.switchUserWithGuestData(sessionUserId);
+            } catch (_) {
+              // Keep the account accessible; the guest copy remains local and
+              // the transfer can be retried the next time this account opens.
+              store.switchUser(sessionUserId);
+            }
+            if (!mounted) return;
+            final currentAuth = context.read<AuthSession>();
+            if (!currentAuth.isGuest &&
+                currentAuth.account?.uid == sessionUserId &&
+                AppConfig.syncSupabaseHistory) {
+              unawaited(_syncAccount(store, sessionUserId));
+            }
+            setState(() => _switchingUser = false);
+          }());
+        });
+      }
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     return MainShell(key: ValueKey(sessionUserId));

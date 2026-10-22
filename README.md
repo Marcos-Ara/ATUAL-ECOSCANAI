@@ -26,14 +26,18 @@ O banco e a autenticação ficam no **Supabase**. O Firebase é usado somente pa
 
 O arquivo SQL consolidado instala as tabelas, dados de catálogo, políticas de acesso e buckets privados. Não rode também todas as migrações individuais. Se o projeto já recebeu um SQL anterior, não repita a instalação inicial por cima.
 
+### Projeto que já está instalado
+
+Antes de instalar esta versão 3.4.15, execute somente `supabase/migrations/202610210001_backup_privado_conta.sql` no SQL Editor. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. Essa atualização cria o backup privado das fotos sem apagar o banco atual.
+
 ## O que sincroniza
 
 - O Auth mantém `perfis` atualizado com nome e e-mail da conta.
-- Leituras salvas, exclusões e preferências de tema, sons, avisos e mapa sincronizam por conta. O app mantém uma cópia local para funcionar sem rede.
+- Leituras salvas, fotos e localização dessas leituras, foto de perfil, exclusões e preferências de tema, sons, avisos e mapa sincronizam por conta. O app mantém uma cópia local para funcionar sem rede; ao entrar com uma conta, leituras feitas como visitante no mesmo aparelho são transferidas para ela.
 - `eventos_pontos`, `conquistas_usuario` e `estatisticas_usuario` são calculados pelo banco; o app não pode gravar pontuação diretamente.
 - O mapa atualiza os EcoPontos pelo Supabase e conserva um cache local.
 - O app tenta o catálogo remoto quando o catálogo instalado não resolve um rótulo. O resolvedor não escolhe material para um rótulo ambíguo sem variante específica.
-- Correções e fotos só são enviadas após consentimento. As amostras ficam no bucket privado `ecoscan-training` para revisão humana.
+- Fotos do histórico e do perfil ficam no bucket privado `ecoscan-account-data`, com acesso restrito à própria conta. Amostras de treinamento e correções só são enviadas após consentimento e ficam no bucket privado `ecoscan-training` para revisão humana.
 
 A detecção é feita pelo modelo local no aparelho. O banco não consegue comprovar que um cliente não modificado enviou uma identificação verdadeira. Aprovar uma amostra não treina nem troca o modelo automaticamente. Veja `supabase/REVISAR_AMOSTRAS.md`.
 

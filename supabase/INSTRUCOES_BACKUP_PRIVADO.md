@@ -1,0 +1,35 @@
+# Atualização necessária do Supabase
+
+O app EcoScan AI 3.4.15 salva o histórico e suas fotos, além da foto de perfil,
+na conta conectada. Os arquivos ficam em um bucket privado; cada conta só pode
+acessar arquivos dentro da própria pasta.
+
+## Projeto Supabase que já está em uso
+
+1. Abra o **SQL Editor** do mesmo projeto Supabase que o app utiliza.
+2. Crie uma consulta e copie todo o conteúdo de
+   `migrations/202610210001_backup_privado_conta.sql`.
+3. Execute uma vez e confirme que a consulta terminou sem erro.
+4. Instale o APK atualizado e entre com o mesmo Gmail que usava antes.
+
+Essa atualização acrescenta o caminho da imagem ao histórico, atualiza a visão
+de leitura, cria o bucket privado `ecoscan-account-data` com regras por usuário
+e troca rótulos de objeto nas leituras antigas pelos nomes das categorias. Ela
+não apaga tabelas nem leituras. Não execute novamente o script completo de
+instalação em um projeto já em uso.
+
+## O que será recuperado
+
+- Leituras salvas na conta, incluindo fotos, localização, histórico, pontos e conquistas
+  calculados a partir das leituras.
+- Preferências da conta e foto de perfil.
+- Leituras feitas como visitante no mesmo aparelho são copiadas para a primeira
+  conta conectada e entram na sincronização.
+
+Uma desinstalação apaga dados que ainda existiam apenas no aparelho. Por isso,
+leituras feitas sem internet ou antes de entrar em uma conta só podem ser
+recuperadas se o aparelho ainda tiver esses dados.
+
+As amostras pendentes de treinamento continuam protegidas pela confirmação de
+consentimento em **Configurações**. Elas não são enviadas automaticamente para
+treinamento nem fazem o YOLO aprender assim que uma leitura é salva.

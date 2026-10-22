@@ -15,6 +15,17 @@ class MaterialGuide {
   final Color color;
   final String instruction;
   final String exclusions;
+  String get displayName => switch (id) {
+    'plastic' => 'Plásticos',
+    'paper' => 'Papel e papelão',
+    'glass' => 'Vidros',
+    'metal' => 'Metais',
+    'organic' => 'Orgânicos',
+    'reject' => 'Resíduo não reciclável',
+    'electronic' => 'Eletrônicos',
+    'special' => 'Resíduo especial',
+    _ => name,
+  };
   bool get recyclable =>
       const ['paper', 'plastic', 'glass', 'metal'].contains(id);
   static const all = [
@@ -63,7 +74,7 @@ class MaterialGuide {
       'Rejeito',
       'Cinza',
       Color(0xFF9AA3A5),
-      'Use a coleta de rejeitos para materiais sem reciclagem ou compostagem na sua cidade.',
+      'Use a lixeira cinza para materiais que não podem ser reciclados nem compostados na sua cidade.',
       'Não inclua pilhas, eletrônicos, lâmpadas ou medicamentos.',
     ),
     MaterialGuide(
@@ -83,14 +94,27 @@ class MaterialGuide {
       'Não misture com recicláveis ou lixo comum. Confirme o destino no EcoPonto.',
     ),
   ];
+  /// Lixeiras principais para o conteúdo educativo. Materiais eletrônicos e
+  /// especiais continuam reconhecidos e direcionados à coleta adequada.
+  static final teachingBins = all.take(6).toList(growable: false);
   static MaterialGuide byId(String id) =>
       all.firstWhere((item) => item.id == id, orElse: () => all.last);
   static MaterialGuide? byName(String name) {
     for (final item in all) {
-      if (item.name == name) return item;
+      if (item.name.toLowerCase() == name.trim().toLowerCase() ||
+          item.displayName.toLowerCase() == name.trim().toLowerCase() ||
+          item.id == name.trim().toLowerCase() ||
+          (item.id == 'reject' &&
+              const ['rejeito', 'resíduo não reciclável', 'residuo nao reciclavel']
+                  .contains(name.trim().toLowerCase()))) {
+        return item;
+      }
     }
     return null;
   }
+
+  static String displayNameFor(String name) =>
+      byName(name)?.displayName ?? name;
 
   static MaterialGuide? fromDatabase(Map<String, dynamic> row) {
     final special = row['residuos_especiais'] ?? row['special_waste'];
@@ -126,7 +150,10 @@ class MaterialGuide {
         text.contains('marrom')) {
       return byId('organic');
     }
-    if (text.contains('rejeito') || text.contains('cinza')) {
+    if (text.contains('rejeito') ||
+        text.contains('não reciclável') ||
+        text.contains('nao reciclavel') ||
+        text.contains('cinza')) {
       return byId('reject');
     }
     return null;

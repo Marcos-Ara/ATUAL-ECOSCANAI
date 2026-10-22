@@ -840,9 +840,10 @@ class ScannerScreenState extends State<ScannerScreen>
         context: context,
         builder: (_) => CorrectionReportDialog(
           imageBytes: capturedImageBytes,
-          originalLabel: original?.label ??
-              currentResult?.detectionLabel ??
-              currentResult?.detectedObject,
+          originalLabel: currentResult?.material?.displayName ??
+              (currentResult?.isKnown == true
+                  ? currentResult!.name
+                  : null),
           originalConfidence: original?.confidence ??
               (currentResult?.isKnown == true
                   ? currentResult!.confidence
@@ -877,9 +878,10 @@ class ScannerScreenState extends State<ScannerScreen>
           reportedBin: report.bin,
           reportNote: report.note,
           aiDetected: report.aiDetected,
-          originalLabel: original?.label ??
-              currentResult?.detectionLabel ??
-              currentResult?.detectedObject,
+          originalLabel: currentResult?.material?.displayName ??
+              (currentResult?.isKnown == true
+                  ? currentResult!.name
+                  : null),
           originalConfidence: original?.confidence ??
               (currentResult?.isKnown == true
                   ? currentResult!.confidence
@@ -1115,11 +1117,11 @@ class ScannerScreenState extends State<ScannerScreen>
         confirmedByUser: result.isManual,
         latitude: location?.latitude,
         longitude: location?.longitude,
-        detectedObject: result.detectedObject ?? _selectedDetection?.label,
+        detectedObject: result.material?.displayName ?? result.name,
         detector: _detector,
         objectId: result.objectId,
         variantId: result.variantId,
-        detectionLabel: result.detectionLabel ?? _selectedDetection?.label,
+        detectionLabel: null,
         classIndex: result.classIndex ?? _selectedDetection?.classIndex,
       );
 
@@ -1874,13 +1876,11 @@ class _MaterialResult extends StatelessWidget {
               letterSpacing: 1,
             ),
           ),
-          if (result.detectedObject != null) ...[
-            const SizedBox(height: 8),
-            Text(
-              result.detectedObject!,
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
-            ),
-          ],
+          const SizedBox(height: 8),
+          Text(
+            result.material?.displayName ?? result.name,
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+          ),
           const SizedBox(height: 10),
           if (result.isKnown) ...[
             Row(
@@ -1888,7 +1888,7 @@ class _MaterialResult extends StatelessWidget {
                 Expanded(
                   child: _ResultInfo(
                     title: result.material?.id == 'electronic' ? 'Categoria' : 'Material',
-                    value: result.name,
+                    value: result.material?.displayName ?? result.name,
                     color: color,
                   ),
                 ),

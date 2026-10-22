@@ -24,7 +24,7 @@ class LearnScreen extends StatelessWidget {
           'Identifique o material, confira a cor da lixeira e prepare o descarte. Separe materiais diferentes e siga a coleta da sua cidade.',
         ),
         const SizedBox(height: 20),
-        for (final guide in MaterialGuide.all)
+        for (final guide in MaterialGuide.teachingBins)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Card(
@@ -43,7 +43,7 @@ class LearnScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            guide.name,
+                            guide.displayName,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
@@ -99,13 +99,13 @@ class StatsScreen extends StatelessWidget {
               child: Builder(
                 builder: (context) {
                   final count = records
-                      .where((r) => r.category == material.name)
+                      .where((r) => MaterialGuide.byName(r.category)?.id == material.id)
                       .length;
                   return Column(
                     children: [
                       Row(
                         children: [
-                          Expanded(child: Text(material.name)),
+                          Expanded(child: Text(material.displayName)),
                           Text(count.toString()),
                         ],
                       ),

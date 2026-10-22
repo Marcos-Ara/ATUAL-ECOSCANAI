@@ -41,7 +41,7 @@ class _CorrectionReportDialogState extends State<CorrectionReportDialog> {
     'Verde — Vidro',
     'Amarela — Metal',
     'Marrom — Orgânico',
-    'Cinza — Rejeito',
+    'Cinza — Resíduo não reciclável',
     'Coleta especial',
     'Outro',
   ];
@@ -96,7 +96,7 @@ class _CorrectionReportDialogState extends State<CorrectionReportDialog> {
               Text(
                 hasOriginal
                     ? 'Sugestão original da IA: $original${confidence == null ? '' : ' · ${(confidence * 100).round()}%'}'
-                    : 'A IA não encontrou um objeto com confiança suficiente.',
+                    : 'A IA não identificou uma categoria com segurança.',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 8),
@@ -105,7 +105,7 @@ class _CorrectionReportDialogState extends State<CorrectionReportDialog> {
                   controller: _labelController,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: const InputDecoration(
-                    labelText: 'Qual é o objeto correto?',
+                    labelText: 'Qual categoria está correta?',
                     hintText: 'Ex.: garrafa de vidro',
                     border: OutlineInputBorder(),
                   ),
@@ -127,7 +127,7 @@ class _CorrectionReportDialogState extends State<CorrectionReportDialog> {
                 const SizedBox(height: 6),
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('A IA encontrou algum objeto?'),
+                  title: const Text('A IA identificou alguma categoria?'),
                   value: _aiDetected,
                   onChanged: (value) => setState(() => _aiDetected = value),
                 ),
@@ -141,7 +141,7 @@ class _CorrectionReportDialogState extends State<CorrectionReportDialog> {
                   ),
                 ),
               ] else ...[
-                _ReviewLine(label: 'Objeto correto', value: _labelController.text.trim()),
+                _ReviewLine(label: 'Categoria confirmada', value: _labelController.text.trim()),
                 _ReviewLine(label: 'Material / destino', value: _bin),
                 _ReviewLine(label: 'IA encontrou objeto', value: _aiDetected ? 'Sim' : 'Não'),
                 if (_noteController.text.trim().isNotEmpty)

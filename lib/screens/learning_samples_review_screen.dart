@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/learning_sample.dart';
+import '../models/material_guide.dart';
 import '../services/learning_sync_service.dart';
 import '../state/ecoscan_store.dart';
 
@@ -29,7 +30,10 @@ class _LearningSamplesReviewScreenState
     if (_initialized) return;
     _initialized = true;
     for (final sample in context.read<EcoScanStore>().learningSamples) {
-      _drafts[sample.id] = _SampleDraft(sample);
+      _drafts[sample.id] = _SampleDraft(
+        sample,
+        initialLabel: _categoryForSample(sample),
+      );
     }
   }
 
@@ -171,7 +175,7 @@ class _LearningSamplesReviewScreenState
           ),
           const SizedBox(height: 6),
           const Text(
-            'Veja a foto, corrija o nome ou o material e marque somente o que deseja compartilhar. Cada envio fica pendente de revisão.',
+            'Veja a foto, confirme a categoria e marque somente o que deseja compartilhar. Cada envio fica pendente de revisão.',
           ),
         ],
       ),
@@ -179,9 +183,13 @@ class _LearningSamplesReviewScreenState
   );
 
   Widget _sampleCard(BuildContext context, LearningSample sample) {
-    final draft = _drafts.putIfAbsent(sample.id, () => _SampleDraft(sample));
+    final draft = _drafts.putIfAbsent(
+      sample.id,
+      () => _SampleDraft(sample, initialLabel: _categoryForSample(sample)),
+    );
     final selected = _selected.contains(sample.id);
     final theme = Theme.of(context);
+    final category = _categoryForSample(sample);
     final details = <String>[
       _sourceName(sample.source),
       _date(sample.createdAt),
@@ -189,8 +197,8 @@ class _LearningSamplesReviewScreenState
         '${(sample.originalConfidence! * 100).round()}% de confiança',
       if (sample.aiDetected != null)
         sample.aiDetected == true
-            ? 'IA encontrou objeto'
-            : 'IA não encontrou objeto',
+            ? 'IA sugeriu uma categoria'
+            : 'IA sem categoria segura',
     ].join(' · ');
     return Card(
       margin: const EdgeInsets.only(bottom: 14),
@@ -211,8 +219,8 @@ class _LearningSamplesReviewScreenState
                   }),
             controlAffinity: ListTileControlAffinity.leading,
             title: Text(
-              sample.originalLabel?.trim().isNotEmpty == true
-                  ? 'Leitura: ${sample.originalLabel}'
+              category.isNotEmpty
+                  ? 'Leitura: $category'
                   : 'Leitura sem identificação segura',
               style: const TextStyle(fontWeight: FontWeight.w700),
             ),
@@ -250,7 +258,7 @@ class _LearningSamplesReviewScreenState
                   controller: draft.label,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: const InputDecoration(
-                    labelText: 'Nome correto do objeto',
+                    labelText: 'Categoria correta',
                     prefixIcon: Icon(Icons.label_outline),
                     border: OutlineInputBorder(),
                   ),
@@ -299,39 +307,35 @@ class _LearningSamplesReviewScreenState
   }
 
   Widget _detectionSuggestions(BuildContext context, LearningSample sample) {
-    final labels = sample.detections
-        .map((item) {
-          final label = item['label']?.toString().trim() ?? '';
-          final confidence = item['confidence'];
-          final confidenceText = confidence is num
-              ? ' · ${(confidence * 100).round()}%'
-              : '';
-          return label.isEmpty ? '' : '$label$confidenceText';
-        })
-        .where((label) => label.isNotEmpty)
-        .toSet()
-        .toList(growable: false);
-    if (labels.isEmpty) return const SizedBox.shrink();
-    final shown = labels.take(5).toList(growable: false);
+    final category = _categoryForSample(sample);
+    if (category.isEmpty) return const SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Sugestões encontradas pela IA',
+          'Categoria sugerida pela IA',
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(height: 6),
         Wrap(
           spacing: 6,
           runSpacing: 4,
-          children: [
-            for (final label in shown) Chip(label: Text(label)),
-            if (labels.length > shown.length)
-              Chip(label: Text('+${labels.length - shown.length}')),
-          ],
+          children: [Chip(label: Text(category))],
         ),
       ],
     );
+  }
+
+  String _categoryForSample(LearningSample sample) {
+    final reported = MaterialGuide.byName(sample.reportedLabel ?? '');
+    if (reported != null) return reported.displayName;
+    final original = MaterialGuide.byName(sample.originalLabel ?? '');
+    if (original != null) return original.displayName;
+    final reportedDestination = MaterialGuide.fromDatabase({
+      'categoria': sample.reportedBin,
+      'nome_material': sample.reportedBin,
+    });
+    return reportedDestination?.displayName ?? '';
   }
 
   Widget _sampleImage(String dataUrl) {
@@ -378,7 +382,7 @@ class _LearningSamplesReviewScreenState
     _SampleDraft draft,
   ) async {
     if (draft.label.text.trim().isEmpty) {
-      _message('Informe o nome correto do objeto antes de salvar.');
+      _message('Informe a categoria correta antes de salvar.');
       return;
     }
     try {
@@ -536,11 +540,17 @@ class _LearningSamplesReviewScreenState
 }
 
 class _SampleDraft {
-  _SampleDraft(LearningSample sample)
-    : label = TextEditingController(text: sample.reportedLabel ?? ''),
+  _SampleDraft(LearningSample sample, {required String initialLabel})
+    : label = TextEditingController(
+        text: MaterialGuide.byName(sample.reportedLabel ?? '')?.displayName ??
+            initialLabel,
+      ),
       bin = TextEditingController(text: sample.reportedBin ?? ''),
       note = TextEditingController(text: sample.reportNote ?? ''),
-      _savedLabel = (sample.reportedLabel ?? '').trim(),
+      _savedLabel = MaterialGuide.byName(
+            sample.reportedLabel ?? '',
+          )?.displayName ??
+          initialLabel.trim(),
       _savedBin = (sample.reportedBin ?? '').trim(),
       _savedNote = (sample.reportNote ?? '').trim();
 

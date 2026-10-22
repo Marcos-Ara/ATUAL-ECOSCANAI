@@ -164,11 +164,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             ),
                           ),
                     title: Text(
-                      record.category,
+                      MaterialGuide.byName(record.category)?.displayName ??
+                          record.category,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      '${record.detectedObject ?? record.bin}\n${_date(record.detectedAt)}',
+                      '${record.bin}\n${_date(record.detectedAt)}',
                     ),
                     isThreeLine: true,
                     trailing: _selecting
@@ -317,7 +318,7 @@ class DetectionDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            record.category,
+            material?.displayName ?? record.category,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(height: 8),
@@ -338,8 +339,6 @@ class DetectionDetailScreen extends StatelessWidget {
           Text(
             record.source == 'gallery' ? 'Imagem da galeria' : 'Foto da câmera',
           ),
-          if (record.detectedObject?.isNotEmpty == true)
-            Text('Objeto detectado: ${record.detectedObject}'),
           if (record.detector?.isNotEmpty == true)
             Text('Detector: ${record.detector}'),
           Text(

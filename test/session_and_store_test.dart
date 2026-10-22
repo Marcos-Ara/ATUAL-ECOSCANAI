@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ecoscan_mobile/models/detection_record.dart';
 import 'package:ecoscan_mobile/models/learning_sample.dart';
 import 'package:ecoscan_mobile/state/ecoscan_store.dart';
@@ -32,6 +34,42 @@ void main() {
     expect(store.profilePhoto, 'photo-a.jpg');
     store.switchUser(null);
     expect(store.detections, isEmpty);
+    store.dispose();
+  });
+
+  test('transfere o trabalho local do visitante para a primeira conta', () async {
+    final record = DetectionRecord(
+      id: 'guest-scan',
+      name: 'Plástico',
+      category: 'Plástico',
+      bin: 'Vermelha',
+      destination: 'Reciclagem',
+      confidence: .9,
+      imagePath: 'guest-photo.jpg',
+      detectedAt: DateTime(2026, 10, 20),
+    );
+    final sample = LearningSample(
+      id: 'guest-sample',
+      createdAt: DateTime(2026, 10, 20),
+      source: 'gallery',
+      detector: 'yolo26n',
+      thumbnailDataUrl: 'data:image/jpeg;base64,AA==',
+      detections: const [],
+    );
+    SharedPreferences.setMockInitialValues({
+      'ecoscan.detections.v2.guest-local': jsonEncode([record.toJson()]),
+      'ecoscan.learning.v1.guest-local': jsonEncode([sample.toJson()]),
+      'ecoscan.profile.v2.guest-local': 'guest-avatar.jpg',
+    });
+    final store = await EcoScanStore.load();
+
+    await store.switchUserWithGuestData('ana');
+
+    expect(store.detections.single.id, 'guest-scan');
+    expect(store.learningSamples.single.id, 'guest-sample');
+    expect(store.profilePhoto, 'guest-avatar.jpg');
+    final preferences = await SharedPreferences.getInstance();
+    expect(preferences.getBool('ecoscan.profile.pending.v1.ana'), isTrue);
     store.dispose();
   });
 

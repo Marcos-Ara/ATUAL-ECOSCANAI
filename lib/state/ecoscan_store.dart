@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
@@ -45,8 +46,13 @@ class EcoScanStore extends ChangeNotifier {
       ? const []
       : _pendingScanDeletionsFor(userId!);
   String get _photoKey => 'ecoscan.profile.v2.${userId ?? 'signed-out'}';
+  String _remotePhotoKeyFor(String uid) => 'ecoscan.profile.remote.v1.$uid';
+  String _pendingPhotoKeyFor(String uid) =>
+      'ecoscan.profile.pending.v1.$uid';
   String get _learningKey =>
       'ecoscan.learning.v1.${userId ?? 'signed-out'}';
+  String _learningKeyFor(String? uid) =>
+      'ecoscan.learning.v1.${uid ?? 'signed-out'}';
   String get profilePhoto => _preferences.getString(_photoKey) ?? '';
   bool get darkMode => _preferences.getBool('ecoscan.dark') ?? true;
   bool get sounds => _preferences.getBool('ecoscan.sounds') ?? true;
@@ -98,6 +104,76 @@ class EcoScanStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Moves the visitor's locally saved work into the first account they use.
+  /// The visitor copy stays on the device if the cloud is offline.
+  Future<void> switchUserWithGuestData(String? uid) async {
+    if (uid == null || uid == 'guest-local') {
+      switchUser(uid);
+      return;
+    }
+
+    final migrationKey = 'ecoscan.guest_data_migrated_to.v1';
+    final migratedTo = _preferences.getString(migrationKey);
+    if (migratedTo == null || migratedTo == uid) {
+      final guestRecords = _decodeRecords(
+        _preferences.getString(_detectionsKeyFor('guest-local')),
+      );
+      final accountRecords = _decodeRecords(
+        _preferences.getString(_detectionsKeyFor(uid)),
+      );
+      final recordsById = <String, DetectionRecord>{
+        for (final record in accountRecords)
+          if (record.id.isNotEmpty) record.id: record,
+        for (final record in guestRecords)
+          if (record.id.isNotEmpty) record.id: record,
+      };
+      if (recordsById.isNotEmpty &&
+          !await _preferences.setString(
+            _detectionsKeyFor(uid),
+            jsonEncode(
+              recordsById.values.map((record) => record.toJson()).toList(),
+            ),
+          )) {
+        throw StateError('Não foi possível transferir o histórico do visitante.');
+      }
+
+      final guestSamples = _decodeLearningSamples(
+        _preferences.getString(_learningKeyFor('guest-local')),
+      );
+      final accountSamples = _decodeLearningSamples(
+        _preferences.getString(_learningKeyFor(uid)),
+      );
+      final samplesById = <String, LearningSample>{
+        for (final sample in accountSamples) sample.id: sample,
+        for (final sample in guestSamples) sample.id: sample,
+      };
+      if (samplesById.isNotEmpty &&
+          !await _preferences.setString(
+            _learningKeyFor(uid),
+            jsonEncode(
+              samplesById.values.map((sample) => sample.toJson()).toList(),
+            ),
+          )) {
+        throw StateError('Não foi possível transferir as correções do visitante.');
+      }
+
+      final targetPhotoKey = 'ecoscan.profile.v2.$uid';
+      final guestPhoto =
+          _preferences.getString('ecoscan.profile.v2.guest-local');
+      if ((_preferences.getString(targetPhotoKey) ?? '').isEmpty &&
+          guestPhoto?.isNotEmpty == true) {
+        if (!await _preferences.setString(targetPhotoKey, guestPhoto!)) {
+          throw StateError('Não foi possível transferir a foto do visitante.');
+        }
+        await _preferences.setBool(_pendingPhotoKeyFor(uid), true);
+      }
+      if (!await _preferences.setString(migrationKey, uid)) {
+        throw StateError('Não foi possível concluir a transferência da conta.');
+      }
+    }
+    switchUser(uid);
+  }
+
   Future<void> setDarkMode(bool value) async {
     await _preferences.setBool('ecoscan.dark', value);
     notifyListeners();
@@ -133,7 +209,9 @@ class EcoScanStore extends ChangeNotifier {
       if (client.auth.currentUser?.id != owner) return;
       final row = await client
           .from('configuracoes_usuario')
-          .select('tema,sons_ativos,avisos_ativos,mapa_explorado')
+          .select(
+            'tema,sons_ativos,avisos_ativos,mapa_explorado,caminho_foto_perfil',
+          )
           .eq('usuario_id', owner)
           .maybeSingle();
       if (row == null) {
@@ -153,6 +231,18 @@ class EcoScanStore extends ChangeNotifier {
         'ecoscan.map.$owner',
         row['mapa_explorado'] == true,
       );
+      final remotePhoto = row['caminho_foto_perfil']?.toString() ?? '';
+      var hasPendingPhoto =
+          _preferences.getBool(_pendingPhotoKeyFor(owner)) == true;
+      if (remotePhoto.isEmpty && profilePhoto.isNotEmpty) {
+        hasPendingPhoto = true;
+        await _preferences.setBool(_pendingPhotoKeyFor(owner), true);
+      }
+      if (remotePhoto.isNotEmpty) {
+        await _preferences.setString(_remotePhotoKeyFor(owner), remotePhoto);
+        if (!hasPendingPhoto) await _restoreProfilePhoto(owner, remotePhoto);
+      }
+      if (hasPendingPhoto) await _syncCloudSettings();
       if (userId == owner) notifyListeners();
     } catch (_) {
       // Preferências locais continuam disponíveis quando a nuvem está offline.
@@ -165,6 +255,9 @@ class EcoScanStore extends ChangeNotifier {
     try {
       final client = Supabase.instance.client;
       if (client.auth.currentUser?.id != owner) return;
+      final remotePhoto = await _uploadProfilePhoto(owner, profilePhoto) ??
+          _preferences.getString(_remotePhotoKeyFor(owner));
+      if (userId != owner || client.auth.currentUser?.id != owner) return;
       await client.from('configuracoes_usuario').upsert(
         {
           'usuario_id': owner,
@@ -172,21 +265,104 @@ class EcoScanStore extends ChangeNotifier {
           'sons_ativos': sounds,
           'avisos_ativos': notifications,
           'mapa_explorado': exploredMap,
+          'caminho_foto_perfil': remotePhoto,
           'atualizado_em': DateTime.now().toUtc().toIso8601String(),
         },
         onConflict: 'usuario_id',
       );
+      if (userId == owner) {
+        await _preferences.remove(_pendingPhotoKeyFor(owner));
+      }
     } catch (_) {
       // A sincronização de preferências será tentada novamente no próximo login.
     }
   }
 
   Future<void> setProfilePhoto(String path) async {
-    if (userId == null) return;
+    final owner = userId;
+    if (owner == null) return;
     final oldPath = profilePhoto;
-    await _preferences.setString(_photoKey, path);
-    notifyListeners();
+    await _preferences.setString('ecoscan.profile.v2.$owner', path);
+    await _preferences.setBool(_pendingPhotoKeyFor(owner), true);
+    if (userId == owner) notifyListeners();
+    if (userId == owner) await _syncCloudSettings();
     if (oldPath != path) await _deleteImage(oldPath);
+  }
+
+  Future<String?> _uploadProfilePhoto(String owner, String source) async {
+    if (source.isEmpty) return null;
+    final bytes = await _readImageBytes(source);
+    if (bytes == null || bytes.isEmpty) return null;
+    final contentType = _imageContentType(source);
+    final storagePath = '$owner/profile/avatar.jpg';
+    await Supabase.instance.client.storage
+        .from('ecoscan-account-data')
+        .uploadBinary(
+          storagePath,
+          bytes,
+          fileOptions: FileOptions(contentType: contentType, upsert: true),
+        );
+    await _preferences.setString(_remotePhotoKeyFor(owner), storagePath);
+    return storagePath;
+  }
+
+  Future<void> _restoreProfilePhoto(String owner, String storagePath) async {
+    if (userId != owner ||
+        Supabase.instance.client.auth.currentUser?.id != owner) {
+      return;
+    }
+    final bytes = await Supabase.instance.client.storage
+        .from('ecoscan-account-data')
+        .download(storagePath);
+    if (userId != owner || bytes.isEmpty) return;
+
+    String localPath;
+    if (kIsWeb) {
+      localPath = 'data:image/jpeg;base64,${base64Encode(bytes)}';
+    } else {
+      final documents = await getApplicationDocumentsDirectory();
+      final directory = Directory(
+        p.join(documents.path, 'ecoscan', owner, 'profile'),
+      );
+      await directory.create(recursive: true);
+      final file = File(p.join(directory.path, 'cloud_avatar.jpg'));
+      await file.writeAsBytes(bytes, flush: true);
+      localPath = file.path;
+    }
+    if (userId != owner) return;
+    await _preferences.setString('ecoscan.profile.v2.$owner', localPath);
+  }
+
+  Future<Uint8List?> _readImageBytes(String source) async {
+    if (source.startsWith('data:image/')) {
+      final comma = source.indexOf(',');
+      if (comma < 0 || !source.substring(0, comma).contains(';base64')) {
+        return null;
+      }
+      try {
+        return base64Decode(source.substring(comma + 1));
+      } catch (_) {
+        return null;
+      }
+    }
+    if (source.startsWith('http://') || source.startsWith('https://') || kIsWeb) {
+      return null;
+    }
+    try {
+      final file = File(source);
+      return await file.exists() ? await file.readAsBytes() : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  String _imageContentType(String source) {
+    final lower = source.toLowerCase();
+    if (lower.startsWith('data:image/png')) return 'image/png';
+    if (lower.startsWith('data:image/webp')) return 'image/webp';
+    if (lower.endsWith('.png')) return 'image/png';
+    if (lower.endsWith('.webp')) return 'image/webp';
+    return 'image/jpeg';
   }
 
   Future<void> addDetection(DetectionRecord record) async {
@@ -212,7 +388,19 @@ class EcoScanStore extends ChangeNotifier {
         if (record.id.isNotEmpty) record.id: record,
     };
     for (final record in incoming) {
-      if (record.id.isNotEmpty) byId.putIfAbsent(record.id, () => record);
+      if (record.id.isEmpty) continue;
+      final existing = byId[record.id];
+      if (existing == null) {
+        byId[record.id] = record;
+      } else if (record.imagePath.startsWith('https://') &&
+          (existing.imagePath.isEmpty ||
+              existing.imagePath.startsWith('https://') ||
+              existing.imagePath.startsWith('http://'))) {
+        byId[record.id] = DetectionRecord.fromJson({
+          ...existing.toJson(),
+          'imagePath': record.imagePath,
+        });
+      }
     }
     final merged = byId.values.toList()
       ..sort((a, b) => b.detectedAt.compareTo(a.detectedAt));
@@ -439,5 +627,31 @@ class EcoScanStore extends ChangeNotifier {
       final file = File(imagePath);
       if (await file.exists()) await file.delete();
     } catch (_) {}
+  }
+
+  static List<DetectionRecord> _decodeRecords(String? json) {
+    try {
+      final decoded = jsonDecode(json ?? '[]');
+      if (decoded is! List) return const [];
+      return decoded
+          .whereType<Map>()
+          .map((item) => DetectionRecord.fromJson(Map<String, dynamic>.from(item)))
+          .toList(growable: false);
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  static List<LearningSample> _decodeLearningSamples(String? json) {
+    try {
+      final decoded = jsonDecode(json ?? '[]');
+      if (decoded is! List) return const [];
+      return decoded
+          .whereType<Map>()
+          .map((item) => LearningSample.fromJson(Map<String, dynamic>.from(item)))
+          .toList(growable: false);
+    } catch (_) {
+      return const [];
+    }
   }
 }

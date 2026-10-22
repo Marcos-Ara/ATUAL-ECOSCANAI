@@ -209,7 +209,7 @@ class _MainShellState extends State<MainShell> {
           key: _scannerKey,
           onFindNearby: (result) {
             setState(() {
-              _mapSearch = result.detectedObject ?? result.name;
+              _mapSearch = result.material?.displayName ?? result.name;
               _mapMaterialId = result.material?.id;
               _mapRevision++;
               _selected = 2;
