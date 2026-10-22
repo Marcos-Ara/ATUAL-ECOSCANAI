@@ -11,6 +11,7 @@ erDiagram
     AUTH_USERS ||--o{ LEITURAS_SCAN : "salva analises"
     AUTH_USERS ||--o{ EXCLUSOES_LEITURA : "sincroniza exclusoes"
     AUTH_USERS ||--o{ AMOSTRAS_TREINAMENTO : "envia com consentimento"
+    AUTH_USERS ||--o{ CORRECOES_USUARIO : "salva correcoes privadas"
     AUTH_USERS ||--o{ CONQUISTAS_USUARIO : "tem progresso"
     AUTH_USERS ||--o{ EVENTOS_PONTOS : "recebe pontos"
 
@@ -40,7 +41,7 @@ erDiagram
 | --- | --- |
 | `auth.users` | Conta, e-mail e autenticação administrados pelo Supabase. O app nunca cria linhas diretamente. |
 | `perfis` | Um perfil por conta. Um gatilho copia nome e e-mail do Auth e mantém o cadastro atualizado. |
-| `configuracoes_usuario` | Tema, sons, avisos, exploração do mapa e caminho opcional da foto. Preferências são enviadas ao entrar e quando mudam; a foto ainda permanece local. |
+| `configuracoes_usuario` | Tema, sons, avisos, exploração do mapa e caminho da foto de perfil. Preferências e a foto sincronizam com a conta. |
 | `materiais` | Cadastro único dos materiais e orientações de descarte, ligado ao catálogo, às leituras e aos pontos de coleta. |
 | `objetos` | Catálogo de objetos, rótulo de detecção, ambiguidade e orientação padrão. Uma garrafa genérica ambígua não é classificada sem uma variante segura. |
 | `variantes_objeto` | Alternativas materiais de um objeto ambíguo, por exemplo garrafa de vidro ou de plástico. |
@@ -50,13 +51,14 @@ erDiagram
 | `leituras_scan` | Histórico sincronizado da conta, com cópia do resultado visto na hora, confiança, confirmação e vínculos opcionais com objeto, variante e material. Latitude e longitude não são sincronizadas. |
 | `exclusoes_leitura` | Registro de exclusões para que uma leitura apagada em um aparelho não reapareça em outro. |
 | `amostras_treinamento` | Correções e fotos enviadas somente após consentimento. Começam pendentes e podem ser ligadas a uma leitura quando houver esse ID. |
+| `correcoes_usuario` | Cópia privada da correção e da foto na conta, restaurada após reinstalar. Só é transferida para `amostras_treinamento` quando a pessoa autoriza o envio. |
 | `versoes_modelo` | Arquivos YOLO publicados, hash e tamanho para validar downloads. A troca automática de modelo continua desligada até uma publicação revisada. |
 | `classes_yoloe` | Índice, rótulo e prompt de cada classe, com ligação opcional à versão publicada e ao objeto. |
 | `eventos_pontos` | Extrato calculado pelo banco. O app não recebe permissão para criar ou editar pontos diretamente. |
 | `conquistas` | Regras e metas disponíveis para desbloqueio. |
 | `conquistas_usuario` | Progresso e data de desbloqueio de cada conquista por conta. |
 
-O Storage tem dois buckets privados: `ecoscan-training` guarda imagens enviadas com consentimento; `ecoscan-models` guarda versões de modelo. Os nomes são IDs técnicos usados pelo app e não devem ser traduzidos ou renomeados.
+O Storage usa três buckets privados: `ecoscan-account-data` guarda fotos de perfil, leituras e correções privadas; `ecoscan-training` guarda imagens enviadas com consentimento; `ecoscan-models` guarda versões de modelo. Os nomes são IDs técnicos usados pelo app e não devem ser traduzidos ou renomeados.
 
 ## Como os dados se conectam
 
@@ -65,7 +67,7 @@ O Storage tem dois buckets privados: `ecoscan-training` guarda imagens enviadas 
 - **Ponto → materiais aceitos:** a tabela de ligação substitui a lista solta de IDs. Ela permite procurar pontos por material e conferir o que cada ponto recebe.
 - **Conta → leituras → histórico:** cada leitura tem chave composta por conta e ID local. Exclusões sincronizadas são mantidas separadamente para proteger aparelhos que ficaram offline.
 - **Leitura → pontos e conquistas:** gatilhos calculam eventos a partir do histórico, incluindo bônus de primeira leitura, material reciclável e nova categoria. Repetições não criam bônus duplicados. As metas e desbloqueios são atualizados no banco.
-- **Correção → amostra:** a foto fica no bucket privado e os metadados ficam em `amostras_treinamento`. O envio exige consentimento, e aprovação/rejeição exige revisão administrativa.
+- **Correção → conta → amostra:** foto e dados da correção são salvos na área privada da conta. O envio ao bucket de treinamento e à tabela `amostras_treinamento` exige consentimento; aprovação/rejeição continua exigindo revisão administrativa.
 - **Versão → classes YOLO:** a versão publicada pode definir seu índice de classes. O app só baixa modelos se a opção correspondente estiver ativada e o hash/tamanho forem válidos.
 
 ## Segurança e limite da análise

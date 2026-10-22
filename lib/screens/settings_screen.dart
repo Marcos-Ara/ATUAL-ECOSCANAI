@@ -93,10 +93,10 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.psychology_outlined),
-            title: const Text('Amostras locais para melhoria'),
-            subtitle: Text(
-              'Disponível · ${store.learningSampleCount} ${store.learningSampleCount == 1 ? 'leitura salva' : 'leituras salvas'} · sem limite · envio só com seu consentimento',
-            ),
+            title: const Text('Correções e amostras para melhoria'),
+              subtitle: Text(
+                '${auth.isGuest || !AppConfig.syncSupabaseHistory ? 'Salvas neste aparelho' : 'Sincronização da conta ativa'} · ${store.learningSampleCount} ${store.learningSampleCount == 1 ? 'correção' : 'correções'} · envio para treinamento só com seu consentimento',
+              ),
             trailing: const Icon(
               Icons.check_circle_outline,
               color: Color(0xFF8FE69A),
@@ -160,8 +160,9 @@ class SettingsScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const Text('Apagar amostras locais?'),
         content: const Text(
-          'Essas imagens reduzidas e as correções informadas ficam somente '
-          'neste aparelho até você escolher enviá-las.',
+          'Esta ação apaga a cópia deste aparelho. Correções já sincronizadas '
+          'continuam na sua conta. O envio para revisão e treinamento exige '
+          'seu consentimento.',
         ),
         actions: [
           TextButton(

@@ -145,6 +145,35 @@ class ScanService {
     );
   }
 
+  /// Classifies one detection selected directly by the user in the live view.
+  Future<ScanResult> analyzeLiveDetection(ObjectDetection detection) async {
+    if (_closed) throw StateError('Scanner encerrado');
+    if (!detection.isValid) {
+      return ScanResult(
+        imagePath: '',
+        imageBytes: Uint8List(0),
+        classification: WasteClassifier.unknown,
+        detections: const [],
+        detector: detection.backend,
+      );
+    }
+    final classification = await _resolveCandidates(
+      [LabelCandidate(detection.label, detection.confidence)],
+      live: true,
+    );
+    return ScanResult(
+      imagePath: '',
+      imageBytes: Uint8List(0),
+      classification: classification.copyWith(
+        detectionLabel: detection.label,
+        classIndex: detection.classIndex,
+      ),
+      detections: [detection],
+      selectedDetection: detection,
+      detector: detection.backend,
+    );
+  }
+
   Future<ScanResult> analyzeFile(
     XFile sourceFile, {
     bool live = false,

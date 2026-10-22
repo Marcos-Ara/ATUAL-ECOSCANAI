@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../core/app_config.dart';
 import '../services/auth_session.dart';
+import '../services/correction_backup_sync_service.dart';
 import '../services/scan_sync_service.dart';
 import '../state/ecoscan_store.dart';
 import '../widgets/eco_brand.dart';
@@ -77,6 +78,12 @@ class _SessionGateState extends State<SessionGate>
       final cloudRecords = await sync.fetchAll();
       if (!mounted || store.userId != userId) return;
       await store.mergeCloudDetections(cloudRecords);
+      if (!mounted || store.userId != userId) return;
+      try {
+        await CorrectionBackupSyncService().syncAndRestore(store);
+      } catch (_) {
+        // Correções locais continuam acessíveis e serão reenviadas na retomada.
+      }
     } catch (_) {
       // The local history remains usable and will retry on the next resume.
     } finally {

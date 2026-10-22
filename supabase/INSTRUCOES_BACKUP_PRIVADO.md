@@ -1,15 +1,21 @@
-# Atualização necessária do Supabase
+# Atualizações necessárias do Supabase
 
-O app EcoScan AI 3.4.15 salva o histórico e suas fotos, além da foto de perfil,
+O app EcoScan AI 3.4.17 salva o histórico e suas fotos, além da foto de perfil,
 na conta conectada. Os arquivos ficam em um bucket privado; cada conta só pode
 acessar arquivos dentro da própria pasta.
+
+O app EcoScan AI 3.4.17 também sincroniza as correções e suas fotos para a
+conta, sem enviá-las automaticamente para treinamento. Para isso, execute uma
+vez `migrations/202610220001_correcoes_persistentes.sql` no mesmo projeto.
+O envio para `ecoscan-training` continua dependendo do consentimento em
+Configurações.
 
 ## Projeto Supabase que já está em uso
 
 1. Abra o **SQL Editor** do mesmo projeto Supabase que o app utiliza.
-2. Crie uma consulta e copie todo o conteúdo de
-   `migrations/202610210001_backup_privado_conta.sql`.
-3. Execute uma vez e confirme que a consulta terminou sem erro.
+2. Se ainda não executou a atualização anterior, rode
+   `migrations/202610210001_backup_privado_conta.sql` uma vez.
+3. Rode também `migrations/202610220001_correcoes_persistentes.sql` uma vez.
 4. Instale o APK atualizado e entre com o mesmo Gmail que usava antes.
 
 Essa atualização acrescenta o caminho da imagem ao histórico, atualiza a visão
@@ -30,6 +36,7 @@ Uma desinstalação apaga dados que ainda existiam apenas no aparelho. Por isso,
 leituras feitas sem internet ou antes de entrar em uma conta só podem ser
 recuperadas se o aparelho ainda tiver esses dados.
 
-As amostras pendentes de treinamento continuam protegidas pela confirmação de
-consentimento em **Configurações**. Elas não são enviadas automaticamente para
-treinamento nem fazem o YOLO aprender assim que uma leitura é salva.
+As correções ficam na conta em armazenamento privado. As amostras pendentes de
+treinamento continuam protegidas pela confirmação de consentimento em
+**Configurações**. Elas não são enviadas automaticamente para treinamento nem
+fazem o YOLO aprender assim que uma leitura é salva.

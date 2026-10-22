@@ -148,7 +148,7 @@ class _CorrectionReportDialogState extends State<CorrectionReportDialog> {
                   _ReviewLine(label: 'Observação', value: _noteController.text.trim()),
                 const SizedBox(height: 6),
                 const Text(
-                  'Ao confirmar, a correção ficará salva neste aparelho. Ela só será enviada se você aceitar o envio em Configurações.',
+                  'A correção e a foto ficam salvas na sua conta. O envio da amostra para revisão e treinamento só acontece se você autorizar em Configurações.',
                 ),
               ],
             ],

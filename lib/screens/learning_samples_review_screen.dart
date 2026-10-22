@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../models/learning_sample.dart';
 import '../models/material_guide.dart';
+import '../services/correction_backup_sync_service.dart';
 import '../services/learning_sync_service.dart';
 import '../state/ecoscan_store.dart';
 
@@ -171,7 +172,7 @@ class _LearningSamplesReviewScreenState
           ),
           const SizedBox(height: 6),
           Text(
-            '$total ${total == 1 ? 'amostra salva' : 'amostras salvas'} neste aparelho · $selected selecionada${selected == 1 ? '' : 's'}',
+            '$total ${total == 1 ? 'correção salva' : 'correções salvas'} · $selected selecionada${selected == 1 ? '' : 's'}',
           ),
           const SizedBox(height: 6),
           const Text(
@@ -295,7 +296,7 @@ class _LearningSamplesReviewScreenState
                           ? null
                           : () => _saveDraft(context, sample, draft),
                       icon: const Icon(Icons.save_outlined),
-                      label: const Text('Salvar edição neste aparelho'),
+                        label: const Text('Salvar correção'),
                     ),
                   ),
               ],
@@ -386,13 +387,22 @@ class _LearningSamplesReviewScreenState
       return;
     }
     try {
-      await context.read<EcoScanStore>().updateLearningSample(
-        _applyDraft(original, draft),
-      );
+      final updated = _applyDraft(original, draft);
+      await context.read<EcoScanStore>().updateLearningSample(updated);
       draft.markSaved();
+      var cloudSaved = false;
+      try {
+        cloudSaved = await CorrectionBackupSyncService().saveSample(updated);
+      } catch (_) {
+        // A edição fica no aparelho e será enviada no próximo retorno à rede.
+      }
       if (mounted) {
         setState(() {});
-        _message('Edição salva neste aparelho.');
+        _message(
+          cloudSaved
+              ? 'Correção atualizada na sua conta.'
+              : 'Edição salva neste aparelho; será sincronizada quando houver conexão.',
+        );
       }
     } catch (error) {
       if (mounted) _message('Não foi possível salvar a edição: $error');

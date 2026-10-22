@@ -12,6 +12,8 @@ class LiveYoloCameraController {
   Future<void> pause() async {}
   Future<void> resume() async {}
   Future<void> setTorchMode(bool enabled) async {}
+  Future<void> setZoomLevel(double zoomLevel) async {}
+  Future<void> setShowOverlays(bool visible) async {}
   Future<void> switchCamera() async {}
   Future<void> tapToFocus(double x, double y) async {}
 }

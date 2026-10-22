@@ -18,6 +18,10 @@ class LiveYoloCameraController {
   Future<void> pause() => _inner.pause();
   Future<void> resume() => _inner.resume();
   Future<void> setTorchMode(bool enabled) => _inner.setTorchMode(enabled);
+  Future<void> setZoomLevel(double zoomLevel) =>
+      _inner.setZoomLevel(zoomLevel);
+  Future<void> setShowOverlays(bool visible) =>
+      _inner.setShowOverlays(visible);
   Future<void> switchCamera() => _inner.switchCamera();
   Future<void> tapToFocus(double x, double y) => _inner.tapToFocus(x, y);
 }

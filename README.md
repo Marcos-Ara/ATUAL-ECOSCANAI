@@ -2,6 +2,8 @@
 
 Este pacote contém o app, o catálogo de materiais, as classes YOLO-E, os EcoPontos GeoSampa e a instalação inicial do banco em português.
 
+Na câmera ao vivo, o controle de zoom aproxima a imagem e limita as detecções à área visível. Toque numa caixa para classificar e manter o foco naquele objeto; use “Voltar a detectar automaticamente” para retomar a seleção automática.
+
 ## Abrir e executar no Windows
 
 1. Extraia o ZIP e abra no VS Code a pasta `ATUAL-ECOSCANAI`, que contém `pubspec.yaml`.
@@ -28,7 +30,7 @@ O arquivo SQL consolidado instala as tabelas, dados de catálogo, políticas de 
 
 ### Projeto que já está instalado
 
-Antes de instalar esta versão 3.4.15, execute somente `supabase/migrations/202610210001_backup_privado_conta.sql` no SQL Editor. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. Essa atualização cria o backup privado das fotos sem apagar o banco atual.
+Antes de instalar esta versão 3.4.17, execute `supabase/migrations/202610220001_correcoes_persistentes.sql` no SQL Editor. Se o bucket privado ainda não foi criado, execute também antes `supabase/migrations/202610210001_backup_privado_conta.sql`. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As migrações acrescentam o backup privado das correções e fotos sem apagar o banco atual.
 
 ## O que sincroniza
 
@@ -37,7 +39,7 @@ Antes de instalar esta versão 3.4.15, execute somente `supabase/migrations/2026
 - `eventos_pontos`, `conquistas_usuario` e `estatisticas_usuario` são calculados pelo banco; o app não pode gravar pontuação diretamente.
 - O mapa atualiza os EcoPontos pelo Supabase e conserva um cache local.
 - O app tenta o catálogo remoto quando o catálogo instalado não resolve um rótulo. O resolvedor não escolhe material para um rótulo ambíguo sem variante específica.
-- Fotos do histórico e do perfil ficam no bucket privado `ecoscan-account-data`, com acesso restrito à própria conta. Amostras de treinamento e correções só são enviadas após consentimento e ficam no bucket privado `ecoscan-training` para revisão humana.
+- Fotos do histórico, do perfil e das correções ficam no bucket privado `ecoscan-account-data`, com acesso restrito à própria conta. Enviar amostras para revisão e treinamento no bucket `ecoscan-training` exige consentimento explícito; corrigir ou salvar uma leitura não treina o YOLO automaticamente.
 
 A detecção é feita pelo modelo local no aparelho. O banco não consegue comprovar que um cliente não modificado enviou uma identificação verdadeira. Aprovar uma amostra não treina nem troca o modelo automaticamente. Veja `supabase/REVISAR_AMOSTRAS.md`.
 

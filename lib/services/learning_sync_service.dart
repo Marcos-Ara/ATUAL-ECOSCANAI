@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/learning_sample.dart';
+import 'correction_backup_sync_service.dart';
 
 class LearningSyncService {
   LearningSyncService({SupabaseClient? client})
@@ -75,6 +76,7 @@ class LearningSyncService {
       }
       uploaded.add(sample.id);
     }
+    await CorrectionBackupSyncService(client: _client).markSubmitted(uploaded);
     return List.unmodifiable(uploaded);
   }
 

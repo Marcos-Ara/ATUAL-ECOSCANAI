@@ -18,10 +18,12 @@ class EcoScanStore extends ChangeNotifier {
   String? userId;
   final List<DetectionRecord> _detections = [];
   final List<LearningSample> _learningSamples = [];
+  bool _restoringCloudData = false;
   List<DetectionRecord> get detections => List.unmodifiable(_detections);
   List<LearningSample> get learningSamples =>
       List.unmodifiable(_learningSamples);
   int get learningSampleCount => _learningSamples.length;
+  bool get isRestoringCloudData => _restoringCloudData;
   int get scanCount => _detections.length;
   String _detectionsKeyFor(String? uid) =>
       'ecoscan.detections.v2.${uid ?? 'signed-out'}';
@@ -410,10 +412,15 @@ class EcoScanStore extends ChangeNotifier {
     );
     if (!success) throw StateError('Não foi possível restaurar o histórico.');
     if (userId != owner) return;
-    _detections
-      ..clear()
-      ..addAll(merged);
-    notifyListeners();
+    _restoringCloudData = true;
+    try {
+      _detections
+        ..clear()
+        ..addAll(merged);
+      notifyListeners();
+    } finally {
+      _restoringCloudData = false;
+    }
   }
 
   Future<void> removeDetection(DetectionRecord record) async {
@@ -537,6 +544,40 @@ class EcoScanStore extends ChangeNotifier {
       ..clear()
       ..addAll(next);
     notifyListeners();
+  }
+
+  /// Restores private correction drafts after the user signs in again.
+  Future<void> mergeCloudLearningSamples(
+    Iterable<LearningSample> incoming,
+  ) async {
+    final owner = userId;
+    if (owner == null) return;
+    final byId = <String, LearningSample>{
+      for (final sample in _learningSamples)
+        if (sample.id.isNotEmpty) sample.id: sample,
+    };
+    for (final sample in incoming) {
+      if (sample.id.isNotEmpty && sample.thumbnailDataUrl.isNotEmpty) {
+        byId[sample.id] = sample;
+      }
+    }
+    final merged = byId.values.toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final success = await _preferences.setString(
+      _learningKeyFor(owner),
+      jsonEncode(merged.map((sample) => sample.toJson()).toList()),
+    );
+    if (!success) throw StateError('Não foi possível restaurar as correções.');
+    if (userId != owner) return;
+    _restoringCloudData = true;
+    try {
+      _learningSamples
+        ..clear()
+        ..addAll(merged);
+      notifyListeners();
+    } finally {
+      _restoringCloudData = false;
+    }
   }
 
   Future<void> clearLearningSamples() async {

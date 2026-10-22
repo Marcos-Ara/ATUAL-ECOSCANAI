@@ -74,6 +74,12 @@ class _MainShellState extends State<MainShell> {
       _unlockedBefore = unlocked;
       return;
     }
+    if (store.isRestoringCloudData) {
+      // Sincronizar uma conta restaura conquistas já obtidas; não deve gerar
+      // novamente o aviso de conquista desbloqueada.
+      _unlockedBefore = unlocked;
+      return;
+    }
     final newlyUnlocked = unlocked.difference(_unlockedBefore);
     _unlockedBefore = unlocked;
     if (newlyUnlocked.isEmpty) return;
