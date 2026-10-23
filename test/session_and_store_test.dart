@@ -37,6 +37,22 @@ void main() {
     store.dispose();
   });
 
+  test('conquistas já vistas permanecem salvas no aparelho', () async {
+    final store = await EcoScanStore.load();
+    store.switchUser('ana');
+    await store.rememberAchievementIds(const {'primeiro_scan', 'reciclador'});
+    store.dispose();
+
+    final restored = await EcoScanStore.load();
+    restored.switchUser('ana');
+
+    expect(
+      restored.knownAchievementIds,
+      containsAll({'primeiro_scan', 'reciclador'}),
+    );
+    restored.dispose();
+  });
+
   test('transfere o trabalho local do visitante para a primeira conta', () async {
     final record = DetectionRecord(
       id: 'guest-scan',

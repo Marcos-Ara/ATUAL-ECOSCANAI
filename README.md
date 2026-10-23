@@ -2,6 +2,10 @@
 
 Este pacote contém o app, o catálogo de materiais, as classes YOLO-E, os EcoPontos GeoSampa e a instalação inicial do banco em português.
 
+O histórico, as correções, as preferências e as conquistas da conta são sincronizados automaticamente. Ao abrir com uma conta, o app mostra a tela de carregamento até restaurar os dados do Supabase. As alterações são gravadas no aparelho imediatamente e sincronizadas com a conta; ao voltar do segundo plano, o app tenta enviar novamente qualquer alteração pendente. Uma conta visitante sem e-mail/Google só pode recuperar os dados que ainda estiverem neste aparelho.
+
+O salvamento não espera uma tela de saída: Android e iOS podem encerrar o app sem dar tempo para essa tela aparecer. Por isso cada ação é gravada quando acontece, e o envio pendente também é tentado quando o app vai para o segundo plano.
+
 Na câmera ao vivo, o controle de zoom aproxima a imagem e limita as detecções à área visível. Toque numa caixa para classificar e manter o foco naquele objeto; use “Voltar a detectar automaticamente” para retomar a seleção automática.
 
 ## Abrir e executar no Windows
@@ -30,7 +34,7 @@ O arquivo SQL consolidado instala as tabelas, dados de catálogo, políticas de 
 
 ### Projeto que já está instalado
 
-Antes de instalar esta versão 3.4.17, execute `supabase/migrations/202610220001_correcoes_persistentes.sql` no SQL Editor. Se o bucket privado ainda não foi criado, execute também antes `supabase/migrations/202610210001_backup_privado_conta.sql`. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As migrações acrescentam o backup privado das correções e fotos sem apagar o banco atual.
+Antes de instalar esta versão 3.4.18, execute `supabase/migrations/202610220001_correcoes_persistentes.sql` no SQL Editor. Se o bucket privado ainda não foi criado, execute também antes `supabase/migrations/202610210001_backup_privado_conta.sql`. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As migrações acrescentam o backup privado das correções e fotos sem apagar o banco atual. As conquistas existentes são lidas de `public.conquistas_usuario`, que já pertence ao esquema EcoScan.
 
 ## O que sincroniza
 

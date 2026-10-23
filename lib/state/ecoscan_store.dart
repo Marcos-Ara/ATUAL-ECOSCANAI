@@ -18,17 +18,22 @@ class EcoScanStore extends ChangeNotifier {
   String? userId;
   final List<DetectionRecord> _detections = [];
   final List<LearningSample> _learningSamples = [];
+  final Set<String> _knownAchievementIds = <String>{};
   bool _restoringCloudData = false;
   List<DetectionRecord> get detections => List.unmodifiable(_detections);
   List<LearningSample> get learningSamples =>
       List.unmodifiable(_learningSamples);
   int get learningSampleCount => _learningSamples.length;
+  Set<String> get knownAchievementIds =>
+      Set<String>.unmodifiable(_knownAchievementIds);
   bool get isRestoringCloudData => _restoringCloudData;
   int get scanCount => _detections.length;
   String _detectionsKeyFor(String? uid) =>
       'ecoscan.detections.v2.${uid ?? 'signed-out'}';
   String get _detectionsKey => _detectionsKeyFor(userId);
   String _scanDeletionsKeyFor(String uid) => 'ecoscan.deleted_scans.v1.$uid';
+  String _achievementsKeyFor(String uid) =>
+      'ecoscan.achievements.v1.$uid';
   List<String> _pendingScanDeletionsFor(String uid) {
     try {
       final decoded = jsonDecode(
@@ -49,6 +54,8 @@ class EcoScanStore extends ChangeNotifier {
       : _pendingScanDeletionsFor(userId!);
   String get _photoKey => 'ecoscan.profile.v2.${userId ?? 'signed-out'}';
   String _remotePhotoKeyFor(String uid) => 'ecoscan.profile.remote.v1.$uid';
+  String _pendingSettingsKeyFor(String uid) =>
+      'ecoscan.settings.pending.v1.$uid';
   String _pendingPhotoKeyFor(String uid) =>
       'ecoscan.profile.pending.v1.$uid';
   String get _learningKey =>
@@ -70,7 +77,11 @@ class EcoScanStore extends ChangeNotifier {
     userId = uid;
     _detections.clear();
     _learningSamples.clear();
+    _knownAchievementIds.clear();
     if (uid != null) {
+      _knownAchievementIds.addAll(
+        _decodeIds(_preferences.getString(_achievementsKeyFor(uid))),
+      );
       try {
         final decoded = jsonDecode(
           _preferences.getString(_detectionsKey) ?? '[]',
@@ -169,6 +180,27 @@ class EcoScanStore extends ChangeNotifier {
         }
         await _preferences.setBool(_pendingPhotoKeyFor(uid), true);
       }
+
+      final knownAchievements = <String>{
+        ..._decodeIds(_preferences.getString(_achievementsKeyFor(uid))),
+        ..._decodeIds(
+          _preferences.getString(_achievementsKeyFor('guest-local')),
+        ),
+      };
+      if (knownAchievements.isNotEmpty &&
+          !await _preferences.setString(
+            _achievementsKeyFor(uid),
+            jsonEncode(knownAchievements.toList()),
+          )) {
+        throw StateError('Não foi possível transferir as conquistas do visitante.');
+      }
+      if (_preferences.getBool('ecoscan.map.guest-local') == true) {
+        await _preferences.setBool('ecoscan.map.$uid', true);
+        await _preferences.setBool(_pendingSettingsKeyFor(uid), true);
+      }
+      if (_preferences.getBool(_pendingSettingsKeyFor('guest-local')) == true) {
+        await _preferences.setBool(_pendingSettingsKeyFor(uid), true);
+      }
       if (!await _preferences.setString(migrationKey, uid)) {
         throw StateError('Não foi possível concluir a transferência da conta.');
       }
@@ -178,18 +210,21 @@ class EcoScanStore extends ChangeNotifier {
 
   Future<void> setDarkMode(bool value) async {
     await _preferences.setBool('ecoscan.dark', value);
+    await _markCloudSettingsPending();
     notifyListeners();
     await _syncCloudSettings();
   }
 
   Future<void> setSounds(bool value) async {
     await _preferences.setBool('ecoscan.sounds', value);
+    await _markCloudSettingsPending();
     notifyListeners();
     await _syncCloudSettings();
   }
 
   Future<void> setNotifications(bool value) async {
     await _preferences.setBool('ecoscan.notices', value);
+    await _markCloudSettingsPending();
     notifyListeners();
     await _syncCloudSettings();
   }
@@ -197,18 +232,46 @@ class EcoScanStore extends ChangeNotifier {
   Future<void> markMapExplored() async {
     if (userId == null) return;
     await _preferences.setBool('ecoscan.map.${userId!}', true);
+    await _markCloudSettingsPending();
     notifyListeners();
     await _syncCloudSettings();
   }
 
-  /// Restaura as preferências da conta no login. Se ainda não houver registro
-  /// remoto, envia as preferências já salvas neste aparelho.
-  Future<void> syncAccountSettings() async {
+  /// Remembers achievements already earned or already announced on this
+  /// installation. Cloud achievements are merged here during account restore.
+  Future<void> rememberAchievementIds(Iterable<String> achievementIds) async {
     final owner = userId;
     if (owner == null) return;
+    final next = <String>{
+      ..._knownAchievementIds,
+      ...achievementIds.where((id) => id.isNotEmpty),
+    };
+    if (next.length == _knownAchievementIds.length) return;
+    if (!await _preferences.setString(
+      _achievementsKeyFor(owner),
+      jsonEncode(next.toList()..sort()),
+    )) {
+      throw StateError('Não foi possível salvar as conquistas da conta.');
+    }
+    if (userId != owner) return;
+    _knownAchievementIds
+      ..clear()
+      ..addAll(next);
+    notifyListeners();
+  }
+
+  /// Restaura as preferências da conta no login. Se ainda não houver registro
+  /// remoto, envia as preferências já salvas neste aparelho.
+  Future<bool> syncAccountSettings() async {
+    final owner = userId;
+    if (owner == null) return false;
     try {
       final client = Supabase.instance.client;
-      if (client.auth.currentUser?.id != owner) return;
+      if (client.auth.currentUser?.id != owner) return false;
+      if (_preferences.getBool(_pendingSettingsKeyFor(owner)) == true ||
+          _preferences.getBool(_pendingPhotoKeyFor(owner)) == true) {
+        return _syncCloudSettings();
+      }
       final row = await client
           .from('configuracoes_usuario')
           .select(
@@ -217,8 +280,7 @@ class EcoScanStore extends ChangeNotifier {
           .eq('usuario_id', owner)
           .maybeSingle();
       if (row == null) {
-        await _syncCloudSettings();
-        return;
+        return _syncCloudSettings();
       }
       await _preferences.setBool('ecoscan.dark', row['tema'] == 'escuro');
       await _preferences.setBool(
@@ -244,22 +306,24 @@ class EcoScanStore extends ChangeNotifier {
         await _preferences.setString(_remotePhotoKeyFor(owner), remotePhoto);
         if (!hasPendingPhoto) await _restoreProfilePhoto(owner, remotePhoto);
       }
-      if (hasPendingPhoto) await _syncCloudSettings();
+      if (hasPendingPhoto) return _syncCloudSettings();
       if (userId == owner) notifyListeners();
+      return true;
     } catch (_) {
       // Preferências locais continuam disponíveis quando a nuvem está offline.
+      return false;
     }
   }
 
-  Future<void> _syncCloudSettings() async {
+  Future<bool> _syncCloudSettings() async {
     final owner = userId;
-    if (owner == null) return;
+    if (owner == null) return false;
     try {
       final client = Supabase.instance.client;
-      if (client.auth.currentUser?.id != owner) return;
+      if (client.auth.currentUser?.id != owner) return false;
       final remotePhoto = await _uploadProfilePhoto(owner, profilePhoto) ??
           _preferences.getString(_remotePhotoKeyFor(owner));
-      if (userId != owner || client.auth.currentUser?.id != owner) return;
+      if (userId != owner || client.auth.currentUser?.id != owner) return false;
       await client.from('configuracoes_usuario').upsert(
         {
           'usuario_id': owner,
@@ -274,9 +338,12 @@ class EcoScanStore extends ChangeNotifier {
       );
       if (userId == owner) {
         await _preferences.remove(_pendingPhotoKeyFor(owner));
+        await _preferences.remove(_pendingSettingsKeyFor(owner));
       }
+      return userId == owner && client.auth.currentUser?.id == owner;
     } catch (_) {
       // A sincronização de preferências será tentada novamente no próximo login.
+      return false;
     }
   }
 
@@ -286,9 +353,16 @@ class EcoScanStore extends ChangeNotifier {
     final oldPath = profilePhoto;
     await _preferences.setString('ecoscan.profile.v2.$owner', path);
     await _preferences.setBool(_pendingPhotoKeyFor(owner), true);
+    await _markCloudSettingsPending();
     if (userId == owner) notifyListeners();
     if (userId == owner) await _syncCloudSettings();
     if (oldPath != path) await _deleteImage(oldPath);
+  }
+
+  Future<void> _markCloudSettingsPending() async {
+    final owner = userId;
+    if (owner == null) return;
+    await _preferences.setBool(_pendingSettingsKeyFor(owner), true);
   }
 
   Future<String?> _uploadProfilePhoto(String owner, String source) async {
@@ -693,6 +767,19 @@ class EcoScanStore extends ChangeNotifier {
           .toList(growable: false);
     } catch (_) {
       return const [];
+    }
+  }
+
+  static Set<String> _decodeIds(String? json) {
+    try {
+      final decoded = jsonDecode(json ?? '[]');
+      if (decoded is! List) return <String>{};
+      return decoded
+          .map((value) => value.toString())
+          .where((id) => id.isNotEmpty)
+          .toSet();
+    } catch (_) {
+      return <String>{};
     }
   }
 }

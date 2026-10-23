@@ -126,7 +126,8 @@ class ScanSyncService {
   /// Restores only the signed-in user's history and creates short-lived private
   /// image URLs for display in the app.
   Future<List<DetectionRecord>> fetchAll() async {
-    if (_client.auth.currentUser == null) return const [];
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) return const [];
 
     const pageSize = 500;
     final records = <DetectionRecord>[];
@@ -143,19 +144,13 @@ class ScanSyncService {
           .order('id_leitura_cliente', ascending: true)
           .range(start, start + pageSize - 1);
 
+      if (_client.auth.currentUser?.id != userId) return const [];
+      final signedUrls = await _signedImageUrls(rows, userId);
+      if (_client.auth.currentUser?.id != userId) return const [];
       for (final raw in rows) {
         final row = raw;
-        var imageUrl = '';
         final imageStoragePath = row['caminho_imagem']?.toString() ?? '';
-        if (imageStoragePath.isNotEmpty && _client.auth.currentUser != null) {
-          try {
-            imageUrl = await _client.storage
-                .from('ecoscan-account-data')
-                .createSignedUrl(imageStoragePath, 60 * 60 * 24);
-          } catch (_) {
-            // Keep the history visible if an older scan has no stored image.
-          }
-        }
+        final imageUrl = signedUrls[imageStoragePath] ?? '';
         records.add(
           DetectionRecord(
             id: row['id_leitura_cliente']?.toString() ?? '',
@@ -186,6 +181,56 @@ class ScanSyncService {
       if (rows.length < pageSize) break;
     }
     return records;
+  }
+
+  Future<Set<String>> fetchUnlockedAchievementIds() async {
+    final user = _client.auth.currentUser;
+    if (user == null) return const <String>{};
+    final rows = await _client
+        .from('conquistas_usuario')
+        .select('conquista_id,desbloqueada_em')
+        .eq('usuario_id', user.id);
+    if (_client.auth.currentUser?.id != user.id) return const <String>{};
+    return rows
+        .where((row) => row['desbloqueada_em'] != null)
+        .map((row) => row['conquista_id']?.toString() ?? '')
+        .where((id) => id.isNotEmpty)
+        .toSet();
+  }
+
+  Future<Map<String, String>> _signedImageUrls(
+    List<Map<String, dynamic>> rows,
+    String userId,
+  ) async {
+    final paths = rows
+        .map((row) => row['caminho_imagem']?.toString() ?? '')
+        .where((path) => path.isNotEmpty)
+        .toSet()
+        .toList(growable: false);
+    final signedUrls = <String, String>{};
+    for (var start = 0; start < paths.length; start += 16) {
+      if (_client.auth.currentUser?.id != userId) break;
+      final end = (start + 16).clamp(0, paths.length).toInt();
+      final batch = paths.sublist(start, end);
+      final results = await Future.wait(
+        batch.map((path) async {
+          if (_client.auth.currentUser?.id != userId) return '';
+          try {
+            return await _client.storage
+                .from('ecoscan-account-data')
+                .createSignedUrl(path, 60 * 60 * 24);
+          } catch (_) {
+            // Keep the history visible if an older scan has no stored image.
+            return '';
+          }
+        }),
+      );
+      if (_client.auth.currentUser?.id != userId) break;
+      for (var index = 0; index < batch.length; index++) {
+        signedUrls[batch[index]] = results[index];
+      }
+    }
+    return signedUrls;
   }
 
   Future<Map<String, dynamic>> _recordPayload(

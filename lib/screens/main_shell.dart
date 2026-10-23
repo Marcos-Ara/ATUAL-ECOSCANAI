@@ -43,6 +43,7 @@ class _MainShellState extends State<MainShell> {
     _storeUserId = store.userId;
     _unlockedBefore = _unlockedAchievements(store);
     store.addListener(_onStoreChanged);
+    unawaited(store.rememberAchievementIds(_unlockedBefore).catchError((_) {}));
   }
 
   Set<String> _unlockedAchievements(EcoScanStore store) =>
@@ -59,6 +60,7 @@ class _MainShellState extends State<MainShell> {
             .toSet()
             .length,
         exploredMap: store.exploredMap,
+        previouslyUnlocked: store.knownAchievementIds,
       );
 
   void _onStoreChanged() {
@@ -80,9 +82,12 @@ class _MainShellState extends State<MainShell> {
       _unlockedBefore = unlocked;
       return;
     }
-    final newlyUnlocked = unlocked.difference(_unlockedBefore);
+    final newlyUnlocked = unlocked
+        .difference(_unlockedBefore)
+        .difference(store.knownAchievementIds);
     _unlockedBefore = unlocked;
     if (newlyUnlocked.isEmpty) return;
+    unawaited(store.rememberAchievementIds(newlyUnlocked).catchError((_) {}));
     _achievementQueue.addAll(
       _achievementProgress(store).where(
         (achievement) => newlyUnlocked.contains(achievement.id),

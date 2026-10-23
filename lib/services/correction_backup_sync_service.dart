@@ -98,24 +98,37 @@ class CorrectionBackupSyncService {
           .range(start, start + pageSize - 1);
 
       final localIds = store.learningSamples.map((sample) => sample.id).toSet();
-      for (final row in rows) {
+      for (var batchStart = 0; batchStart < rows.length; batchStart += 8) {
         if (store.userId != user.id ||
             _client.auth.currentUser?.id != user.id) {
           return;
         }
-        final id = row['id_correcao_cliente']?.toString() ?? '';
-        if (id.isEmpty || localIds.contains(id)) continue;
-        final path = row['caminho_imagem']?.toString() ?? '';
-        if (path.isEmpty) continue;
-        try {
-          final bytes = await _client.storage
-              .from('ecoscan-account-data')
-              .download(path);
-          if (bytes.isEmpty) continue;
-          restored.add(_sampleFromRow(row, bytes));
-          localIds.add(id);
-        } catch (_) {
-          // Metadata remains in the cloud and can be retried later.
+        final batchEnd = (batchStart + 8).clamp(0, rows.length).toInt();
+        final batch = rows.sublist(batchStart, batchEnd);
+        final samples = await Future.wait<LearningSample?>(
+          batch.map((row) async {
+            final id = row['id_correcao_cliente']?.toString() ?? '';
+            if (id.isEmpty || localIds.contains(id)) return null;
+            final path = row['caminho_imagem']?.toString() ?? '';
+            if (path.isEmpty) return null;
+            try {
+              final bytes = await _client.storage
+                  .from('ecoscan-account-data')
+                  .download(path);
+              if (bytes.isEmpty) return null;
+              return _sampleFromRow(row, bytes);
+            } catch (_) {
+              // Metadata remains in the cloud and can be retried later.
+              return null;
+            }
+          }),
+        );
+        if (store.userId != user.id ||
+            _client.auth.currentUser?.id != user.id) {
+          return;
+        }
+        for (final sample in samples.whereType<LearningSample>()) {
+          if (localIds.add(sample.id)) restored.add(sample);
         }
       }
       if (rows.length < pageSize) break;
