@@ -27,6 +27,6 @@ abstract final class AppConfig {
   );
   static const syncSupabaseHistory = bool.fromEnvironment(
     'ECOSCAN_SYNC_SUPABASE_HISTORY',
-    defaultValue: false,
+    defaultValue: true,
   );
 }

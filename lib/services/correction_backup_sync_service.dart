@@ -59,27 +59,13 @@ class CorrectionBackupSyncService {
 
   /// Uploads local corrections, then restores account corrections not yet
   /// submitted to training. This runs on sign-in and when the app resumes.
-  Future<void> syncAndRestore(EcoScanStore store) async {
+  Future<bool> syncAndRestore(EcoScanStore store) async {
     final user = _client.auth.currentUser;
-    if (user == null || store.userId != user.id) return;
+    if (user == null || store.userId != user.id) return false;
 
-    final sentIds = await _fetchSubmittedIds(user.id);
-    if (store.userId != user.id) return;
-    if (sentIds.isNotEmpty) {
-      await store.removeLearningSamples(sentIds);
-    }
-
-    for (final sample in store.learningSamples) {
-      if (store.userId != user.id ||
-          _client.auth.currentUser?.id != user.id) {
-        return;
-      }
-      if (sentIds.contains(sample.id)) continue;
-      try {
-        await saveSample(sample);
-      } catch (_) {
-        // Keep the local copy; retry on the next resume.
-      }
+    final uploadsSucceeded = await uploadPending(store);
+    if (store.userId != user.id || _client.auth.currentUser?.id != user.id) {
+      return false;
     }
 
     final restored = <LearningSample>[];
@@ -101,7 +87,7 @@ class CorrectionBackupSyncService {
       for (var batchStart = 0; batchStart < rows.length; batchStart += 8) {
         if (store.userId != user.id ||
             _client.auth.currentUser?.id != user.id) {
-          return;
+          return false;
         }
         final batchEnd = (batchStart + 8).clamp(0, rows.length).toInt();
         final batch = rows.sublist(batchStart, batchEnd);
@@ -125,7 +111,7 @@ class CorrectionBackupSyncService {
         );
         if (store.userId != user.id ||
             _client.auth.currentUser?.id != user.id) {
-          return;
+          return false;
         }
         for (final sample in samples.whereType<LearningSample>()) {
           if (localIds.add(sample.id)) restored.add(sample);
@@ -138,6 +124,40 @@ class CorrectionBackupSyncService {
         restored.isNotEmpty) {
       await store.mergeCloudLearningSamples(restored);
     }
+    return uploadsSucceeded &&
+        store.userId == user.id &&
+        _client.auth.currentUser?.id == user.id;
+  }
+
+  /// Flushes corrections from this device to the private account backup.
+  /// Failed items remain local and are retried on the next sync.
+  Future<bool> uploadPending(EcoScanStore store) async {
+    final user = _client.auth.currentUser;
+    if (user == null || store.userId != user.id) return false;
+
+    final sentIds = await _fetchSubmittedIds(user.id);
+    if (store.userId != user.id || _client.auth.currentUser?.id != user.id) {
+      return false;
+    }
+    if (sentIds.isNotEmpty) await store.removeLearningSamples(sentIds);
+
+    var success = true;
+    for (final sample in List.of(store.learningSamples)) {
+      if (store.userId != user.id ||
+          _client.auth.currentUser?.id != user.id) {
+        return false;
+      }
+      if (sentIds.contains(sample.id)) continue;
+      try {
+        if (!await saveSample(sample)) success = false;
+      } catch (_) {
+        // Keep the local copy; report failure so the exit flow can retry.
+        success = false;
+      }
+    }
+    return success &&
+        store.userId == user.id &&
+        _client.auth.currentUser?.id == user.id;
   }
 
   Future<Set<String>> _fetchSubmittedIds(String userId) async {

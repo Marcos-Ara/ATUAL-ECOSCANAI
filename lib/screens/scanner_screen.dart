@@ -100,6 +100,15 @@ class ScannerScreenState extends State<ScannerScreen>
   DateTime? _lastMetricsUpdate;
   _LiveSnapshot? _lastKnownLiveSnapshot;
 
+  /// Saves a classified camera/gallery photo before the scanner is left.
+  /// Live preview frames are not auto-saved because they are only suggestions.
+  Future<bool> savePendingCaptureBeforeLeaving() async {
+    if (_saving || _busy || _selecting) return false;
+    if (_saved || _result?.isKnown != true || _photoPath == null) return true;
+    await _save(fromCaptureResult: true);
+    return _saved;
+  }
+
   @override
   void initState() {
     super.initState();

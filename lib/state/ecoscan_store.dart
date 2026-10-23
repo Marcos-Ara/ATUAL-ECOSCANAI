@@ -20,6 +20,7 @@ class EcoScanStore extends ChangeNotifier {
   final List<LearningSample> _learningSamples = [];
   final Set<String> _knownAchievementIds = <String>{};
   bool _restoringCloudData = false;
+  String? _syncingAccountDataFor;
   List<DetectionRecord> get detections => List.unmodifiable(_detections);
   List<LearningSample> get learningSamples =>
       List.unmodifiable(_learningSamples);
@@ -27,6 +28,8 @@ class EcoScanStore extends ChangeNotifier {
   Set<String> get knownAchievementIds =>
       Set<String>.unmodifiable(_knownAchievementIds);
   bool get isRestoringCloudData => _restoringCloudData;
+  bool get isSyncingAccountData =>
+      userId != null && _syncingAccountDataFor == userId;
   int get scanCount => _detections.length;
   String _detectionsKeyFor(String? uid) =>
       'ecoscan.detections.v2.${uid ?? 'signed-out'}';
@@ -71,6 +74,14 @@ class EcoScanStore extends ChangeNotifier {
 
   static Future<EcoScanStore> load() async =>
       EcoScanStore._(await SharedPreferences.getInstance());
+
+  void setAccountDataSyncing(String owner, bool syncing) {
+    if (userId != owner) return;
+    final next = syncing ? owner : null;
+    if (_syncingAccountDataFor == next) return;
+    _syncingAccountDataFor = next;
+    notifyListeners();
+  }
 
   void switchUser(String? uid) {
     if (uid == userId) return;

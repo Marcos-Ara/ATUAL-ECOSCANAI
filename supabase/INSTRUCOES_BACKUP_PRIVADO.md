@@ -1,10 +1,10 @@
 # Atualizações necessárias do Supabase
 
-O app EcoScan AI 3.4.18 salva o histórico e suas fotos, além da foto de perfil,
+O app EcoScan AI 3.4.19 salva o histórico e suas fotos, além da foto de perfil,
 na conta conectada. Os arquivos ficam em um bucket privado; cada conta só pode
 acessar arquivos dentro da própria pasta.
 
-O app EcoScan AI 3.4.18 também sincroniza as correções e suas fotos para a
+O app EcoScan AI 3.4.19 também sincroniza as correções e suas fotos para a
 conta, sem enviá-las automaticamente para treinamento. Para isso, execute uma
 vez `migrations/202610220001_correcoes_persistentes.sql` no mesmo projeto.
 O envio para `ecoscan-training` continua dependendo do consentimento em

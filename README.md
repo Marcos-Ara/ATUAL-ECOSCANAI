@@ -2,9 +2,9 @@
 
 Este pacote contém o app, o catálogo de materiais, as classes YOLO-E, os EcoPontos GeoSampa e a instalação inicial do banco em português.
 
-O histórico, as correções, as preferências e as conquistas da conta são sincronizados automaticamente. Ao abrir com uma conta, o app mostra a tela de carregamento até restaurar os dados do Supabase. As alterações são gravadas no aparelho imediatamente e sincronizadas com a conta; ao voltar do segundo plano, o app tenta enviar novamente qualquer alteração pendente. Uma conta visitante sem e-mail/Google só pode recuperar os dados que ainda estiverem neste aparelho.
+O histórico, as fotos, as correções, as preferências e as conquistas da conta são sincronizados automaticamente. Ao entrar com uma conta, o app tenta restaurar os dados do Supabase antes de abrir. Se a conexão demorar, abre com os dados locais e continua sincronizando em segundo plano, mostrando o andamento. Visitantes sem conta usam o armazenamento do aparelho.
 
-O salvamento não espera uma tela de saída: Android e iOS podem encerrar o app sem dar tempo para essa tela aparecer. Por isso cada ação é gravada quando acontece, e o envio pendente também é tentado quando o app vai para o segundo plano.
+Cada alteração é gravada localmente assim que acontece. Em contas conectadas, o app envia alterações ao Supabase e tenta novamente ao retornar ao app. Ao pressionar **Voltar** na tela inicial, aparece a opção **Salvar e sair**; se estiver sem internet, a cópia local permanece guardada para uma nova tentativa. O sistema operacional ainda pode encerrar o app sem aviso, por isso a gravação imediata no aparelho é a proteção principal.
 
 Na câmera ao vivo, o controle de zoom aproxima a imagem e limita as detecções à área visível. Toque numa caixa para classificar e manter o foco naquele objeto; use “Voltar a detectar automaticamente” para retomar a seleção automática.
 
@@ -34,7 +34,7 @@ O arquivo SQL consolidado instala as tabelas, dados de catálogo, políticas de 
 
 ### Projeto que já está instalado
 
-Antes de instalar esta versão 3.4.18, execute `supabase/migrations/202610220001_correcoes_persistentes.sql` no SQL Editor. Se o bucket privado ainda não foi criado, execute também antes `supabase/migrations/202610210001_backup_privado_conta.sql`. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As migrações acrescentam o backup privado das correções e fotos sem apagar o banco atual. As conquistas existentes são lidas de `public.conquistas_usuario`, que já pertence ao esquema EcoScan.
+Antes da primeira instalação da versão 3.4.18 ou posterior, confira se `supabase/migrations/202610220001_correcoes_persistentes.sql` e `supabase/migrations/202610210001_backup_privado_conta.sql` já foram aplicadas. Esta versão 3.4.19 não acrescenta alterações SQL. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As conquistas são calculadas pelo banco a partir das leituras e configurações da conta.
 
 ## O que sincroniza
 
@@ -44,6 +44,8 @@ Antes de instalar esta versão 3.4.18, execute `supabase/migrations/202610220001
 - O mapa atualiza os EcoPontos pelo Supabase e conserva um cache local.
 - O app tenta o catálogo remoto quando o catálogo instalado não resolve um rótulo. O resolvedor não escolhe material para um rótulo ambíguo sem variante específica.
 - Fotos do histórico, do perfil e das correções ficam no bucket privado `ecoscan-account-data`, com acesso restrito à própria conta. Enviar amostras para revisão e treinamento no bucket `ecoscan-training` exige consentimento explícito; corrigir ou salvar uma leitura não treina o YOLO automaticamente.
+- O login Google exige o provedor Google configurado no painel Supabase e as URLs de retorno do app autorizadas. Veja `CONFIGURAR_LOGIN_GOOGLE.md`; isso é uma configuração de autenticação, não uma alteração SQL.
+- A versão 3.4.19 abre automaticamente com os dados locais se a restauração da conta demorar; ela segue sincronizando e mostra o andamento dentro do app. No Android, **Voltar** na tela inicial abre a confirmação **Salvar e sair**.
 
 A detecção é feita pelo modelo local no aparelho. O banco não consegue comprovar que um cliente não modificado enviou uma identificação verdadeira. Aprovar uma amostra não treina nem troca o modelo automaticamente. Veja `supabase/REVISAR_AMOSTRAS.md`.
 

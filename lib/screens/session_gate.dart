@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../core/app_config.dart';
+import '../services/account_data_sync_service.dart';
 import '../services/auth_session.dart';
-import '../services/correction_backup_sync_service.dart';
-import '../services/scan_sync_service.dart';
 import '../state/ecoscan_store.dart';
 import '../widgets/eco_brand.dart';
 import 'auth_screen.dart';
@@ -24,6 +23,7 @@ class _SessionGateState extends State<SessionGate>
   late final AnimationController _animation;
   Timer? _timer;
   Timer? _slowRestoreTimer;
+  Timer? _autoOpenTimer;
   bool _introComplete = false;
   bool _syncingAccount = false;
   bool _switchingUser = false;
@@ -54,6 +54,7 @@ class _SessionGateState extends State<SessionGate>
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
     _slowRestoreTimer?.cancel();
+    _autoOpenTimer?.cancel();
     _animation.dispose();
     super.dispose();
   }
@@ -91,23 +92,7 @@ class _SessionGateState extends State<SessionGate>
     _syncingAccount = true;
     var restored = false;
     try {
-      if (!await store.syncAccountSettings()) return false;
-      if (!mounted || store.userId != userId) return false;
-      final sync = ScanSyncService();
-      await sync.reconcileDeletions(store);
-      if (!mounted || store.userId != userId) return false;
-      await sync.syncAll(store.detections);
-      if (!mounted || store.userId != userId) return false;
-      final cloudRecords = await sync.fetchAll();
-      if (!mounted || store.userId != userId) return false;
-      await store.mergeCloudDetections(cloudRecords);
-      if (!mounted || store.userId != userId) return false;
-      await CorrectionBackupSyncService().syncAndRestore(store);
-      if (!mounted || store.userId != userId) return false;
-      final unlocked = await sync.fetchUnlockedAchievementIds();
-      if (!mounted || store.userId != userId) return false;
-      await store.rememberAchievementIds(unlocked);
-      restored = true;
+      restored = await AccountDataSyncService.shared.restoreAccount(store);
     } catch (_) {
       // The local history remains usable and will retry on the next resume.
     } finally {
@@ -137,6 +122,7 @@ class _SessionGateState extends State<SessionGate>
     _initialRestoreFailed = false;
     _showLocalFallback = false;
     _slowRestoreTimer?.cancel();
+    _autoOpenTimer?.cancel();
     _slowRestoreTimer = Timer(const Duration(seconds: 12), () {
       if (!mounted ||
           _activeRestoreUserId != userId ||
@@ -144,6 +130,17 @@ class _SessionGateState extends State<SessionGate>
         return;
       }
       setState(() => _showLocalFallback = true);
+    });
+    _autoOpenTimer = Timer(const Duration(seconds: 22), () {
+      if (!mounted ||
+          _activeRestoreUserId != userId ||
+          _restoredUserId == userId ||
+          _localFallbackUserId == userId) {
+        return;
+      }
+      // Don't leave Google/e-mail sign-in stuck on a slow network. The sync
+      // continues in the background and merges cloud records when it finishes.
+      _continueWithLocalData(userId);
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) unawaited(_finishInitialRestore(store, userId));
@@ -162,6 +159,7 @@ class _SessionGateState extends State<SessionGate>
       return;
     }
     _slowRestoreTimer?.cancel();
+    _autoOpenTimer?.cancel();
     setState(() {
       _initialRestoreInProgress = false;
       _initialRestoreFailed = !restored;
@@ -238,7 +236,7 @@ class _SessionGateState extends State<SessionGate>
                   if (!preparing && (_showLocalFallback || _initialRestoreFailed)) ...[
                     const SizedBox(height: 22),
                     const Text(
-                      'A conexão está demorando. Você pode tentar de novo ou abrir com os dados já guardados neste aparelho.',
+                      'A conexão está demorando. Você pode abrir com os dados deste aparelho enquanto a conta continua sincronizando em segundo plano.',
                       style: TextStyle(color: Color(0xFFD5E4D6), height: 1.45),
                       textAlign: TextAlign.center,
                     ),
@@ -258,7 +256,7 @@ class _SessionGateState extends State<SessionGate>
                       label: Text(
                         _initialRestoreInProgress
                             ? 'Carregamento em andamento'
-                            : 'Tentar novamente',
+                        : 'Tentar novamente',
                       ),
                     ),
                     TextButton(
@@ -266,7 +264,7 @@ class _SessionGateState extends State<SessionGate>
                         final userId = context.read<AuthSession>().account?.uid;
                         if (userId != null) _continueWithLocalData(userId);
                       },
-                      child: const Text('Continuar com dados deste aparelho'),
+                      child: const Text('Abrir agora e sincronizar depois'),
                     ),
                   ],
                 ],
@@ -366,6 +364,7 @@ class _SessionGateState extends State<SessionGate>
       _showLocalFallback = false;
       _initialRestoreInProgress = false;
       _slowRestoreTimer?.cancel();
+      _autoOpenTimer?.cancel();
     }
     final store = context.watch<EcoScanStore>();
     if (store.userId != sessionUserId) {

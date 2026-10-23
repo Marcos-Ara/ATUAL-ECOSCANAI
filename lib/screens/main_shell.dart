@@ -3,9 +3,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../models/achievement_progress.dart';
+import '../services/account_data_sync_service.dart';
 import '../state/ecoscan_store.dart';
 import 'download_screen.dart';
 import 'home_screen.dart';
@@ -32,6 +34,7 @@ class _MainShellState extends State<MainShell> {
   final List<AchievementProgress> _achievementQueue = [];
   OverlayEntry? _achievementEntry;
   Timer? _achievementTimer;
+  bool _exitPromptOpen = false;
 
   @override
   void didChangeDependencies() {
@@ -198,43 +201,234 @@ class _MainShellState extends State<MainShell> {
 
   void _select(int index) {
     if (index == 1 && index == _selected) {
-      _scannerKey.currentState?.showLiveScanner();
+      unawaited(_returnToLiveAfterSaving());
+      return;
+    }
+    if (_selected == 1 && index != 1) {
+      unawaited(_leaveScannerAndSelect(index));
       return;
     }
     setState(() => _selected = index);
+  }
+
+  Future<bool> _savePendingScannerCapture() async {
+    final saved =
+        await _scannerKey.currentState?.savePendingCaptureBeforeLeaving() ??
+        true;
+    if (!saved && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Aguarde a análise terminar ou tente salvar a foto novamente antes de sair do Scan.',
+          ),
+        ),
+      );
+    }
+    return saved;
+  }
+
+  Future<void> _returnToLiveAfterSaving() async {
+    if (!await _savePendingScannerCapture()) return;
+    if (mounted) _scannerKey.currentState?.showLiveScanner();
+  }
+
+  Future<void> _leaveScannerAndSelect(int index) async {
+    if (!await _savePendingScannerCapture()) return;
+    if (mounted) setState(() => _selected = index);
+  }
+
+  Future<void> _handleBack() async {
+    if (_selected == 0) {
+      await _confirmSaveAndExit();
+      return;
+    }
+    if (_selected == 1) {
+      await _leaveScannerAndSelect(0);
+      return;
+    }
+    if (mounted) setState(() => _selected = 0);
+  }
+
+  Future<void> _confirmSaveAndExit() async {
+    if (_exitPromptOpen || !mounted) return;
+    _exitPromptOpen = true;
+    final store = context.read<EcoScanStore>();
+    final guest = store.userId == 'guest-local';
+    final shouldExit = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        var saving = false;
+        String? errorMessage;
+
+        Future<void> saveAndClose(StateSetter setDialogState) async {
+          if (saving) return;
+          setDialogState(() {
+            saving = true;
+            errorMessage = null;
+          });
+          var saved = false;
+          try {
+            saved = await AccountDataSyncService.shared
+                .savePendingBeforeExit(store)
+                .timeout(
+                  const Duration(seconds: 45),
+                  onTimeout: () => false,
+                );
+          } catch (_) {
+            saved = false;
+          }
+          if (!dialogContext.mounted) return;
+          if (saved) {
+            Navigator.of(dialogContext).pop(true);
+          } else {
+            setDialogState(() {
+              saving = false;
+              errorMessage =
+                  'Não foi possível enviar tudo agora. A cópia deste aparelho continua salva e será sincronizada quando houver conexão.';
+            });
+          }
+        }
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) => AlertDialog(
+            title: Text(saving ? 'Salvando seus dados' : 'Sair do EcoScan?'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  saving
+                      ? 'Estamos sincronizando leituras, fotos, correções e preferências. Aguarde só um instante.'
+                      : guest
+                      ? 'Seus dados de visitante ficam salvos neste aparelho.'
+                      : 'Antes de sair, vamos sincronizar leituras, fotos, correções, conquistas e preferências com sua conta.',
+                ),
+                if (saving) ...[
+                  const SizedBox(height: 18),
+                  const LinearProgressIndicator(),
+                ],
+                if (errorMessage != null) ...[
+                  const SizedBox(height: 14),
+                  Text(
+                    errorMessage!,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            actions: [
+              if (!saving)
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(false),
+                  child: const Text('Continuar no app'),
+                ),
+              if (!saving && errorMessage != null)
+                TextButton(
+                  onPressed: () => saveAndClose(setDialogState),
+                  child: const Text('Tentar novamente'),
+                ),
+              if (!saving && errorMessage != null)
+                FilledButton.tonal(
+                  onPressed: () => Navigator.of(dialogContext).pop(true),
+                  child: const Text('Sair com a cópia local'),
+                ),
+              if (!saving && errorMessage == null)
+                FilledButton.icon(
+                  onPressed: () => saveAndClose(setDialogState),
+                  icon: const Icon(Icons.cloud_done_outlined),
+                  label: const Text('Salvar e sair'),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+    _exitPromptOpen = false;
+    if (shouldExit != true || !mounted) return;
+    if (kIsWeb) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Dados salvos. Você já pode fechar esta aba.'),
+        ),
+      );
+      return;
+    }
+    await SystemNavigator.pop();
   }
 
   @override
   Widget build(BuildContext context) => PopScope<void>(
     canPop: false,
     onPopInvokedWithResult: (didPop, _) {
-      if (!didPop && _selected != 0) setState(() => _selected = 0);
+      if (didPop) return;
+      unawaited(_handleBack());
     },
     child: Scaffold(
-      body: switch (_selected) {
-        0 => HomeScreen(
-          onOpenMap: () => _select(2),
-          onOpenScanner: () => _select(1),
+      body: SafeArea(
+        child: Column(
+        children: [
+          if (_store?.isSyncingAccountData == true)
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.cloud_sync_outlined,
+                        size: 18,
+                        color: Color(0xFF8FE69A),
+                      ),
+                      const SizedBox(width: 9),
+                      Expanded(
+                        child: Text(
+                          'Sincronizando seus dados da conta…',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const LinearProgressIndicator(minHeight: 2),
+              ],
+            ),
+          Expanded(
+            child: switch (_selected) {
+              0 => HomeScreen(
+                onOpenMap: () => _select(2),
+                onOpenScanner: () => _select(1),
+              ),
+              1 => ScannerScreen(
+                key: _scannerKey,
+                onFindNearby: (result) {
+                  unawaited(() async {
+                    if (!await _savePendingScannerCapture() || !mounted) return;
+                    setState(() {
+                      _mapSearch =
+                          result.material?.displayName ?? result.name;
+                      _mapMaterialId = result.material?.id;
+                      _mapRevision++;
+                      _selected = 2;
+                    });
+                  }());
+                },
+              ),
+              2 => EcoPointsScreen(
+                key: ValueKey(_mapRevision),
+                initialSearch: _mapSearch,
+                initialMaterialId: _mapMaterialId,
+              ),
+              3 when kIsWeb => const DownloadScreen(),
+              _ => SettingsScreen(onOpenMap: () => _select(2)),
+            },
+          ),
+        ],
         ),
-        1 => ScannerScreen(
-          key: _scannerKey,
-          onFindNearby: (result) {
-            setState(() {
-              _mapSearch = result.material?.displayName ?? result.name;
-              _mapMaterialId = result.material?.id;
-              _mapRevision++;
-              _selected = 2;
-            });
-          },
-        ),
-        2 => EcoPointsScreen(
-          key: ValueKey(_mapRevision),
-          initialSearch: _mapSearch,
-          initialMaterialId: _mapMaterialId,
-        ),
-        3 when kIsWeb => const DownloadScreen(),
-        _ => SettingsScreen(onOpenMap: () => _select(2)),
-      },
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selected,
         onDestinationSelected: _select,

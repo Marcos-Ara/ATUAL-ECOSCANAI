@@ -21,6 +21,7 @@ class Account {
   factory Account.fromSupabase(User user) {
     final metadata = user.userMetadata ?? const <String, dynamic>{};
     final email = user.email ?? '';
+    final provider = user.appMetadata['provider']?.toString();
 
     final name = (metadata['full_name'] ?? metadata['name'] ?? '')
         .toString()
@@ -32,7 +33,11 @@ class Account {
       name: name.isNotEmpty
           ? name
           : (email.contains('@') ? email.split('@').first : ''),
-      verified: user.emailConfirmedAt != null,
+      // Supabase confirms identities authenticated by an external provider
+      // such as Google. Requiring emailConfirmedAt alone can strand a valid
+      // OAuth user on the e-mail verification screen.
+      verified: user.emailConfirmedAt != null ||
+          (provider != null && provider.isNotEmpty && provider != 'email'),
     );
   }
 }
@@ -61,6 +66,8 @@ class AuthFailure implements Exception {
           'O login com Google ainda precisa ser habilitado e configurado no Supabase.',
         'GOOGLE_EXCHANGE' =>
           'O Google respondeu, mas o Supabase não conseguiu concluir o login. Confira o Client ID e o Client Secret do Google no Supabase e tente novamente.',
+        'GOOGLE_TIMEOUT' =>
+          'O Google não concluiu o retorno ao EcoScan. Confira a URL de retorno do app nas configurações do Supabase e tente novamente.',
         'CANCELED' => 'Acesso cancelado.',
         _ => details?.isNotEmpty == true
             ? 'Não foi possível concluir: $details'
@@ -599,9 +606,10 @@ class AuthSession extends ChangeNotifier {
 
       _googleGuardTimer =
           Timer(
-        const Duration(seconds: 30),
+        const Duration(seconds: 60),
         () {
-          if (account == null) {
+          if (account == null && _client.auth.currentSession == null) {
+            authNotice = const AuthFailure('GOOGLE_TIMEOUT').toString();
             _clearGoogleGuard();
           }
         },
