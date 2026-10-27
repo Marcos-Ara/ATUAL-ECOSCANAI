@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/backend_config.dart';
-import 'firebase_account_backup_service.dart';
 import 'firebase_session_bridge.dart';
 
 class Account {
@@ -149,16 +148,7 @@ class AuthSession extends ChangeNotifier {
 
   Future<void> _syncFirebaseSession() async {
     try {
-      final linked = await FirebaseSessionBridge.syncCurrentSession();
-      final user = _client.auth.currentUser;
-      if (linked && user != null) {
-        final metadata = user.userMetadata ?? const <String, dynamic>{};
-        await FirebaseAccountBackupService.shared.saveProfile(
-          user.id,
-          displayName: metadata['full_name']?.toString() ?? '',
-          email: user.email ?? '',
-        );
-      }
+      await FirebaseSessionBridge.syncCurrentSession();
     } catch (_) {
       // Keep the existing Supabase login usable if Firebase is not configured
       // or temporarily unavailable. The account outbox retries cloud writes.

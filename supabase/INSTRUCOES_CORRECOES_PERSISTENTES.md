@@ -1,18 +1,5 @@
-# Salvar correções na conta EcoScan
+# Correções salvas sem foto
 
-Para quem já instalou o banco do EcoScan e executou a atualização do bucket
-privado (`202610210001_backup_privado_conta.sql`), execute uma vez no SQL
-Editor do mesmo projeto Supabase:
+As correções do usuário são armazenadas em `correcoes_usuario` no Supabase. A foto é opcional. Para banco já instalado, aplique uma vez `migrations/202610270001_correcoes_sem_foto.sql` no SQL Editor.
 
-`migrations/202610220001_correcoes_persistentes.sql`
-
-Essa migração cria `public.correcoes_usuario`, com acesso restrito à conta
-autenticada, para sincronizar correções e fotos no bucket privado
-`ecoscan-account-data`. Ela não envia a imagem para treinamento. O envio para
-`ecoscan-training` e `public.amostras_treinamento` continua dependendo do
-consentimento explícito em Configurações.
-
-Se ainda não instalou o bucket privado `ecoscan-account-data`, execute primeiro
-`migrations/202610210001_backup_privado_conta.sql`.
-
-Não execute novamente o instalador do zero em um projeto que já está em uso.
+O envio para `ecoscan-training` continua exigindo uma imagem e consentimento explícito. Salvar uma correção no perfil não envia amostra para treinamento e não altera os pesos do YOLO.

@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../core/firebase_backend_config.dart';
+import '../models/achievement_progress.dart';
 import '../state/ecoscan_store.dart';
 import 'correction_backup_sync_service.dart';
-import 'firebase_account_backup_service.dart';
 import 'scan_sync_service.dart';
 
 /// Coordinates cloud restore, background sync, and the last save attempt.
@@ -90,12 +89,20 @@ class AccountDataSyncService {
   }
 
   Future<bool> _restore(EcoScanStore store) async {
+    store.beginCloudRestore();
+    try {
+      return await _restoreFromSupabase(store);
+    } finally {
+      store.endCloudRestore();
+    }
+  }
+
+  Future<bool> _restoreFromSupabase(EcoScanStore store) async {
     final uid = _client.auth.currentUser?.id;
     if (uid == null || store.userId != uid) return false;
     var success = true;
     final scanSync = ScanSyncService(client: _client);
     final correctionSync = CorrectionBackupSyncService(client: _client);
-    final firebase = FirebaseAccountBackupService.shared;
 
     try {
       final settingsSaved = await store
@@ -107,41 +114,12 @@ class AccountDataSyncService {
     }
 
     if (!_isCurrent(store, uid)) return false;
-    if (firebase.isAvailable) {
-      try {
-        final records = await firebase
-            .fetchScans(uid)
-            .timeout(const Duration(seconds: 35));
-        if (!_isCurrent(store, uid)) return false;
-        await store.mergeCloudDetections(records);
-      } catch (_) {
-        success = false;
-      }
-    }
-
-    if (!_isCurrent(store, uid)) return false;
     try {
       await scanSync
           .reconcileDeletions(store)
           .timeout(const Duration(seconds: 20));
     } catch (_) {
       success = false;
-    }
-
-    if (!_isCurrent(store, uid)) return false;
-    if (firebase.isAvailable) {
-      try {
-        final submittedIds = await correctionSync.fetchSubmittedIds(uid);
-        final corrections = await firebase
-            .fetchCorrections(uid)
-            .timeout(const Duration(seconds: 35));
-        if (!_isCurrent(store, uid)) return false;
-        await store.mergeCloudLearningSamples(
-          corrections.where((sample) => !submittedIds.contains(sample.id)),
-        );
-      } catch (_) {
-        success = false;
-      }
     }
 
     if (!_isCurrent(store, uid)) return false;
@@ -178,67 +156,41 @@ class AccountDataSyncService {
     }
 
     if (!_isCurrent(store, uid)) return false;
+    var unlocked = <String>{};
     try {
-      final unlocked = await scanSync
+      unlocked = await scanSync
           .fetchUnlockedAchievementIds()
           .timeout(const Duration(seconds: 15));
-      if (!_isCurrent(store, uid)) return false;
-      final allUnlocked = <String>{...unlocked};
-      if (firebase.isAvailable) {
-        allUnlocked.addAll(
-          await firebase
-              .fetchAchievementIds(uid)
-              .timeout(const Duration(seconds: 15)),
-        );
-      }
-      await store.rememberAchievementIds(allUnlocked);
-      if (firebase.isAvailable &&
-          store.pendingFirebaseAchievementIds.isNotEmpty) {
-        final pending = store.pendingFirebaseAchievementIds;
-        await firebase.saveAchievements(uid, pending);
-        await store.acknowledgeFirebaseAchievements(
-          pending,
-          userIdOverride: uid,
-        );
-      }
     } catch (_) {
+      // If the achievement query is unavailable, derive unlocked IDs from
+      // the restored account state so reinstalling cannot replay old toasts.
       success = false;
+      unlocked = AchievementProgress.build(
+        scans: store.scanCount,
+        categories: store.detections
+            .map((record) => record.category)
+            .toSet()
+            .length,
+        exploredMap: store.exploredMap,
+        previouslyUnlocked: store.knownAchievementIds,
+      ).where((item) => item.isUnlocked).map((item) => item.id).toSet();
     }
+    unlocked.addAll(
+      AchievementProgress.build(
+        scans: store.scanCount,
+        categories: store.detections
+            .map((record) => record.category)
+            .toSet()
+            .length,
+        exploredMap: store.exploredMap,
+        previouslyUnlocked: store.knownAchievementIds,
+      ).where((item) => item.isUnlocked).map((item) => item.id),
+    );
+    if (!_isCurrent(store, uid)) return false;
+    await store.rememberAchievementIds(unlocked);
 
     if (!_isCurrent(store, uid)) return false;
-    if (firebase.isAvailable) {
-      try {
-        if (await firebase.needsLegacyMigration(uid)) {
-          final uploadedScanImages = <String, String>{};
-          for (final record in store.detections) {
-            final imagePath = await firebase.saveScan(uid, record);
-            if (imagePath != null && imagePath.isNotEmpty) {
-              uploadedScanImages[record.id] =
-                  'firebase-storage://$imagePath';
-            }
-          }
-          await store.markFirebaseScansUploaded(uploadedScanImages);
-          for (final correction in store.learningSamples) {
-            await firebase.saveCorrection(uid, correction);
-          }
-          await firebase.saveSettings(
-            uid,
-            darkMode: store.darkMode,
-            sounds: store.sounds,
-            notifications: store.notifications,
-            mapExplored: store.exploredMap,
-            profilePhoto: store.profilePhoto,
-          );
-          if (store.knownAchievementIds.isNotEmpty) {
-            await firebase.saveAchievements(uid, store.knownAchievementIds);
-          }
-          await firebase.markLegacyMigrationComplete(uid);
-        }
-        await store.discardSyncedAccountCache();
-      } catch (_) {
-        success = false;
-      }
-    }
+    await store.discardSyncedAccountCache();
     return success && _isCurrent(store, uid);
   }
 
@@ -293,22 +245,6 @@ class AccountDataSyncService {
       success = false;
     }
     if (!_isCurrent(store, uid)) return false;
-    if (FirebaseBackendConfig.isConfigured &&
-        store.pendingFirebaseAchievementIds.isNotEmpty) {
-      try {
-        final pending = store.pendingFirebaseAchievementIds;
-        await FirebaseAccountBackupService.shared.saveAchievements(
-          uid,
-          pending,
-        );
-        await store.acknowledgeFirebaseAchievements(
-          pending,
-          userIdOverride: uid,
-        );
-      } catch (_) {
-        success = false;
-      }
-    }
     if (success && _isCurrent(store, uid)) {
       await store.discardSyncedAccountCache();
     }

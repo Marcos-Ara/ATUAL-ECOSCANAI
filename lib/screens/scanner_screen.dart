@@ -1490,13 +1490,10 @@ class ScannerScreenState extends State<ScannerScreen>
       var synced = false;
       if (uid != AuthSession.guestUserId && AppConfig.syncSupabaseHistory) {
         try {
-          final firebaseImagePath = await ScanSyncService().upsert(record);
+          await ScanSyncService().upsert(record);
           await store.acknowledgeScanUploads(
             [record.id],
             userIdOverride: uid,
-            firebaseImagePaths: firebaseImagePath == null
-                ? const <String, String>{}
-                : {record.id: 'firebase-storage://$firebaseImagePath'},
           );
           synced = true;
         } catch (_) {

@@ -5,7 +5,7 @@
 create table if not exists public.correcoes_usuario (
   usuario_id uuid not null references auth.users(id) on delete cascade,
   id_correcao_cliente text not null,
-  caminho_imagem text not null,
+  caminho_imagem text,
   origem text not null default 'camera',
   mecanismo_deteccao text not null default 'unknown',
   deteccoes jsonb not null default '[]'::jsonb

@@ -5,42 +5,11 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == userId;
     }
 
-    match /users/{userId} {
+    // One replaceable document per user. History and image files remain in
+    // Supabase; the Firebase client cannot create an event history.
+    match /users/{userId}/state/latest_action {
       allow read, create, update: if ownsUser(userId);
       allow delete: if false;
-
-      match /scans/{scanId} {
-        allow read, create, update, delete: if ownsUser(userId);
-      }
-
-      match /corrections/{correctionId} {
-        allow read, create, update, delete: if ownsUser(userId);
-      }
-
-      match /settings/{settingId} {
-        allow read, create, update: if ownsUser(userId);
-        allow delete: if false;
-      }
-
-      match /meta/{documentId} {
-        allow read, create, update: if ownsUser(userId);
-        allow delete: if false;
-      }
-
-      match /achievements/{achievementId} {
-        allow read, create, update: if ownsUser(userId);
-        allow delete: if false;
-      }
-
-      match /gameProgress/{gameId} {
-        allow read, create, update: if ownsUser(userId);
-        allow delete: if false;
-      }
-
-      match /activity/{eventId} {
-        allow read, create, update: if ownsUser(userId);
-        allow delete: if false;
-      }
     }
 
     match /{document=**} {

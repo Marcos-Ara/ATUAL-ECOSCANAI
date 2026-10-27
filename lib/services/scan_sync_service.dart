@@ -39,32 +39,21 @@ class ScanSyncService {
     await store.acknowledgeScanDeletions(pendingIds);
   }
 
-  Future<String?> upsert(DetectionRecord record) async {
+  Future<void> upsert(DetectionRecord record) async {
     final user = _client.auth.currentUser;
-    if (user == null) return null;
+    if (user == null) return;
 
-    String? firebaseImagePath;
-    Object? firebaseFailure;
-    Object? supabaseFailure;
-    try {
-      firebaseImagePath = await FirebaseAccountBackupService.shared.saveScan(
-        user.id,
-        record,
-      );
-    } catch (error) {
-      firebaseFailure = error;
-    }
-    try {
-      await _client.from('leituras_scan').upsert(
-        await _recordPayload(user.id, record),
-        onConflict: 'usuario_id,id_leitura_cliente',
-      );
-    } catch (error) {
-      supabaseFailure = error;
-    }
-    if (firebaseFailure != null) throw firebaseFailure;
-    if (supabaseFailure != null) throw supabaseFailure;
-    return firebaseImagePath;
+    final payload = await _recordPayload(user.id, record);
+    await _client.from('leituras_scan').upsert(
+      payload,
+      onConflict: 'usuario_id,id_leitura_cliente',
+    );
+    if (_client.auth.currentUser?.id != user.id) return;
+    await FirebaseAccountBackupService.shared.saveScan(
+      user.id,
+      record,
+      supabaseImagePath: payload['caminho_imagem']?.toString(),
+    );
   }
 
   Future<void> syncAll(Iterable<DetectionRecord> records) async {
@@ -113,7 +102,7 @@ class ScanSyncService {
         continue;
       }
       try {
-        final firebaseImagePath = await upsert(record);
+        await upsert(record);
         if (store.userId != user.id ||
             _client.auth.currentUser?.id != user.id) {
           return false;
@@ -121,9 +110,6 @@ class ScanSyncService {
         await store.acknowledgeScanUploads(
           [id],
           userIdOverride: user.id,
-          firebaseImagePaths: firebaseImagePath == null
-              ? const <String, String>{}
-              : {id: 'firebase-storage://$firebaseImagePath'},
         );
       } catch (_) {
         success = false;
@@ -160,12 +146,6 @@ class ScanSyncService {
     if (user == null) return;
 
     final ids = clientScanIds.where((id) => id.isNotEmpty).toSet().toList();
-    Object? firebaseFailure;
-    try {
-      await FirebaseAccountBackupService.shared.deleteScans(user.id, ids);
-    } catch (error) {
-      firebaseFailure = error;
-    }
     for (var start = 0; start < ids.length; start += 50) {
       final end = (start + 50).clamp(0, ids.length).toInt();
       final batch = ids.sublist(start, end).map((id) => {
@@ -190,7 +170,7 @@ class ScanSyncService {
         ids.sublist(start, end).map((id) => _scanImagePath(user.id, id)).toList(),
       );
     }
-    if (firebaseFailure != null) throw firebaseFailure;
+    await FirebaseAccountBackupService.shared.deleteScans(user.id, ids);
   }
 
   /// Restores only the signed-in user's history and creates short-lived private

@@ -20,27 +20,19 @@ class CorrectionBackupSyncService {
     if (user == null) return false;
 
     final bytes = _decodeDataUrl(sample.thumbnailDataUrl);
-    if (bytes == null || bytes.isEmpty) {
-      throw StateError('A foto da correção não está disponível para salvar.');
-    }
     final safeId = sample.id.replaceAll(RegExp(r'[^A-Za-z0-9_-]'), '_');
     if (safeId.isEmpty) {
       throw StateError('A correção não tem um identificador válido.');
     }
-    final path = '${user.id}/correcoes/$safeId.jpg';
-
-    Object? firebaseFailure;
-    try {
-      await FirebaseAccountBackupService.shared.saveCorrection(user.id, sample);
-    } catch (error) {
-      firebaseFailure = error;
+    String? path;
+    if (bytes != null && bytes.isNotEmpty) {
+      path = '${user.id}/correcoes/$safeId.jpg';
+      await _client.storage.from('ecoscan-account-data').uploadBinary(
+        path,
+        bytes,
+        fileOptions: const FileOptions(contentType: 'image/jpeg', upsert: true),
+      );
     }
-
-    await _client.storage.from('ecoscan-account-data').uploadBinary(
-      path,
-      bytes,
-      fileOptions: const FileOptions(contentType: 'image/jpeg', upsert: true),
-    );
     if (_client.auth.currentUser?.id != user.id) return false;
 
     await _client.from('correcoes_usuario').upsert(
@@ -62,7 +54,12 @@ class CorrectionBackupSyncService {
       },
       onConflict: 'usuario_id,id_correcao_cliente',
     );
-    if (firebaseFailure != null) throw firebaseFailure;
+    if (_client.auth.currentUser?.id != user.id) return false;
+    await FirebaseAccountBackupService.shared.saveCorrection(
+      user.id,
+      sample,
+      supabaseImagePath: path,
+    );
     return _client.auth.currentUser?.id == user.id;
   }
 
@@ -105,7 +102,9 @@ class CorrectionBackupSyncService {
             final id = row['id_correcao_cliente']?.toString() ?? '';
             if (id.isEmpty || localIds.contains(id)) return null;
             final path = row['caminho_imagem']?.toString() ?? '';
-            if (path.isEmpty) return null;
+            if (path.isEmpty) {
+              return _sampleFromRow(row, Uint8List(0));
+            }
             try {
               final bytes = await _client.storage
                   .from('ecoscan-account-data')
@@ -246,7 +245,9 @@ class CorrectionBackupSyncService {
           DateTime.now(),
       source: row['origem']?.toString() ?? 'unknown',
       detector: row['mecanismo_deteccao']?.toString() ?? 'unknown',
-      thumbnailDataUrl: 'data:image/jpeg;base64,${base64Encode(bytes)}',
+      thumbnailDataUrl: bytes.isEmpty
+          ? ''
+          : 'data:image/jpeg;base64,${base64Encode(bytes)}',
       detections: detections,
       reportedLabel: row['rotulo_informado_usuario']?.toString(),
       reportedBin: row['lixeira_informada_usuario']?.toString(),

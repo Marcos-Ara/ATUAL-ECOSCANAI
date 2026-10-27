@@ -21,16 +21,18 @@ Se aparecer qualquer erro, não continue para o próximo passo. Copie a mensagem
 
 O banco final usa tabelas e colunas em português. Portanto, gere e publique a versão Web/APK com o código que acompanha esta mesma base; uma versão antiga do app ainda tentará chamar os nomes anteriores.
 
-O app continua funcionando localmente se o Supabase estiver fora do ar. Ao autenticar, sincroniza o histórico, as exclusões e as preferências; o mapa consulta os EcoPontos; correções só sobem após consentimento. O catálogo embarcado continua sendo a primeira opção para reconhecer materiais, e a base remota serve como busca complementar.
+O app continua funcionando localmente se o Supabase estiver fora do ar. Ao autenticar, sincroniza o histórico, exclusões, correções e preferências; o mapa consulta os EcoPontos. Correções são guardadas na conta; o envio separado para revisão/treinamento exige consentimento. O catálogo embarcado continua sendo a primeira opção para reconhecer materiais, e a base remota serve como busca complementar.
 
 ## O que fica automático depois da instalação
 
 - O Auth mantém `perfis` sincronizado com nome e e-mail da conta.
 - Leituras salvas e exclusões do histórico sincronizam entre aparelhos autenticados.
-- Preferências de tema, sons, avisos e mapa são carregadas da conta e sincronizadas quando mudam. A foto de perfil permanece local nesta etapa.
+- Preferências de tema, sons, avisos e mapa, incluindo foto de perfil no bucket privado, são carregadas da conta e sincronizadas quando mudam.
 - O banco recalcula `eventos_pontos`, `conquistas_usuario` e `estatisticas_usuario` ao receber leituras/exclusões ou mudanças de progresso.
 - O app atualiza o catálogo de EcoPontos e guarda cache local para uso offline.
 - Amostras são enviadas para o bucket privado `ecoscan-training` somente quando a pessoa autoriza. Elas ficam pendentes para revisão.
+
+Em banco já instalado, aplique a migração incremental `migrations/202610270001_correcoes_sem_foto.sql` para permitir salvar correções sem imagem. Não repita o SQL de instalação inicial.
 
 ## O que ainda exige uma pessoa
 

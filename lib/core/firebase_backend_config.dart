@@ -4,11 +4,20 @@ import 'package:flutter/foundation.dart';
 /// Public Firebase application options. Privileged service-account credentials
 /// must never be placed in this app.
 abstract final class FirebaseBackendConfig {
+  static const backupEnabled = bool.fromEnvironment(
+    'FIREBASE_BACKUP_ENABLED',
+    defaultValue: false,
+  );
   static const projectId = String.fromEnvironment(
     'FIREBASE_PROJECT_ID',
     defaultValue: 'ecoscanai-66682',
   );
   static const apiKey = String.fromEnvironment('FIREBASE_API_KEY');
+  static const androidApiKey = String.fromEnvironment(
+    'FIREBASE_API_KEY_ANDROID',
+  );
+  static const iosApiKey = String.fromEnvironment('FIREBASE_API_KEY_IOS');
+  static const webApiKey = String.fromEnvironment('FIREBASE_API_KEY_WEB');
   static const messagingSenderId = String.fromEnvironment(
     'FIREBASE_MESSAGING_SENDER_ID',
   );
@@ -23,16 +32,27 @@ abstract final class FirebaseBackendConfig {
   static const iosAppId = String.fromEnvironment('FIREBASE_APP_ID_IOS');
   static const webAppId = String.fromEnvironment('FIREBASE_APP_ID_WEB');
 
+  static String get _apiKeyForPlatform {
+    final platformKey = kIsWeb
+        ? webApiKey
+        : defaultTargetPlatform == TargetPlatform.iOS
+        ? iosApiKey
+        : defaultTargetPlatform == TargetPlatform.android
+        ? androidApiKey
+        : '';
+    return platformKey.isNotEmpty ? platformKey : apiKey;
+  }
+
   static bool get isConfigured {
     final appId = kIsWeb
         ? webAppId
         : defaultTargetPlatform == TargetPlatform.iOS
         ? iosAppId
         : androidAppId;
-    return apiKey.isNotEmpty &&
+    return backupEnabled &&
+        _apiKeyForPlatform.isNotEmpty &&
         messagingSenderId.isNotEmpty &&
         projectId.isNotEmpty &&
-        storageBucket.isNotEmpty &&
         appId.isNotEmpty;
   }
 
@@ -46,11 +66,11 @@ abstract final class FirebaseBackendConfig {
         ? iosAppId
         : androidAppId;
     return FirebaseOptions(
-      apiKey: apiKey,
+      apiKey: _apiKeyForPlatform,
       appId: appId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
-      storageBucket: storageBucket,
+      storageBucket: storageBucket.isEmpty ? null : storageBucket,
       authDomain: kIsWeb ? authDomain : null,
       iosBundleId: defaultTargetPlatform == TargetPlatform.iOS
           ? 'br.com.ecoscan.ecoscanMobile'

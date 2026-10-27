@@ -1488,7 +1488,7 @@ create index if not exists pontos_localizacao_gist on public.pontos_ecologicos u
 create table if not exists public.correcoes_usuario (
   usuario_id uuid not null references auth.users(id) on delete cascade,
   id_correcao_cliente text not null,
-  caminho_imagem text not null,
+  caminho_imagem text,
   origem text not null default 'camera',
   mecanismo_deteccao text not null default 'unknown',
   deteccoes jsonb not null default '[]'::jsonb
@@ -1505,6 +1505,8 @@ create table if not exists public.correcoes_usuario (
   atualizado_em timestamptz not null default now(),
   primary key (usuario_id, id_correcao_cliente)
 );
+alter table public.correcoes_usuario
+  alter column caminho_imagem drop not null;
 create index if not exists correcoes_usuario_data_idx
   on public.correcoes_usuario (usuario_id, criado_em desc);
 alter table public.correcoes_usuario enable row level security;
