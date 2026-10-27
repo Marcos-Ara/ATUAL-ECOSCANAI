@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
@@ -8,9 +7,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/firebase_backend_config.dart';
 import '../models/detection_record.dart';
 import '../models/eco_point.dart';
 import '../models/learning_sample.dart';
+import '../services/firebase_account_backup_service.dart';
 
 class EcoScanStore extends ChangeNotifier {
   EcoScanStore._(this._preferences);
@@ -20,7 +21,6 @@ class EcoScanStore extends ChangeNotifier {
   final List<LearningSample> _learningSamples = [];
   final Set<String> _knownAchievementIds = <String>{};
   bool _restoringCloudData = false;
-  String? _syncingAccountDataFor;
   List<DetectionRecord> get detections => List.unmodifiable(_detections);
   List<LearningSample> get learningSamples =>
       List.unmodifiable(_learningSamples);
@@ -28,15 +28,23 @@ class EcoScanStore extends ChangeNotifier {
   Set<String> get knownAchievementIds =>
       Set<String>.unmodifiable(_knownAchievementIds);
   bool get isRestoringCloudData => _restoringCloudData;
-  bool get isSyncingAccountData =>
-      userId != null && _syncingAccountDataFor == userId;
   int get scanCount => _detections.length;
   String _detectionsKeyFor(String? uid) =>
       'ecoscan.detections.v2.${uid ?? 'signed-out'}';
   String get _detectionsKey => _detectionsKeyFor(userId);
   String _scanDeletionsKeyFor(String uid) => 'ecoscan.deleted_scans.v1.$uid';
+  String _pendingScanUploadsKeyFor(String uid) =>
+      'ecoscan.pending_scan_uploads.v1.$uid';
+  String _scanUploadQueuePrimedKeyFor(String uid) =>
+      'ecoscan.scan_upload_queue_primed.v1.$uid';
+  String _pendingCorrectionUploadsKeyFor(String uid) =>
+      'ecoscan.pending_correction_uploads.v1.$uid';
+  String _correctionUploadQueuePrimedKeyFor(String uid) =>
+      'ecoscan.correction_upload_queue_primed.v1.$uid';
   String _achievementsKeyFor(String uid) =>
       'ecoscan.achievements.v1.$uid';
+  String _pendingFirebaseAchievementsKeyFor(String uid) =>
+      'ecoscan.firebase.pending_achievements.v1.$uid';
   List<String> _pendingScanDeletionsFor(String uid) {
     try {
       final decoded = jsonDecode(
@@ -55,6 +63,30 @@ class EcoScanStore extends ChangeNotifier {
   List<String> get pendingScanDeletionIds => userId == null
       ? const []
       : _pendingScanDeletionsFor(userId!);
+  List<String> get pendingScanUploadIds => userId == null
+      ? const []
+      : _readPendingIds(_pendingScanUploadsKeyFor(userId!));
+  List<String> get pendingCorrectionUploadIds => userId == null
+      ? const []
+      : _readPendingIds(_pendingCorrectionUploadsKeyFor(userId!));
+  List<String> get pendingFirebaseAchievementIds => userId == null
+      ? const []
+      : _readPendingIds(_pendingFirebaseAchievementsKeyFor(userId!));
+  bool get hasPendingAccountSync {
+    final owner = userId;
+    if (owner == null || owner == 'guest-local') return false;
+    return pendingScanUploadIds.isNotEmpty ||
+        pendingScanDeletionIds.isNotEmpty ||
+        pendingCorrectionUploadIds.isNotEmpty ||
+        (_preferences.getBool(_scanUploadQueuePrimedKeyFor(owner)) != true &&
+            _detections.isNotEmpty) ||
+        (_preferences.getBool(_correctionUploadQueuePrimedKeyFor(owner)) !=
+                true &&
+            _learningSamples.isNotEmpty) ||
+        _preferences.getBool(_pendingSettingsKeyFor(owner)) == true ||
+        _preferences.getBool(_pendingPhotoKeyFor(owner)) == true ||
+        pendingFirebaseAchievementIds.isNotEmpty;
+  }
   String get _photoKey => 'ecoscan.profile.v2.${userId ?? 'signed-out'}';
   String _remotePhotoKeyFor(String uid) => 'ecoscan.profile.remote.v1.$uid';
   String _pendingSettingsKeyFor(String uid) =>
@@ -75,12 +107,233 @@ class EcoScanStore extends ChangeNotifier {
   static Future<EcoScanStore> load() async =>
       EcoScanStore._(await SharedPreferences.getInstance());
 
-  void setAccountDataSyncing(String owner, bool syncing) {
-    if (userId != owner) return;
-    final next = syncing ? owner : null;
-    if (_syncingAccountDataFor == next) return;
-    _syncingAccountDataFor = next;
-    notifyListeners();
+  /// Converts existing account scans into a durable outbox once. New scans
+  /// enter the same queue at creation time, so retries never need to reupload
+  /// the complete account history.
+  Future<void> primePendingScanUploadQueue() async {
+    final owner = userId;
+    if (owner == null || owner == 'guest-local') return;
+    if (_preferences.getBool(_scanUploadQueuePrimedKeyFor(owner)) == true) {
+      return;
+    }
+    await _addPendingIds(
+      _pendingScanUploadsKeyFor(owner),
+      _detections.map((record) => record.id),
+    );
+    if (!await _preferences.setBool(
+      _scanUploadQueuePrimedKeyFor(owner),
+      true,
+    )) {
+      throw StateError('Não foi possível preparar a fila de leituras.');
+    }
+  }
+
+  /// Converts existing private corrections into the durable outbox once.
+  Future<void> primePendingCorrectionUploadQueue() async {
+    final owner = userId;
+    if (owner == null || owner == 'guest-local') return;
+    if (_preferences.getBool(_correctionUploadQueuePrimedKeyFor(owner)) ==
+        true) {
+      return;
+    }
+    await _addPendingIds(
+      _pendingCorrectionUploadsKeyFor(owner),
+      _learningSamples.map((sample) => sample.id),
+    );
+    if (!await _preferences.setBool(
+      _correctionUploadQueuePrimedKeyFor(owner),
+      true,
+    )) {
+      throw StateError('Não foi possível preparar a fila de correções.');
+    }
+  }
+
+  Future<void> queueScanUpload(String id, {String? userIdOverride}) async {
+    final owner = userIdOverride ?? userId;
+    if (owner == null || owner == 'guest-local' || id.isEmpty) return;
+    await _addPendingIds(_pendingScanUploadsKeyFor(owner), [id]);
+  }
+
+  Future<void> acknowledgeScanUploads(
+    Iterable<String> ids, {
+    String? userIdOverride,
+    Map<String, String> firebaseImagePaths = const <String, String>{},
+  }) async {
+    final owner = userIdOverride ?? userId;
+    if (owner == null || owner == 'guest-local') return;
+    await _removePendingIds(_pendingScanUploadsKeyFor(owner), ids);
+    await _persistPendingScans(owner, firebaseImagePaths: firebaseImagePaths);
+  }
+
+  Future<void> queueCorrectionUpload(
+    String id, {
+    String? userIdOverride,
+  }) async {
+    final owner = userIdOverride ?? userId;
+    if (owner == null || owner == 'guest-local' || id.isEmpty) return;
+    await _addPendingIds(_pendingCorrectionUploadsKeyFor(owner), [id]);
+  }
+
+  Future<void> acknowledgeCorrectionUploads(
+    Iterable<String> ids, {
+    String? userIdOverride,
+  }) async {
+    final owner = userIdOverride ?? userId;
+    if (owner == null || owner == 'guest-local') return;
+    await _removePendingIds(_pendingCorrectionUploadsKeyFor(owner), ids);
+    await _persistPendingCorrections(owner);
+  }
+
+  List<String> _readPendingIds(String key) {
+    try {
+      final decoded = jsonDecode(_preferences.getString(key) ?? '[]');
+      if (decoded is List) {
+        return decoded
+            .map((value) => value.toString())
+            .where((id) => id.isNotEmpty)
+            .toSet()
+            .toList(growable: true);
+      }
+    } catch (_) {}
+    return <String>[];
+  }
+
+  Future<void> _addPendingIds(String key, Iterable<String> ids) async {
+    final next = _readPendingIds(key)..addAll(ids.where((id) => id.isNotEmpty));
+    if (!await _preferences.setString(key, jsonEncode(next.toSet().toList()))) {
+      throw StateError('Não foi possível guardar a sincronização pendente.');
+    }
+  }
+
+  Future<void> _removePendingIds(String key, Iterable<String> ids) async {
+    final removed = ids.toSet();
+    if (removed.isEmpty) return;
+    final remaining = _readPendingIds(key)..removeWhere(removed.contains);
+    if (!await _preferences.setString(key, jsonEncode(remaining))) {
+      throw StateError('Não foi possível confirmar a sincronização.');
+    }
+  }
+
+  Future<void> _persistPendingScans(
+    String owner, {
+    Map<String, String> firebaseImagePaths = const <String, String>{},
+  }) async {
+    if (!FirebaseAccountBackupService.shared.isAvailable) return;
+    final records = owner == userId
+        ? List<DetectionRecord>.of(_detections)
+        : _decodeRecords(_preferences.getString(_detectionsKeyFor(owner)));
+    final updated = <DetectionRecord>[];
+    final obsoleteImages = <String>[];
+    for (final record in records) {
+      final remotePath = firebaseImagePaths[record.id];
+      if (remotePath == null || remotePath.isEmpty) {
+        updated.add(record);
+        continue;
+      }
+      if (record.imagePath.isNotEmpty && record.imagePath != remotePath) {
+        obsoleteImages.add(record.imagePath);
+      }
+      updated.add(DetectionRecord.fromJson({
+        ...record.toJson(),
+        'imagePath': remotePath,
+      }));
+    }
+    if (owner == userId && firebaseImagePaths.isNotEmpty) {
+      _detections
+        ..clear()
+        ..addAll(updated);
+      notifyListeners();
+    }
+
+    // Once Firebase confirms the upload, keep only the small outbox on disk.
+    // The full account history stays in memory for this session and is restored
+    // from the cloud the next time the account opens.
+    final pending = _readPendingIds(_pendingScanUploadsKeyFor(owner)).toSet();
+    final cache =
+        _preferences.getBool(_scanUploadQueuePrimedKeyFor(owner)) == true
+        ? updated.where((record) => pending.contains(record.id)).toList()
+        : updated;
+    final cachedIds = cache.map((record) => record.id).toSet();
+    obsoleteImages.addAll(
+      updated
+          .where((record) => !cachedIds.contains(record.id))
+          .map((record) => record.imagePath),
+    );
+    if (!await _preferences.setString(
+      _detectionsKeyFor(owner),
+      jsonEncode(cache.map((record) => record.toJson()).toList()),
+    )) {
+      throw StateError('Não foi possível atualizar a fila de leituras.');
+    }
+    for (final path in obsoleteImages) {
+      await _deleteImage(path);
+    }
+  }
+
+  Future<void> _persistPendingCorrections(String owner) async {
+    if (!FirebaseAccountBackupService.shared.isAvailable) return;
+    final samples = owner == userId
+        ? List<LearningSample>.of(_learningSamples)
+        : _decodeLearningSamples(_preferences.getString(_learningKeyFor(owner)));
+    final pending =
+        _readPendingIds(_pendingCorrectionUploadsKeyFor(owner)).toSet();
+    final cache =
+        _preferences.getBool(_correctionUploadQueuePrimedKeyFor(owner)) == true
+        ? samples.where((sample) => pending.contains(sample.id)).toList()
+        : samples;
+    if (!await _preferences.setString(
+      _learningKeyFor(owner),
+      jsonEncode(cache.map((sample) => sample.toJson()).toList()),
+    )) {
+      throw StateError('Não foi possível atualizar a fila de correções.');
+    }
+  }
+
+  List<DetectionRecord> _recordsToCache(
+    String owner,
+    Iterable<DetectionRecord> records,
+  ) {
+    if (!FirebaseAccountBackupService.shared.isAvailable ||
+        _preferences.getBool(_scanUploadQueuePrimedKeyFor(owner)) != true) {
+      return records.toList(growable: false);
+    }
+    final pending = _readPendingIds(_pendingScanUploadsKeyFor(owner)).toSet();
+    return records
+        .where((record) => pending.contains(record.id))
+        .toList(growable: false);
+  }
+
+  List<LearningSample> _samplesToCache(
+    String owner,
+    Iterable<LearningSample> samples,
+  ) {
+    if (!FirebaseAccountBackupService.shared.isAvailable ||
+        _preferences.getBool(_correctionUploadQueuePrimedKeyFor(owner)) !=
+            true) {
+      return samples.toList(growable: false);
+    }
+    final pending =
+        _readPendingIds(_pendingCorrectionUploadsKeyFor(owner)).toSet();
+    return samples
+        .where((sample) => pending.contains(sample.id))
+        .toList(growable: false);
+  }
+
+  /// Removes confirmed account history from disk while retaining pending
+  /// uploads. In-memory records stay available until the session ends.
+  Future<void> discardSyncedAccountCache() async {
+    final owner = userId;
+    if (owner == null || owner == 'guest-local') return;
+    await _persistPendingScans(owner);
+    await _persistPendingCorrections(owner);
+  }
+
+  Future<void> markFirebaseScansUploaded(
+    Map<String, String> imagePaths,
+  ) async {
+    final owner = userId;
+    if (owner == null || owner == 'guest-local') return;
+    await _persistPendingScans(owner, firebaseImagePaths: imagePaths);
   }
 
   void switchUser(String? uid) {
@@ -264,11 +517,26 @@ class EcoScanStore extends ChangeNotifier {
     )) {
       throw StateError('Não foi possível salvar as conquistas da conta.');
     }
+    if (FirebaseBackendConfig.isConfigured) {
+      await _addPendingIds(
+        _pendingFirebaseAchievementsKeyFor(owner),
+        next,
+      );
+    }
     if (userId != owner) return;
     _knownAchievementIds
       ..clear()
       ..addAll(next);
     notifyListeners();
+  }
+
+  Future<void> acknowledgeFirebaseAchievements(
+    Iterable<String> ids, {
+    String? userIdOverride,
+  }) async {
+    final owner = userIdOverride ?? userId;
+    if (owner == null) return;
+    await _removePendingIds(_pendingFirebaseAchievementsKeyFor(owner), ids);
   }
 
   /// Restaura as preferências da conta no login. Se ainda não houver registro
@@ -281,7 +549,22 @@ class EcoScanStore extends ChangeNotifier {
       if (client.auth.currentUser?.id != owner) return false;
       if (_preferences.getBool(_pendingSettingsKeyFor(owner)) == true ||
           _preferences.getBool(_pendingPhotoKeyFor(owner)) == true) {
-        return _syncCloudSettings();
+        return await _syncCloudSettings();
+      }
+      var firebaseRestoreFailed = false;
+      if (FirebaseAccountBackupService.shared.isAvailable) {
+        try {
+          final firebaseSettings = await FirebaseAccountBackupService.shared
+              .fetchSettings(owner)
+              .timeout(const Duration(seconds: 15));
+          if (firebaseSettings != null) {
+            await _applyFirebaseSettings(owner, firebaseSettings);
+            await _preferences.setBool(_pendingSettingsKeyFor(owner), true);
+            return await _syncCloudSettings();
+          }
+        } catch (_) {
+          firebaseRestoreFailed = true;
+        }
       }
       final row = await client
           .from('configuracoes_usuario')
@@ -291,7 +574,8 @@ class EcoScanStore extends ChangeNotifier {
           .eq('usuario_id', owner)
           .maybeSingle();
       if (row == null) {
-        return _syncCloudSettings();
+        if (firebaseRestoreFailed) return false;
+        return await _syncCloudSettings();
       }
       await _preferences.setBool('ecoscan.dark', row['tema'] == 'escuro');
       await _preferences.setBool(
@@ -317,7 +601,12 @@ class EcoScanStore extends ChangeNotifier {
         await _preferences.setString(_remotePhotoKeyFor(owner), remotePhoto);
         if (!hasPendingPhoto) await _restoreProfilePhoto(owner, remotePhoto);
       }
-      if (hasPendingPhoto) return _syncCloudSettings();
+      if (firebaseRestoreFailed) return false;
+      if (hasPendingPhoto) return await _syncCloudSettings();
+      if (FirebaseAccountBackupService.shared.isAvailable) {
+        await _preferences.setBool(_pendingSettingsKeyFor(owner), true);
+        return await _syncCloudSettings();
+      }
       if (userId == owner) notifyListeners();
       return true;
     } catch (_) {
@@ -326,12 +615,39 @@ class EcoScanStore extends ChangeNotifier {
     }
   }
 
+  /// Sends account settings only when this device has a known local change.
+  /// Used by the retry loop so it does not read/write settings on every pass.
+  Future<bool> syncPendingAccountSettings() async {
+    final owner = userId;
+    if (owner == null) return false;
+    if (_preferences.getBool(_pendingSettingsKeyFor(owner)) != true &&
+        _preferences.getBool(_pendingPhotoKeyFor(owner)) != true) {
+      return true;
+    }
+    return _syncCloudSettings();
+  }
+
   Future<bool> _syncCloudSettings() async {
     final owner = userId;
     if (owner == null) return false;
     try {
       final client = Supabase.instance.client;
       if (client.auth.currentUser?.id != owner) return false;
+      Object? firebaseFailure;
+      if (FirebaseAccountBackupService.shared.isAvailable) {
+        try {
+          await FirebaseAccountBackupService.shared.saveSettings(
+            owner,
+            darkMode: darkMode,
+            sounds: sounds,
+            notifications: notifications,
+            mapExplored: exploredMap,
+            profilePhoto: profilePhoto,
+          );
+        } catch (error) {
+          firebaseFailure = error;
+        }
+      }
       final remotePhoto = await _uploadProfilePhoto(owner, profilePhoto) ??
           _preferences.getString(_remotePhotoKeyFor(owner));
       if (userId != owner || client.auth.currentUser?.id != owner) return false;
@@ -347,6 +663,7 @@ class EcoScanStore extends ChangeNotifier {
         },
         onConflict: 'usuario_id',
       );
+      if (firebaseFailure != null) throw firebaseFailure;
       if (userId == owner) {
         await _preferences.remove(_pendingPhotoKeyFor(owner));
         await _preferences.remove(_pendingSettingsKeyFor(owner));
@@ -355,6 +672,51 @@ class EcoScanStore extends ChangeNotifier {
     } catch (_) {
       // A sincronização de preferências será tentada novamente no próximo login.
       return false;
+    }
+  }
+
+  Future<void> _applyFirebaseSettings(
+    String owner,
+    Map<String, dynamic> settings,
+  ) async {
+    if (userId != owner) return;
+    await _preferences.setBool('ecoscan.dark', settings['theme'] != 'light');
+    await _preferences.setBool('ecoscan.sounds', settings['sounds'] == true);
+    await _preferences.setBool(
+      'ecoscan.notices',
+      settings['notifications'] == true,
+    );
+    await _preferences.setBool(
+      'ecoscan.map.$owner',
+      settings['mapExplored'] == true,
+    );
+    final photo = settings['profileImageDataUrl']?.toString() ?? '';
+    if (photo.isNotEmpty) await _restoreFirebaseProfilePhoto(owner, photo);
+    if (userId == owner) notifyListeners();
+  }
+
+  Future<void> _restoreFirebaseProfilePhoto(
+    String owner,
+    String dataUrl,
+  ) async {
+    if (userId != owner) return;
+    final bytes = await _readImageBytes(dataUrl);
+    if (bytes == null || bytes.isEmpty) return;
+    String localPath;
+    if (kIsWeb) {
+      localPath = 'data:image/jpeg;base64,${base64Encode(bytes)}';
+    } else {
+      final documents = await getApplicationDocumentsDirectory();
+      final directory = Directory(
+        p.join(documents.path, 'ecoscan', owner, 'profile'),
+      );
+      await directory.create(recursive: true);
+      final file = File(p.join(directory.path, 'firebase_avatar.jpg'));
+      await file.writeAsBytes(bytes, flush: true);
+      localPath = file.path;
+    }
+    if (userId == owner) {
+      await _preferences.setString('ecoscan.profile.v2.$owner', localPath);
     }
   }
 
@@ -463,13 +825,21 @@ class EcoScanStore extends ChangeNotifier {
     if (!success) throw StateError('Não foi possível salvar a análise.');
     if (userId != owner) return;
     _detections.insert(0, record);
+    try {
+      await queueScanUpload(record.id, userIdOverride: owner);
+      if (owner != 'guest-local') await _persistPendingScans(owner!);
+    } catch (_) {
+      if (owner != 'guest-local') {
+        await _preferences.remove(_scanUploadQueuePrimedKeyFor(owner!));
+      }
+    }
     notifyListeners();
   }
 
   /// Merges cloud history into this account while keeping local image files.
   Future<void> mergeCloudDetections(Iterable<DetectionRecord> incoming) async {
     if (userId == null) return;
-    final owner = userId;
+    final owner = userId!;
     final byId = <String, DetectionRecord>{
       for (final record in _detections)
         if (record.id.isNotEmpty) record.id: record,
@@ -479,7 +849,7 @@ class EcoScanStore extends ChangeNotifier {
       final existing = byId[record.id];
       if (existing == null) {
         byId[record.id] = record;
-      } else if (record.imagePath.startsWith('https://') &&
+      } else if (record.imagePath.isNotEmpty &&
           (existing.imagePath.isEmpty ||
               existing.imagePath.startsWith('https://') ||
               existing.imagePath.startsWith('http://'))) {
@@ -493,7 +863,11 @@ class EcoScanStore extends ChangeNotifier {
       ..sort((a, b) => b.detectedAt.compareTo(a.detectedAt));
     final success = await _preferences.setString(
       _detectionsKeyFor(owner),
-      jsonEncode(merged.map((record) => record.toJson()).toList()),
+      jsonEncode(
+        _recordsToCache(owner, merged)
+            .map((record) => record.toJson())
+            .toList(),
+      ),
     );
     if (!success) throw StateError('Não foi possível restaurar o histórico.');
     if (userId != owner) return;
@@ -534,12 +908,17 @@ class EcoScanStore extends ChangeNotifier {
         .toList(growable: false);
     final success = await _preferences.setString(
       _detectionsKeyFor(owner),
-      jsonEncode(next.map((record) => record.toJson()).toList()),
+      jsonEncode(
+        _recordsToCache(owner, next)
+            .map((record) => record.toJson())
+            .toList(),
+      ),
     );
     if (!success) {
       await acknowledgeScanDeletions(ids, userIdOverride: owner);
       throw StateError('Não foi possível excluir as análises.');
     }
+    await acknowledgeScanUploads(ids, userIdOverride: owner);
     if (userId == owner) {
       _detections
         ..clear()
@@ -600,11 +979,16 @@ class EcoScanStore extends ChangeNotifier {
     if (removed.isNotEmpty) {
       final success = await _preferences.setString(
         _detectionsKeyFor(owner),
-        jsonEncode(remaining.map((record) => record.toJson()).toList()),
+        jsonEncode(
+          _recordsToCache(owner, remaining)
+              .map((record) => record.toJson())
+              .toList(),
+        ),
       );
       if (!success) throw StateError('Não foi possível atualizar o histórico.');
     }
     await acknowledgeScanDeletions(deleted, userIdOverride: owner);
+    await acknowledgeScanUploads(deleted, userIdOverride: owner);
     if (userId != owner) return;
     _detections
       ..clear()
@@ -628,6 +1012,16 @@ class EcoScanStore extends ChangeNotifier {
     _learningSamples
       ..clear()
       ..addAll(next);
+    try {
+      await queueCorrectionUpload(sample.id, userIdOverride: owner);
+      if (owner != null && owner != 'guest-local') {
+        await _persistPendingCorrections(owner);
+      }
+    } catch (_) {
+      if (owner != null && owner != 'guest-local') {
+        await _preferences.remove(_correctionUploadQueuePrimedKeyFor(owner));
+      }
+    }
     notifyListeners();
   }
 
@@ -650,7 +1044,11 @@ class EcoScanStore extends ChangeNotifier {
       ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
     final success = await _preferences.setString(
       _learningKeyFor(owner),
-      jsonEncode(merged.map((sample) => sample.toJson()).toList()),
+      jsonEncode(
+        _samplesToCache(owner, merged)
+            .map((sample) => sample.toJson())
+            .toList(),
+      ),
     );
     if (!success) throw StateError('Não foi possível restaurar as correções.');
     if (userId != owner) return;
@@ -668,11 +1066,16 @@ class EcoScanStore extends ChangeNotifier {
   Future<void> clearLearningSamples() async {
     if (userId == null) return;
     final owner = userId;
+    final ids = _learningSamples.map((sample) => sample.id).toList();
     if (!await _preferences.remove(_learningKey)) {
       throw StateError('Não foi possível limpar as amostras locais.');
     }
+    _learningSamples.clear();
+    await acknowledgeCorrectionUploads(
+      ids,
+      userIdOverride: owner,
+    );
     if (userId == owner) {
-      _learningSamples.clear();
       notifyListeners();
     }
   }
@@ -688,12 +1091,21 @@ class EcoScanStore extends ChangeNotifier {
       jsonEncode(next.map((item) => item.toJson()).toList()),
     );
     if (!success) throw StateError('Não foi possível salvar a edição local.');
-    if (userId == owner) {
-      _learningSamples
-        ..clear()
-        ..addAll(next);
-      notifyListeners();
+    if (userId != owner) return;
+    _learningSamples
+      ..clear()
+      ..addAll(next);
+    try {
+      await queueCorrectionUpload(updated.id, userIdOverride: owner);
+      if (owner != null && owner != 'guest-local') {
+        await _persistPendingCorrections(owner);
+      }
+    } catch (_) {
+      if (owner != null && owner != 'guest-local') {
+        await _preferences.remove(_correctionUploadQueuePrimedKeyFor(owner));
+      }
     }
+    notifyListeners();
   }
 
   Future<void> removeLearningSamples(Iterable<String> sampleIds) async {
@@ -706,15 +1118,17 @@ class EcoScanStore extends ChangeNotifier {
         .toList(growable: false);
     final success = await _preferences.setString(
       _learningKey,
-      jsonEncode(next.map((item) => item.toJson()).toList()),
+      jsonEncode(
+        _samplesToCache(owner!, next).map((item) => item.toJson()).toList(),
+      ),
     );
     if (!success) throw StateError('Não foi possível atualizar as amostras.');
-    if (userId == owner) {
-      _learningSamples
-        ..clear()
-        ..addAll(next);
-      notifyListeners();
-    }
+    if (userId != owner) return;
+    _learningSamples
+      ..clear()
+      ..addAll(next);
+    await acknowledgeCorrectionUploads(ids, userIdOverride: owner);
+    notifyListeners();
   }
 
   Future<List<EcoPoint>> loadCachedEcoPoints() async {

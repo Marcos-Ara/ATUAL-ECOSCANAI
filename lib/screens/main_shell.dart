@@ -22,6 +22,10 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
+  static const MethodChannel _appExitChannel = MethodChannel(
+    'br.com.ecoscan/app_exit',
+  );
+
   int _selected = 0;
   final GlobalKey<ScannerScreenState> _scannerKey =
       GlobalKey<ScannerScreenState>();
@@ -35,6 +39,7 @@ class _MainShellState extends State<MainShell> {
   OverlayEntry? _achievementEntry;
   Timer? _achievementTimer;
   bool _exitPromptOpen = false;
+  bool _allowSystemExit = false;
 
   @override
   void didChangeDependencies() {
@@ -259,35 +264,20 @@ class _MainShellState extends State<MainShell> {
       barrierDismissible: false,
       builder: (dialogContext) {
         var saving = false;
-        String? errorMessage;
-
         Future<void> saveAndClose(StateSetter setDialogState) async {
           if (saving) return;
           setDialogState(() {
             saving = true;
-            errorMessage = null;
           });
-          var saved = false;
           try {
-            saved = await AccountDataSyncService.shared
+            await AccountDataSyncService.shared
                 .savePendingBeforeExit(store)
                 .timeout(
-                  const Duration(seconds: 45),
-                  onTimeout: () => false,
+                  const Duration(seconds: 12),
                 );
-          } catch (_) {
-            saved = false;
-          }
+          } catch (_) {}
           if (!dialogContext.mounted) return;
-          if (saved) {
-            Navigator.of(dialogContext).pop(true);
-          } else {
-            setDialogState(() {
-              saving = false;
-              errorMessage =
-                  'Não foi possível enviar tudo agora. A cópia deste aparelho continua salva e será sincronizada quando houver conexão.';
-            });
-          }
+          Navigator.of(dialogContext).pop(true);
         }
 
         return StatefulBuilder(
@@ -299,23 +289,14 @@ class _MainShellState extends State<MainShell> {
               children: [
                 Text(
                   saving
-                      ? 'Estamos sincronizando leituras, fotos, correções e preferências. Aguarde só um instante.'
+                      ? 'Tentando enviar leituras, fotos, correções e preferências. O app vai fechar em até 12 segundos; se a conexão falhar, as pendências ficam guardadas neste aparelho.'
                       : guest
                       ? 'Seus dados de visitante ficam salvos neste aparelho.'
-                      : 'Antes de sair, vamos sincronizar leituras, fotos, correções, conquistas e preferências com sua conta.',
+                      : 'Vamos sincronizar seus dados com a conta. Se a internet falhar, as alterações ficam na fila deste aparelho e serão enviadas quando você entrar novamente.',
                 ),
                 if (saving) ...[
                   const SizedBox(height: 18),
                   const LinearProgressIndicator(),
-                ],
-                if (errorMessage != null) ...[
-                  const SizedBox(height: 14),
-                  Text(
-                    errorMessage!,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
                 ],
               ],
             ),
@@ -325,17 +306,7 @@ class _MainShellState extends State<MainShell> {
                   onPressed: () => Navigator.of(dialogContext).pop(false),
                   child: const Text('Continuar no app'),
                 ),
-              if (!saving && errorMessage != null)
-                TextButton(
-                  onPressed: () => saveAndClose(setDialogState),
-                  child: const Text('Tentar novamente'),
-                ),
-              if (!saving && errorMessage != null)
-                FilledButton.tonal(
-                  onPressed: () => Navigator.of(dialogContext).pop(true),
-                  child: const Text('Sair com a cópia local'),
-                ),
-              if (!saving && errorMessage == null)
+              if (!saving)
                 FilledButton.icon(
                   onPressed: () => saveAndClose(setDialogState),
                   icon: const Icon(Icons.cloud_done_outlined),
@@ -356,46 +327,36 @@ class _MainShellState extends State<MainShell> {
       );
       return;
     }
+    _allowSystemExit = true;
+    if (mounted) {
+      setState(() {});
+      await WidgetsBinding.instance.endOfFrame;
+    }
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      try {
+        await _appExitChannel.invokeMethod<void>('finishTask');
+        return;
+      } on PlatformException {
+        // Fall back to Flutter's platform close request if the native handler
+        // is unavailable (for example, in an older installed build).
+      } on MissingPluginException {
+        // The native handler is available after installing this APK update.
+      }
+    }
     await SystemNavigator.pop();
   }
 
   @override
   Widget build(BuildContext context) => PopScope<void>(
-    canPop: false,
+    canPop: _allowSystemExit,
     onPopInvokedWithResult: (didPop, _) {
-      if (didPop) return;
+      if (didPop || _allowSystemExit) return;
       unawaited(_handleBack());
     },
     child: Scaffold(
       body: SafeArea(
         child: Column(
         children: [
-          if (_store?.isSyncingAccountData == true)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.cloud_sync_outlined,
-                        size: 18,
-                        color: Color(0xFF8FE69A),
-                      ),
-                      const SizedBox(width: 9),
-                      Expanded(
-                        child: Text(
-                          'Sincronizando seus dados da conta…',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const LinearProgressIndicator(minHeight: 2),
-              ],
-            ),
           Expanded(
             child: switch (_selected) {
               0 => HomeScreen(

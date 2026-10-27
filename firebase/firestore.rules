@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function ownsUser(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read, create, update: if ownsUser(userId);
+      allow delete: if false;
+
+      match /scans/{scanId} {
+        allow read, create, update, delete: if ownsUser(userId);
+      }
+
+      match /corrections/{correctionId} {
+        allow read, create, update, delete: if ownsUser(userId);
+      }
+
+      match /settings/{settingId} {
+        allow read, create, update: if ownsUser(userId);
+        allow delete: if false;
+      }
+
+      match /meta/{documentId} {
+        allow read, create, update: if ownsUser(userId);
+        allow delete: if false;
+      }
+
+      match /achievements/{achievementId} {
+        allow read, create, update: if ownsUser(userId);
+        allow delete: if false;
+      }
+
+      match /gameProgress/{gameId} {
+        allow read, create, update: if ownsUser(userId);
+        allow delete: if false;
+      }
+
+      match /activity/{eventId} {
+        allow read, create, update: if ownsUser(userId);
+        allow delete: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

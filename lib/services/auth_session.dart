@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/backend_config.dart';
+import 'firebase_account_backup_service.dart';
+import 'firebase_session_bridge.dart';
 
 class Account {
   const Account({
@@ -99,6 +101,7 @@ class AuthSession extends ChangeNotifier {
     // initialization. Start from that value instead of running a second restore
     // pass from the UI, which caused duplicate auth-state rebuilds.
     _applyUser(_client.auth.currentUser);
+    unawaited(_syncFirebaseSession());
 
     _authSubscription = _client.auth.onAuthStateChange.listen(
       (data) {
@@ -111,6 +114,7 @@ class AuthSession extends ChangeNotifier {
         _applyUser(
           data.session?.user ?? _client.auth.currentUser,
         );
+        unawaited(_syncFirebaseSession());
 
         if (data.event == AuthChangeEvent.signedIn) {
           authNotice = null;
@@ -142,6 +146,24 @@ class AuthSession extends ChangeNotifier {
   }
 
   final SupabaseClient _client;
+
+  Future<void> _syncFirebaseSession() async {
+    try {
+      final linked = await FirebaseSessionBridge.syncCurrentSession();
+      final user = _client.auth.currentUser;
+      if (linked && user != null) {
+        final metadata = user.userMetadata ?? const <String, dynamic>{};
+        await FirebaseAccountBackupService.shared.saveProfile(
+          user.id,
+          displayName: metadata['full_name']?.toString() ?? '',
+          email: user.email ?? '',
+        );
+      }
+    } catch (_) {
+      // Keep the existing Supabase login usable if Firebase is not configured
+      // or temporarily unavailable. The account outbox retries cloud writes.
+    }
+  }
 
   late final StreamSubscription<AuthState> _authSubscription;
 
@@ -647,6 +669,9 @@ class AuthSession extends ChangeNotifier {
     } catch (error) {
       throw _failureFor(error);
     } finally {
+      try {
+        await FirebaseSessionBridge.syncCurrentSession();
+      } catch (_) {}
       account = null;
       _pendingVerificationEmail = null;
 

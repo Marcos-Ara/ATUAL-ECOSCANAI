@@ -91,7 +91,7 @@ void main() {
     });
   }
 
-  testWidgets('intro aparece antes do login e oferece modo visitante', (
+  testWidgets('login abre sem introdução e oferece modo visitante', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -99,11 +99,8 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(await host(const SessionGate()));
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Escaneie. Descubra. Descarte melhor.'), findsOneWidget);
-    await screenshot(tester, '01-intro');
-    await tester.pump(const Duration(seconds: 3));
-    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump();
+    expect(find.text('Escaneie. Descubra. Descarte melhor.'), findsNothing);
     expect(find.text('Entre na sua conta'), findsOneWidget);
     expect(find.text('Continuar sem conta'), findsOneWidget);
     expect(find.text('Iniciar Escaneamento'), findsNothing);
@@ -139,6 +136,7 @@ void main() {
     expect(find.text('Olá, Marcos!'), findsOneWidget);
     expect(find.text('Estatísticas'), findsOneWidget);
     expect(find.text('Conquistas'), findsOneWidget);
+    expect(find.textContaining('Sincronizando seus dados'), findsNothing);
     expect(tester.takeException(), isNull);
     await screenshot(tester, '03-inicio');
     await tester.pumpWidget(

@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/learning_sample.dart';
 import '../state/ecoscan_store.dart';
+import 'firebase_account_backup_service.dart';
 
 /// Keeps user corrections and their photos private in the account backup.
 /// Training samples are still uploaded to ecoscan-training only after consent.
@@ -27,6 +28,13 @@ class CorrectionBackupSyncService {
       throw StateError('A correção não tem um identificador válido.');
     }
     final path = '${user.id}/correcoes/$safeId.jpg';
+
+    Object? firebaseFailure;
+    try {
+      await FirebaseAccountBackupService.shared.saveCorrection(user.id, sample);
+    } catch (error) {
+      firebaseFailure = error;
+    }
 
     await _client.storage.from('ecoscan-account-data').uploadBinary(
       path,
@@ -54,6 +62,7 @@ class CorrectionBackupSyncService {
       },
       onConflict: 'usuario_id,id_correcao_cliente',
     );
+    if (firebaseFailure != null) throw firebaseFailure;
     return _client.auth.currentUser?.id == user.id;
   }
 
@@ -135,6 +144,9 @@ class CorrectionBackupSyncService {
     final user = _client.auth.currentUser;
     if (user == null || store.userId != user.id) return false;
 
+    await store.primePendingCorrectionUploadQueue();
+    if (store.pendingCorrectionUploadIds.isEmpty) return true;
+
     final sentIds = await _fetchSubmittedIds(user.id);
     if (store.userId != user.id || _client.auth.currentUser?.id != user.id) {
       return false;
@@ -142,14 +154,32 @@ class CorrectionBackupSyncService {
     if (sentIds.isNotEmpty) await store.removeLearningSamples(sentIds);
 
     var success = true;
-    for (final sample in List.of(store.learningSamples)) {
+    final samplesById = <String, LearningSample>{
+      for (final sample in store.learningSamples) sample.id: sample,
+    };
+    for (final id in store.pendingCorrectionUploadIds) {
       if (store.userId != user.id ||
           _client.auth.currentUser?.id != user.id) {
         return false;
       }
-      if (sentIds.contains(sample.id)) continue;
+      if (sentIds.contains(id)) continue;
+      final sample = samplesById[id];
+      if (sample == null) {
+        await store.acknowledgeCorrectionUploads(
+          [id],
+          userIdOverride: user.id,
+        );
+        continue;
+      }
       try {
-        if (!await saveSample(sample)) success = false;
+        if (await saveSample(sample)) {
+          await store.acknowledgeCorrectionUploads(
+            [id],
+            userIdOverride: user.id,
+          );
+        } else {
+          success = false;
+        }
       } catch (_) {
         // Keep the local copy; report failure so the exit flow can retry.
         success = false;
@@ -178,6 +208,9 @@ class CorrectionBackupSyncService {
     }
     return ids;
   }
+
+  Future<Set<String>> fetchSubmittedIds(String userId) =>
+      _fetchSubmittedIds(userId);
 
   Future<void> markSubmitted(Iterable<String> sampleIds) async {
     final user = _client.auth.currentUser;

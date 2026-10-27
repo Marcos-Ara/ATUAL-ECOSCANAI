@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/detection_record.dart';
 import '../models/material_guide.dart';
 import '../state/ecoscan_store.dart';
+import 'firebase_account_backup_service.dart';
 
 /// Registra no Supabase as análises que o usuário salvou no histórico.
 ///
@@ -39,14 +39,32 @@ class ScanSyncService {
     await store.acknowledgeScanDeletions(pendingIds);
   }
 
-  Future<void> upsert(DetectionRecord record) async {
+  Future<String?> upsert(DetectionRecord record) async {
     final user = _client.auth.currentUser;
-    if (user == null) return;
+    if (user == null) return null;
 
-    await _client.from('leituras_scan').upsert(
-      await _recordPayload(user.id, record),
-      onConflict: 'usuario_id,id_leitura_cliente',
-    );
+    String? firebaseImagePath;
+    Object? firebaseFailure;
+    Object? supabaseFailure;
+    try {
+      firebaseImagePath = await FirebaseAccountBackupService.shared.saveScan(
+        user.id,
+        record,
+      );
+    } catch (error) {
+      firebaseFailure = error;
+    }
+    try {
+      await _client.from('leituras_scan').upsert(
+        await _recordPayload(user.id, record),
+        onConflict: 'usuario_id,id_leitura_cliente',
+      );
+    } catch (error) {
+      supabaseFailure = error;
+    }
+    if (firebaseFailure != null) throw firebaseFailure;
+    if (supabaseFailure != null) throw supabaseFailure;
+    return firebaseImagePath;
   }
 
   Future<void> syncAll(Iterable<DetectionRecord> records) async {
@@ -69,6 +87,51 @@ class ScanSyncService {
         onConflict: 'usuario_id,id_leitura_cliente',
       );
     }
+  }
+
+  /// Flushes only scans that have not yet received a successful cloud ACK.
+  /// Each scan is acknowledged separately so a network failure leaves the
+  /// remaining IDs in the local outbox for the next retry.
+  Future<bool> syncPending(EcoScanStore store) async {
+    final user = _client.auth.currentUser;
+    if (user == null || store.userId != user.id) return false;
+
+    final recordsById = <String, DetectionRecord>{
+      for (final record in store.detections)
+        if (record.id.isNotEmpty) record.id: record,
+    };
+    var success = true;
+    for (final id in store.pendingScanUploadIds) {
+      if (store.userId != user.id || _client.auth.currentUser?.id != user.id) {
+        return false;
+      }
+      final record = recordsById[id];
+      if (record == null) {
+        // A local deletion owns this ID now; it must not be recreated by an
+        // older pending upload marker.
+        await store.acknowledgeScanUploads([id], userIdOverride: user.id);
+        continue;
+      }
+      try {
+        final firebaseImagePath = await upsert(record);
+        if (store.userId != user.id ||
+            _client.auth.currentUser?.id != user.id) {
+          return false;
+        }
+        await store.acknowledgeScanUploads(
+          [id],
+          userIdOverride: user.id,
+          firebaseImagePaths: firebaseImagePath == null
+              ? const <String, String>{}
+              : {id: 'firebase-storage://$firebaseImagePath'},
+        );
+      } catch (_) {
+        success = false;
+      }
+    }
+    return success &&
+        store.userId == user.id &&
+        _client.auth.currentUser?.id == user.id;
   }
 
   Future<Set<String>> fetchDeletedIds() async {
@@ -97,6 +160,12 @@ class ScanSyncService {
     if (user == null) return;
 
     final ids = clientScanIds.where((id) => id.isNotEmpty).toSet().toList();
+    Object? firebaseFailure;
+    try {
+      await FirebaseAccountBackupService.shared.deleteScans(user.id, ids);
+    } catch (error) {
+      firebaseFailure = error;
+    }
     for (var start = 0; start < ids.length; start += 50) {
       final end = (start + 50).clamp(0, ids.length).toInt();
       final batch = ids.sublist(start, end).map((id) => {
@@ -121,6 +190,7 @@ class ScanSyncService {
         ids.sublist(start, end).map((id) => _scanImagePath(user.id, id)).toList(),
       );
     }
+    if (firebaseFailure != null) throw firebaseFailure;
   }
 
   /// Restores only the signed-in user's history and creates short-lived private

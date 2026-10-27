@@ -388,11 +388,15 @@ class _LearningSamplesReviewScreenState
     }
     try {
       final updated = _applyDraft(original, draft);
-      await context.read<EcoScanStore>().updateLearningSample(updated);
+      final store = context.read<EcoScanStore>();
+      await store.updateLearningSample(updated);
       draft.markSaved();
       var cloudSaved = false;
       try {
         cloudSaved = await CorrectionBackupSyncService().saveSample(updated);
+        if (cloudSaved) {
+          await store.acknowledgeCorrectionUploads([updated.id]);
+        }
       } catch (_) {
         // A edição fica no aparelho e será enviada no próximo retorno à rede.
       }

@@ -50,3 +50,5 @@ app.*.map.json
 android/key.properties
 *.jks
 *.keystore
+firebase-service-account*.json
+service-account*.json

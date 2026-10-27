@@ -1,10 +1,10 @@
-# EcoScan AI — base Flutter e Supabase
+# EcoScan AI — Flutter, Supabase e Firebase
 
 Este pacote contém o app, o catálogo de materiais, as classes YOLO-E, os EcoPontos GeoSampa e a instalação inicial do banco em português.
 
-O histórico, as fotos, as correções, as preferências e as conquistas da conta são sincronizados automaticamente. Ao entrar com uma conta, o app tenta restaurar os dados do Supabase antes de abrir. Se a conexão demorar, abre com os dados locais e continua sincronizando em segundo plano, mostrando o andamento. Visitantes sem conta usam o armazenamento do aparelho.
+O login existente continua no Supabase. Com uma conta, o app sincroniza leituras, fotos, correções, preferências, perfil e conquistas com o Supabase e, quando configurado, faz também uma cópia privada no Firebase Firestore e Cloud Storage. O ID da conta Supabase é validado por uma Edge Function e reutilizado como UID Firebase; assim não são criadas contas duplicadas. Visitantes sem conta continuam usando o armazenamento do aparelho.
 
-Cada alteração é gravada localmente assim que acontece. Em contas conectadas, o app envia alterações ao Supabase e tenta novamente ao retornar ao app. Ao pressionar **Voltar** na tela inicial, aparece a opção **Salvar e sair**; se estiver sem internet, a cópia local permanece guardada para uma nova tentativa. O sistema operacional ainda pode encerrar o app sem aviso, por isso a gravação imediata no aparelho é a proteção principal.
+Cada alteração importante é guardada primeiro numa fila local e enviada aos serviços quando há conexão. A entrada não espera a restauração da nuvem: a tela principal abre e a conta sincroniza em segundo plano, com novas tentativas ao voltar ao app e enquanto ele estiver aberto. Com o Firebase configurado, leituras e correções já confirmadas são removidas da cópia completa no aparelho; os itens continuam visíveis durante a sessão e são restaurados da nuvem ao entrar novamente. Uma ação ainda pendente depende do aparelho até ser enviada. Visitantes sem conta continuam com os dados no dispositivo. Ao pressionar **Voltar** na tela inicial, aparece **Salvar e sair**; no Android, ele tenta enviar os dados por até 12 segundos e encerra mesmo se a rede falhar, mantendo as ações pendentes no aparelho para a próxima sincronização.
 
 Na câmera ao vivo, o controle de zoom aproxima a imagem e limita as detecções à área visível. Toque numa caixa para classificar e manter o foco naquele objeto; use “Voltar a detectar automaticamente” para retomar a seleção automática.
 
@@ -24,7 +24,7 @@ Use o Flutter que existe no seu computador; ajuste `FLUTTER_ROOT` se o caminho f
 
 ## Instalar o banco do zero
 
-O banco e a autenticação ficam no **Supabase**. O Firebase é usado somente para hospedar o site Web.
+O Supabase continua responsável pelo login e pelos recursos já existentes, incluindo catálogo, EcoPontos e revisão de amostras. O Firebase mantém cópia da conta no Firestore e as fotos privadas no Cloud Storage. O Hosting Firebase continua hospedando a versão Web.
 
 1. Siga `supabase/INSTALAR_BANCO_DO_ZERO.md`.
 2. Execute o arquivo `supabase/ECOSCAN_SUPABASE_NOVO.sql` uma vez no SQL Editor do projeto Supabase configurado em `config/mobile.json`.
@@ -34,18 +34,22 @@ O arquivo SQL consolidado instala as tabelas, dados de catálogo, políticas de 
 
 ### Projeto que já está instalado
 
-Antes da primeira instalação da versão 3.4.18 ou posterior, confira se `supabase/migrations/202610220001_correcoes_persistentes.sql` e `supabase/migrations/202610210001_backup_privado_conta.sql` já foram aplicadas. Esta versão 3.4.19 não acrescenta alterações SQL. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As conquistas são calculadas pelo banco a partir das leituras e configurações da conta.
+Antes de instalar, confira se `supabase/migrations/202610220001_correcoes_persistentes.sql` e `supabase/migrations/202610210001_backup_privado_conta.sql` já foram aplicadas. A versão 3.4.22 não acrescenta alterações SQL no Supabase. Rode `supabase/VERIFICAR_SUPABASE.sql` no SQL Editor para conferir tabelas, fotos e políticas; esse diagnóstico é somente leitura. Veja `supabase/INSTRUCOES_BACKUP_PRIVADO.md`. As conquistas são calculadas pelo banco a partir das leituras e configurações da conta.
 
 ## O que sincroniza
 
 - O Auth mantém `perfis` atualizado com nome e e-mail da conta.
-- Leituras salvas, fotos e localização dessas leituras, foto de perfil, exclusões e preferências de tema, sons, avisos e mapa sincronizam por conta. O app mantém uma cópia local para funcionar sem rede; ao entrar com uma conta, leituras feitas como visitante no mesmo aparelho são transferidas para ela.
-- `eventos_pontos`, `conquistas_usuario` e `estatisticas_usuario` são calculados pelo banco; o app não pode gravar pontuação diretamente.
+- Leituras salvas, fotos e localização dessas leituras, foto de perfil, exclusões e preferências de tema, sons, avisos e mapa sincronizam por conta. Com Firebase configurado, o aparelho guarda somente a fila de leituras e correções ainda não confirmadas; a restauração de dados já sincronizados requer conexão. Ao entrar com uma conta, leituras feitas como visitante no mesmo aparelho são transferidas para ela.
+- `eventos_pontos`, `conquistas_usuario` e `estatisticas_usuario` continuam calculados pelo Supabase. O Firebase guarda as conquistas recebidas pelo app e os dados necessários para restaurar a conta; a pontuação continua sendo recalculada a partir das leituras.
 - O mapa atualiza os EcoPontos pelo Supabase e conserva um cache local.
 - O app tenta o catálogo remoto quando o catálogo instalado não resolve um rótulo. O resolvedor não escolhe material para um rótulo ambíguo sem variante específica.
-- Fotos do histórico, do perfil e das correções ficam no bucket privado `ecoscan-account-data`, com acesso restrito à própria conta. Enviar amostras para revisão e treinamento no bucket `ecoscan-training` exige consentimento explícito; corrigir ou salvar uma leitura não treina o YOLO automaticamente.
+- Fotos do histórico, do perfil e das correções são mantidas no bucket privado Supabase `ecoscan-account-data` e, quando o Firebase estiver ativado, também em caminhos privados por usuário no Cloud Storage. Enviar amostras para revisão e treinamento no bucket Supabase `ecoscan-training` exige consentimento explícito; corrigir ou salvar uma leitura não treina o YOLO automaticamente.
 - O login Google exige o provedor Google configurado no painel Supabase e as URLs de retorno do app autorizadas. Veja `CONFIGURAR_LOGIN_GOOGLE.md`; isso é uma configuração de autenticação, não uma alteração SQL.
-- A versão 3.4.19 abre automaticamente com os dados locais se a restauração da conta demorar; ela segue sincronizando e mostra o andamento dentro do app. No Android, **Voltar** na tela inicial abre a confirmação **Salvar e sair**.
+- A versão 3.4.22 abre sem esperar a restauração dos dados da conta e sincroniza em segundo plano sem exibir avisos repetidos. A tela de salvamento aparece somente quando a pessoa escolhe **Salvar e sair**. No Android, o app fecha após uma tentativa limitada de sincronização; o que não chegou à nuvem permanece na fila local.
+
+O projeto Firebase atual estava configurado somente para Hosting. Por isso, a cópia no Firebase só entra em operação depois de habilitar Firestore e Storage, preencher os IDs públicos dos apps em `config/mobile.json`, publicar as regras e configurar a Edge Function. O passo a passo está em `FIREBASE_SETUP.md`. Nenhuma tabela, bucket ou autenticação do Supabase é removida. Os dados antigos do Supabase são copiados para o Firebase na primeira restauração bem-sucedida depois da configuração.
+
+O app mantém um mecanismo próprio para ações pendentes e desativa o cache persistente adicional do Firestore. O progresso de conquistas é derivado das leituras; não existe atualmente um estado de jogo separado para migrar.
 
 A detecção é feita pelo modelo local no aparelho. O banco não consegue comprovar que um cliente não modificado enviou uma identificação verdadeira. Aprovar uma amostra não treina nem troca o modelo automaticamente. Veja `supabase/REVISAR_AMOSTRAS.md`.
 
@@ -76,4 +80,4 @@ Na aba **Baixar** do site, o botão usa a URL HTTPS de `ECOSCAN_APK_DOWNLOAD_URL
 
 ## Credenciais
 
-O app usa somente a chave pública configurada no projeto. Nunca coloque `service_role` ou o segredo do cliente OAuth em `config/mobile.json`, código Flutter ou no ZIP. O segredo OAuth deve ficar apenas no painel do Supabase, na configuração do provedor Google.
+Os valores de Firebase em `config/mobile.json` são identificadores/chaves públicas do app. Nunca coloque `service_role`, o segredo do cliente OAuth ou a chave JSON da conta de serviço Firebase nesse arquivo, no código Flutter ou no ZIP. A chave de serviço Firebase deve ficar somente nos segredos da Edge Function do Supabase.

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui' show Rect;
 
 import 'package:flutter/foundation.dart';
 
@@ -1195,8 +1194,14 @@ class ScannerScreenState extends State<ScannerScreen>
           AppConfig.syncSupabaseHistory) {
         try {
           cloudSaved = await CorrectionBackupSyncService().saveSample(sample);
+          if (cloudSaved) {
+            await store.acknowledgeCorrectionUploads(
+              [sample.id],
+              userIdOverride: store.userId,
+            );
+          }
         } catch (_) {
-          // A correção local fica preservada e será reenviada na próxima retomada.
+          // A correção permanece na fila local para nova tentativa.
         }
       }
       if (mounted) {
@@ -1485,11 +1490,17 @@ class ScannerScreenState extends State<ScannerScreen>
       var synced = false;
       if (uid != AuthSession.guestUserId && AppConfig.syncSupabaseHistory) {
         try {
-          await ScanSyncService().upsert(record);
+          final firebaseImagePath = await ScanSyncService().upsert(record);
+          await store.acknowledgeScanUploads(
+            [record.id],
+            userIdOverride: uid,
+            firebaseImagePaths: firebaseImagePath == null
+                ? const <String, String>{}
+                : {record.id: 'firebase-storage://$firebaseImagePath'},
+          );
           synced = true;
         } catch (_) {
-          // O histórico local continua salvo. O banco será ligado depois da
-          // validação do scanner e da criação do schema definitivo.
+          // A leitura e a foto permanecem na fila local para nova tentativa.
         }
       }
 

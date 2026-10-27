@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/learning_sample.dart';
 import 'correction_backup_sync_service.dart';
+import 'firebase_account_backup_service.dart';
 
 class LearningSyncService {
   LearningSyncService({SupabaseClient? client})
@@ -77,6 +78,15 @@ class LearningSyncService {
       uploaded.add(sample.id);
     }
     await CorrectionBackupSyncService(client: _client).markSubmitted(uploaded);
+    try {
+      await FirebaseAccountBackupService.shared.markCorrectionsSubmitted(
+        user.id,
+        uploaded,
+      );
+    } catch (_) {
+      // Supabase remains the authoritative consent ledger. Restore filters
+      // submitted IDs there if this private mirror is temporarily unavailable.
+    }
     return List.unmodifiable(uploaded);
   }
 
