@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/backend_config.dart';
+import 'firebase_account_backup_service.dart';
 import 'firebase_session_bridge.dart';
 
 class Account {
@@ -19,21 +20,25 @@ class Account {
   final String name;
   final bool verified;
 
-  factory Account.fromSupabase(User user) {
+  factory Account.fromSupabase(User user, {String? profileName}) {
     final metadata = user.userMetadata ?? const <String, dynamic>{};
     final email = user.email ?? '';
     final provider = user.appMetadata['provider']?.toString();
 
-    final name = (metadata['full_name'] ?? metadata['name'] ?? '')
-        .toString()
-        .trim();
+    final savedName = profileName?.trim() ?? '';
+    final fullName = metadata['full_name']?.toString().trim() ?? '';
+    final providerName = metadata['name']?.toString().trim() ?? '';
+    final metadataName = fullName.isNotEmpty ? fullName : providerName;
+    final name = savedName.isNotEmpty
+        ? savedName
+        : metadataName.isNotEmpty
+        ? metadataName
+        : (email.contains('@') ? email.split('@').first : '');
 
     return Account(
       uid: user.id,
       email: email,
-      name: name.isNotEmpty
-          ? name
-          : (email.contains('@') ? email.split('@').first : ''),
+      name: name,
       // Supabase confirms identities authenticated by an external provider
       // such as Google. Requiring emailConfirmedAt alone can strand a valid
       // OAuth user on the e-mail verification screen.
@@ -59,8 +64,16 @@ class AuthFailure implements Exception {
           'Muitas tentativas. Aguarde e tente novamente.',
         'EMAIL_NOT_CONFIRMED' =>
           'Confirme seu e-mail antes de entrar.',
+        'EMAIL_DELIVERY_NOT_CONFIGURED' =>
+          'O Supabase não conseguiu enviar o e-mail. Configure um SMTP para enviar mensagens a esse endereço.',
+        'EMAIL_IN_USE' =>
+          'Esse e-mail já está vinculado a outra conta.',
         'SESSION_EXPIRED' =>
           'Sua sessão expirou. Entre novamente.',
+        'PROFILE_SAVE' =>
+          'Não foi possível salvar o nome no perfil da conta. Tente novamente.',
+        'PROFILE_NAME_REQUIRED' =>
+          'Digite o nome que deseja usar no perfil.',
         'NETWORK' =>
           'Sem conexão com o serviço. Confira a internet e tente novamente.',
         'GOOGLE_CONFIG' =>
@@ -100,6 +113,7 @@ class AuthSession extends ChangeNotifier {
     // initialization. Start from that value instead of running a second restore
     // pass from the UI, which caused duplicate auth-state rebuilds.
     _applyUser(_client.auth.currentUser);
+    unawaited(refreshProfileName());
     unawaited(_syncFirebaseSession());
 
     _authSubscription = _client.auth.onAuthStateChange.listen(
@@ -113,6 +127,10 @@ class AuthSession extends ChangeNotifier {
         _applyUser(
           data.session?.user ?? _client.auth.currentUser,
         );
+        if (data.event == AuthChangeEvent.signedIn ||
+            data.event == AuthChangeEvent.initialSession) {
+          unawaited(refreshProfileName());
+        }
         unawaited(_syncFirebaseSession());
 
         if (data.event == AuthChangeEvent.signedIn) {
@@ -145,6 +163,54 @@ class AuthSession extends ChangeNotifier {
   }
 
   final SupabaseClient _client;
+  final Map<String, String> _profileNameCache = <String, String>{};
+  final Map<String, Future<void>> _profileNameReads = <String, Future<void>>{};
+  final Map<String, int> _profileNameVersions = <String, int>{};
+  String? _pendingEmailChange;
+
+  String? get pendingEmailChange => _pendingEmailChange;
+
+  /// Loads the canonical display name asynchronously so the app can open
+  /// immediately and then prefer the user's saved Supabase profile over OAuth
+  /// provider metadata.
+  Future<void> refreshProfileName() {
+    final user = _client.auth.currentUser;
+    if (user == null) return Future<void>.value();
+    final pending = _profileNameReads[user.id];
+    if (pending != null) return pending;
+    final operation = _loadProfileName(user);
+    _profileNameReads[user.id] = operation;
+    return operation.whenComplete(() {
+      if (identical(_profileNameReads[user.id], operation)) {
+        _profileNameReads.remove(user.id);
+      }
+    });
+  }
+
+  Future<void> _loadProfileName(User user) async {
+    final versionAtStart = _profileNameVersions[user.id] ?? 0;
+    try {
+      final row = await _client
+          .from('perfis')
+          .select('nome_completo')
+          .eq('usuario_id', user.id)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 8));
+      final currentUser = _client.auth.currentUser;
+      if (currentUser == null || currentUser.id != user.id) return;
+      if ((_profileNameVersions[user.id] ?? 0) != versionAtStart) return;
+      final savedName = row?['nome_completo']?.toString().trim() ?? '';
+      if (savedName.isEmpty) {
+        _profileNameCache.remove(user.id);
+      } else {
+        _profileNameCache[user.id] = savedName;
+      }
+      account = Account.fromSupabase(currentUser, profileName: savedName);
+      notifyListeners();
+    } catch (_) {
+      // A profile-read failure must not block login or replace provider data.
+    }
+  }
 
   Future<void> _syncFirebaseSession() async {
     try {
@@ -203,7 +269,15 @@ class AuthSession extends ChangeNotifier {
     // A real Supabase session always wins over the local visitor session.
     guestMode = false;
 
-    account = Account.fromSupabase(user);
+    if (_pendingEmailChange != null &&
+        (user.email ?? '').toLowerCase() ==
+            _pendingEmailChange!.toLowerCase()) {
+      _pendingEmailChange = null;
+    }
+    account = Account.fromSupabase(
+      user,
+      profileName: _profileNameCache[user.id],
+    );
     if (account!.verified) {
       _pendingVerificationEmail = null;
     }
@@ -255,6 +329,12 @@ class AuthSession extends ChangeNotifier {
         return const AuthFailure('EMAIL_EXISTS');
       }
 
+      if (message.contains('email already in use') ||
+          message.contains('email address is already') ||
+          message.contains('email_exists')) {
+        return const AuthFailure('EMAIL_IN_USE');
+      }
+
       if (message.contains('valid email') ||
           message.contains('invalid email')) {
         return const AuthFailure('INVALID_EMAIL');
@@ -266,8 +346,18 @@ class AuthSession extends ChangeNotifier {
       }
 
       if (message.contains('rate limit') ||
-          message.contains('too many')) {
+          message.contains('too many') ||
+          message.contains('over_email_send_rate_limit')) {
         return const AuthFailure('TOO_MANY_REQUESTS');
+      }
+
+      if (message.contains('smtp') ||
+          message.contains('email address not authorized') ||
+          message.contains('email_address_not_authorized') ||
+          message.contains('error sending confirmation') ||
+          message.contains('failed to send') ||
+          message.contains('mail provider')) {
+        return const AuthFailure('EMAIL_DELIVERY_NOT_CONFIGURED');
       }
 
       if (message.contains('unable to exchange external code') ||
@@ -455,30 +545,82 @@ class AuthSession extends ChangeNotifier {
   // ATUALIZAR PERFIL
   // ============================================================
 
-  Future<void> updateProfile(
-    String name,
-    String email,
-  ) async {
+  Future<void> updateProfileName(String name) async {
+    final cleanedName = name.trim();
+    if (cleanedName.isEmpty) {
+      throw const AuthFailure('PROFILE_NAME_REQUIRED');
+    }
+    final user = _client.auth.currentUser;
+    if (user == null) throw const AuthFailure('SESSION_EXPIRED');
+
     try {
-      final currentEmail = account?.email ?? '';
+      final rows = await _client
+          .from('perfis')
+          .update(<String, dynamic>{
+            'nome_completo': cleanedName,
+            'atualizado_em': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('usuario_id', user.id)
+          .select('usuario_id');
+      if (rows.isEmpty) throw const AuthFailure('PROFILE_SAVE');
 
-      final response =
-          await _client.auth.updateUser(
-        UserAttributes(
-          email: email.trim() == currentEmail
-              ? null
-              : email.trim(),
-          data: {
-            'full_name': name.trim(),
-          },
-        ),
+      _profileNameVersions[user.id] =
+          (_profileNameVersions[user.id] ?? 0) + 1;
+      _profileNameCache[user.id] = cleanedName;
+      account = Account.fromSupabase(user, profileName: cleanedName);
+      notifyListeners();
 
+      // Firebase stores only the most recent action. A delayed/offline Firebase
+      // write must not block the already-confirmed Supabase profile update.
+      unawaited(() async {
+        try {
+          await FirebaseAccountBackupService.shared.saveProfile(
+            user.id,
+            displayName: cleanedName,
+            email: user.email ?? '',
+          );
+        } catch (_) {}
+      }());
+    } catch (error) {
+      if (error is AuthFailure) rethrow;
+      throw AuthFailure('PROFILE_SAVE', error.toString());
+    }
+  }
+
+  /// Starts a verified email-change request. The current email stays active
+  /// until Supabase confirms the address and updates the authenticated user.
+  Future<bool> requestEmailChange(String email) async {
+    final cleanedEmail = email.trim();
+    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(cleanedEmail)) {
+      throw const AuthFailure('INVALID_EMAIL');
+    }
+    final user = _client.auth.currentUser;
+    if (user == null) throw const AuthFailure('SESSION_EXPIRED');
+    final currentEmail = user.email?.trim() ?? '';
+    if (cleanedEmail.toLowerCase() == currentEmail.toLowerCase()) return false;
+
+    try {
+      final response = await _client.auth.updateUser(
+        UserAttributes(email: cleanedEmail),
         emailRedirectTo: _redirectUrl,
       );
-
-      _applyUser(response.user);
-
+      _applyUser(response.user ?? user);
+      if ((account?.email ?? '').toLowerCase() != cleanedEmail.toLowerCase()) {
+        _pendingEmailChange = cleanedEmail;
+      }
       notifyListeners();
+      unawaited(() async {
+        try {
+          await FirebaseAccountBackupService.shared.recordLatestAction(
+            user.id,
+            type: 'email_change_requested',
+            resourceId: 'profile-email',
+            occurredAt: DateTime.now().toUtc(),
+            details: <String, dynamic>{'confirmationRequired': true},
+          );
+        } catch (_) {}
+      }());
+      return true;
     } catch (error) {
       throw _failureFor(error);
     }
@@ -648,6 +790,7 @@ class AuthSession extends ChangeNotifier {
       guestMode = false;
 
       account = null;
+      _pendingEmailChange = null;
 
       notifyListeners();
 
@@ -664,6 +807,7 @@ class AuthSession extends ChangeNotifier {
       } catch (_) {}
       account = null;
       _pendingVerificationEmail = null;
+      _pendingEmailChange = null;
 
       notifyListeners();
     }
